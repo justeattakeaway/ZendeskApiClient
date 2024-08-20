@@ -155,5 +155,11 @@ namespace ZendeskApi.Client.Requests
         /// </summary>
         [JsonProperty("ticket_form_id")]
         public long? FormId { get; set; }
+        
+        /// <summary>
+        /// Email cc to send notifications to on ticket creations or updates, based on trigger settings. See <see href="https://developer.zendesk.com/documentation/ticketing/managing-tickets/creating-and-updating-tickets/#setting-email-ccs">Email Ccs</see>.  
+        /// </summary>
+        [JsonProperty("email_ccs")]
+        public IList<TicketEmailCc> EmailCcs { get; set; }
     }
 }
