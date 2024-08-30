@@ -59,12 +59,39 @@ namespace ZendeskApi.Client.Exceptions
                 (int)_response.StatusCode <= 499 && 
                 !_doNotBuildErrorModelResponseCodes.Contains((int)_response.StatusCode))
             {
-                error = await _response.Content.ReadAsAsync<ErrorResponse>();
+                var content = await _response.Content.ReadAsStringAsync();
 
+                try
+                {
+                    error = JsonConvert.DeserializeObject<ErrorResponse>(content);
+                }
+                catch (JsonReaderException)
+                {
+                    try
+                    {
+                        error = JsonConvert.DeserializeObject<ErrorWithMessageResponse>(content)?.ToErrorResponse();
+                    }
+                    catch
+                    { 
+                        // Swallow a deserialization failure here.
+                    }
+
+                    // Throw the original exception if an error could not be deserialized.
+                    if ( error == null )
+                        throw;
+                }
+               
                 if (error?.Error != null && error.Description != null)
                 {
-                    var detail = Environment.NewLine + JsonConvert.SerializeObject(error.Details, Formatting.Indented);
-                    message.AppendLine($"{error.Error}: {error.Description}. {detail}");
+                    if (error.Details == null)
+                    {
+                        message.AppendLine($"{error.Error}: {error.Description.TrimEnd('.')}.");
+                    }
+                    else
+                    {
+                        var detail = Environment.NewLine + JsonConvert.SerializeObject(error.Details, Formatting.Indented);
+                        message.AppendLine($"{error.Error}: {error.Description}. {detail}");
+                    }
                 }
             }
 
