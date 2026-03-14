@@ -15,7 +15,7 @@
   
   <ItemGroup>
       <FrameworkReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="AutoMapper" Version="6.1.1" />
+    <PackageReference Include="AutoMapper" Version="16.1.1" />
     <PackageReference Include="FakeItEasy" Version="7.3.1" />
     <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="6.0.20" />
     <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="7.0.0" />
