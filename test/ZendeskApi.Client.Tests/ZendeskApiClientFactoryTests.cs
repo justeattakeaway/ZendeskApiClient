@@ -95,5 +95,22 @@ namespace ZendeskApi.Client.Tests
             var expectedHeader = $"Bearer {options.Value.OAuthToken}";
             Assert.Equal(authHeader, expectedHeader);
         }
+
+        [Fact]
+        public void ShouldNotSetAnAuthorizationHeaderWhenUsingClientCredentials()
+        {
+            // The OAuth handler sets the header per request instead, so that a token renewed
+            // after expiry is used without the client being recreated.
+            var options = new OptionsWrapper<ZendeskOptions>(new ZendeskOptions
+            {
+                EndpointUri = "http://kung.fu",
+                ClientSecret = "SECRET"
+            });
+            var client = new ZendeskApiClientFactory(options, _httpClientFactory);
+
+            var httpClient = client.CreateClient();
+
+            Assert.False(httpClient.DefaultRequestHeaders.Contains(Authorization));
+        }
     }
 }

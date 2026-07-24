@@ -86,5 +86,47 @@ namespace ZendeskApi.Client.Extensions
 
             return services;
         }
+
+        /// <summary>
+        /// Registers the Zendesk client using the OAuth client credentials grant. Access tokens
+        /// are obtained from the client secret and renewed automatically as they expire, so no
+        /// token needs to be supplied or rotated by the caller.
+        /// </summary>
+        /// <param name="endpointUri">The Zendesk instance, for example https://example.zendesk.com.</param>
+        /// <param name="clientId">The Unique identifier of an OAuth client.</param>
+        /// <param name="clientSecret">The Secret of an OAuth client.</param>
+        /// <param name="scope">Optional space separated scopes, for example "tickets:read tickets:write".</param>
+        /// <param name="configureClient">Optional additional configuration of the underlying client.</param>
+        public static IServiceCollection AddZendeskClientWithClientCredentials(this IServiceCollection services,
+            string endpointUri,
+            string clientId,
+            string clientSecret,
+            string scope = null,
+            Action<HttpClient> configureClient = null)
+        {
+            services.AddScoped<IZendeskClient, ZendeskClient>();
+            services.AddScoped<IZendeskApiClient, ZendeskApiClientFactory>();
+            services.AddScoped<ICursorPaginatedIteratorFactory, CursorPaginatedIteratorFactory>();
+
+            // Singleton so that one cached token is shared by every caller in the process.
+            services.AddSingleton<IZendeskTokenProvider, ZendeskTokenProvider>();
+            services.AddTransient<ZendeskOAuthDelegatingHandler>();
+
+            services
+                .AddHttpClient("zendeskApiClient", c =>
+                {
+                    configureClient?.Invoke(c);
+                })
+                .AddHttpMessageHandler<ZendeskOAuthDelegatingHandler>();
+
+            services.Configure<ZendeskOptions>(options => {
+                options.EndpointUri = endpointUri;
+                options.ClientId = clientId;
+                options.ClientSecret = clientSecret;
+                options.Scope = scope;
+            });
+
+            return services;
+        }
     }
 }

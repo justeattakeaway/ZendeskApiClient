@@ -110,6 +110,70 @@ var zendeskOptionsWrapper = new OptionsWrapper<ZendeskOptions>(zendeskOptions);
 var client = new ZendeskClient(new ZendeskApiClient(zendeskOptionsWrapper), loggerFactory.CreateLogger<ZendeskClient>());
 ```
 
+## Authentication
+
+The client supports three ways of authenticating.
+
+### API token
+
+```c#
+services.AddZendeskClient("https://[your_url].zendesk.com", "username", "token");
+```
+
+Note that Zendesk is [retiring API tokens](https://developer.zendesk.com/documentation/api-basics/authentication/oauth-migration/),
+so new integrations should prefer OAuth.
+
+### An OAuth access token you already hold
+
+```c#
+services.AddZendeskClient("https://[your_url].zendesk.com", "oauth_token");
+```
+
+The token is used as supplied and is never renewed, so the caller is responsible for
+replacing it before it expires.
+
+### OAuth client credentials
+
+For server to server integrations where no user is available to approve access, the client
+can obtain its own access tokens from the Secret of an
+[OAuth client](https://developer.zendesk.com/api-reference/ticketing/oauth/grant_type_tokens/)
+using the client credentials grant.
+
+```c#
+services.AddZendeskClientWithClientCredentials(
+    "https://[your_url].zendesk.com",
+    "your_client_id",
+    "your_client_secret");
+```
+
+Scopes can be requested where the OAuth client requires them.
+
+```c#
+services.AddZendeskClientWithClientCredentials(
+    "https://[your_url].zendesk.com",
+    "your_client_id",
+    "your_client_secret",
+    scope: "tickets:read tickets:write");
+```
+
+The Unique identifier and Secret both come from an OAuth client registered under
+*Admin Center > Apps and integrations > APIs > OAuth clients*. The client must be of kind
+*Confidential*, and the Secret is shown in full only once when the client is created.
+
+Tokens are requested on first use, cached, and renewed automatically shortly before they
+expire, so nothing needs to be rotated by the caller. The client credentials grant does not
+issue refresh tokens; an expired token is replaced by running the grant again.
+
+Token lifetime and the renewal margin can be configured.
+
+```c#
+services.Configure<ZendeskOptions>(options =>
+{
+    options.TokenExpiresInSeconds = 1800;                     // requested token lifetime
+    options.TokenRenewalBuffer = TimeSpan.FromMinutes(2);     // renew this long before expiry
+});
+```
+
 ## Example methods
 ```c#
 var ticket = await client.Tickets.GetAsync(1234L); // Get ticket by Id
