@@ -36,10 +36,16 @@ namespace ZendeskApi.Client
             var authorizationHeader = _options
                 .GetAuthorizationHeader();
 
-            client.DefaultRequestHeaders
-                .Add(
-                    "Authorization",
-                    authorizationHeader);
+            // Empty when the client credentials grant is configured, as the OAuth handler sets
+            // the header per request instead.
+            if (!string.IsNullOrEmpty(authorizationHeader))
+            {
+                client.DefaultRequestHeaders
+                    .Add(
+                        "Authorization",
+                        authorizationHeader);
+            }
+
             client.DefaultRequestHeaders.UserAgent.ParseAdd("justeat.zendesk-api-client-csharp");
 
             client.DefaultRequestHeaders
