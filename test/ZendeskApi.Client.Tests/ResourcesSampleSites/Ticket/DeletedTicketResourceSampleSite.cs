@@ -3,13 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using AutoMapper;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using ZendeskApi.Client.Models;
-using ZendeskApi.Client.Requests;
 using ZendeskApi.Client.Responses;
 using ZendeskApi.Client.Tests.Extensions;
 
@@ -23,29 +20,8 @@ namespace ZendeskApi.Client.Tests.ResourcesSampleSites
     internal class DeletedTicketResourceSampleSite : SampleSite<TicketState, Ticket>
     {
         public DeletedTicketResourceSampleSite(string resource)
-            : base(
-                resource,
-                MatchesRequest,
-                ConfigureWebHost,
-                PopulateState)
+            : base(resource, MatchesRequest, populateState: PopulateState)
         { }
-
-        private static void ConfigureWebHost(WebHostBuilder builder)
-        {
-            builder
-                .ConfigureServices(services =>
-                {
-                    services.AddSingleton(_ => new MapperConfiguration(cfg =>
-                    {
-                        cfg.CreateMap<TicketCreateRequest, TicketResponse>()
-                            .ForMember(r => r.Ticket, r => r.MapFrom(req => req));
-                        cfg.CreateMap<TicketUpdateRequest, TicketResponse>()
-                            .ForMember(r => r.Ticket, r => r.MapFrom(req => req));
-                        cfg.CreateMap<TicketCreateRequest, Ticket>();
-                        cfg.CreateMap<TicketUpdateRequest, Ticket>();
-                    }).CreateMapper());
-                });
-        }
 
         private static void PopulateState(TicketState state)
         {

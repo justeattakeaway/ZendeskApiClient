@@ -476,7 +476,7 @@ namespace ZendeskApi.Client.Tests.Resources
             Assert.Equal(0, emptyResult.Count);
             Assert.Equal(changedUsers.EndTime, emptyResult.EndTime);
         }
-        
+
         [Fact]
         public async Task CreateAsync_WhenCalled_ShouldCreateUser()
         {
@@ -620,7 +620,7 @@ namespace ZendeskApi.Client.Tests.Resources
                 var user = new UserCreateRequest("Description is required")
                 {
                     Name = $"CreatedUser{i}",
-                    Email = $"CreatedUser{i}@justeatakeaway.com"
+                    Email = $"CreatedUser{i}@justeattakeaway.com"
                 };
 
                 users.Add(user);

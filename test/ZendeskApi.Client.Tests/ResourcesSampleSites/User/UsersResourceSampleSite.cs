@@ -2,8 +2,6 @@ using System;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using AutoMapper;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using ZendeskApi.Client.Extensions;
@@ -18,20 +16,8 @@ namespace ZendeskApi.Client.Tests.ResourcesSampleSites
     internal class UsersResourceSampleSite : SampleSite<UserResponse>
     {
         public UsersResourceSampleSite(string resource)
-            : base(resource, MatchesRequest, ConfigureWebHost, PopulateState)
+            : base(resource, MatchesRequest, populateState: PopulateState)
         { }
-
-        private static void ConfigureWebHost(WebHostBuilder builder)
-        {
-            builder
-                .ConfigureServices(services => {
-                    services.AddSingleton(_ => new MapperConfiguration(cfg =>
-                    {
-                        cfg.CreateMap<UserUpdateRequest, UserResponse>();
-                        cfg.CreateMap<UserCreateRequest, UserResponse>();
-                    }).CreateMapper());
-                });
-        }
 
         private static void PopulateState(State<UserResponse> state)
         {
@@ -169,9 +155,8 @@ namespace ZendeskApi.Client.Tests.ResourcesSampleSites
                         }
 
                         var state = req.HttpContext.RequestServices.GetRequiredService<State<UserResponse>>();
-                        var mapper = req.HttpContext.RequestServices.GetRequiredService<IMapper>();
 
-                        var userNew = mapper.Map<UserResponse>(user);
+                        var userNew = RequestMapper.MapToUserResponse(user);
 
                         userNew.Id = long.Parse(Rand.Next().ToString());
                         userNew.Url = new Uri($"https://company.zendesk.com/api/v2/users/{userNew.Id}.json");
@@ -196,16 +181,14 @@ namespace ZendeskApi.Client.Tests.ResourcesSampleSites
                         }
 
                         var state = req.HttpContext.RequestServices.GetRequiredService<State<UserResponse>>();
-                        var mapper = req.HttpContext.RequestServices.GetRequiredService<IMapper>();
-                        var userNew = mapper.Map<UserResponse>(user);
+                        var userNew = RequestMapper.MapToUserResponse(user);
 
                         userNew.Id = id.Value;
                         userNew.Url = new Uri($"https://company.zendesk.com/api/v2/users/{userNew.Id}.json");
 
                         if (state.Items.ContainsKey(userNew.Id))
                         {
-                            var existingUser = state.Items[userNew.Id];
-                            userNew = mapper.Map(userNew, existingUser);
+                            state.Items[userNew.Id] = userNew;
                             userNew.UpdatedAt = DateTime.UtcNow;
                             resp.StatusCode = (int)HttpStatusCode.OK;
                         }
@@ -272,8 +255,7 @@ namespace ZendeskApi.Client.Tests.ResourcesSampleSites
                             return;
                         }
 
-                        var mapper = req.HttpContext.RequestServices.GetRequiredService<IMapper>();
-                        mapper.Map(user, state.Items[id]);
+                        RequestMapper.ApplyTo(user, state.Items[id]);
 
                         resp.StatusCode = (int) HttpStatusCode.Created;
                         await resp.WriteAsJson(new

@@ -47,7 +47,7 @@ jobs:
       run: ./build.ps1 --target=Package
       
     - name: Publish NuGet package to Github actions cache
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: packages-windows
         path: ./artifacts

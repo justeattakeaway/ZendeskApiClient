@@ -1,10 +1,6 @@
 using System;
 using System.Net;
-using AutoMapper;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Routing;
-using Microsoft.Extensions.DependencyInjection;
-using ZendeskApi.Client.Requests;
 using ZendeskApi.Client.Responses;
 
 namespace ZendeskApi.Client.Tests.ResourcesSampleSites
@@ -12,24 +8,8 @@ namespace ZendeskApi.Client.Tests.ResourcesSampleSites
     internal class DeletedUsersResourceSampleSite : SampleSite<UserResponse>
     {
         public DeletedUsersResourceSampleSite(string resource)
-            : base(
-                resource, 
-                MatchesRequest, 
-                ConfigureWebHost,
-                PopulateState)
+            : base(resource, MatchesRequest, populateState: PopulateState)
         { }
-
-        private static void ConfigureWebHost(WebHostBuilder builder)
-        {
-            builder
-                .ConfigureServices(services => {
-                    services.AddSingleton(_ => new MapperConfiguration(cfg =>
-                    {
-                        cfg.CreateMap<UserUpdateRequest, UserResponse>();
-                        cfg.CreateMap<UserCreateRequest, UserResponse>();
-                    }).CreateMapper());
-                });
-        }
 
         private static void PopulateState(State<UserResponse> state)
         {

@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using AutoMapper;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using ZendeskApi.Client.Models;
@@ -22,28 +20,8 @@ namespace ZendeskApi.Client.Tests.ResourcesSampleSites
     internal class TicketResourceSampleSite : SampleSite<TicketResourceState, Ticket>
     {
         public TicketResourceSampleSite(string resource)
-            : base(
-                resource,
-                MatchesRequest,
-                ConfigureWebHost,
-                PopulateState)
+            : base(resource, MatchesRequest, populateState: PopulateState)
         { }
-
-        private static void ConfigureWebHost(WebHostBuilder builder)
-        {
-            builder
-                .ConfigureServices(services => {
-                    services.AddSingleton(_ => new MapperConfiguration(cfg =>
-                    {
-                        cfg.CreateMap<TicketCreateRequest, TicketResponse>()
-                            .ForMember(r => r.Ticket, r => r.MapFrom(req => req));
-                        cfg.CreateMap<TicketUpdateRequest, TicketResponse>()
-                            .ForMember(r => r.Ticket, r => r.MapFrom(req => req));
-                        cfg.CreateMap<TicketCreateRequest, Ticket>();
-                        cfg.CreateMap<TicketUpdateRequest, Ticket>();
-                    }).CreateMapper());
-                });
-        }
 
         private static void PopulateState(TicketResourceState state)
         {
@@ -196,8 +174,7 @@ namespace ZendeskApi.Client.Tests.ResourcesSampleSites
                             return;
                         }
 
-                        var mapper = req.HttpContext.RequestServices.GetRequiredService<IMapper>();
-                        var ticketResponse = mapper.Map<TicketResponse>(ticket);
+                        var ticketResponse = RequestMapper.MapToTicketResponse(ticket);
 
                         var state = req.HttpContext.RequestServices.GetRequiredService<TicketResourceState>();
                         ticketResponse.Ticket.Id = long.Parse(Rand.Next().ToString());
@@ -306,8 +283,7 @@ namespace ZendeskApi.Client.Tests.ResourcesSampleSites
                         HandleTicketComment(ticketRequest.Comment, state, ticketRequest.Id);
 
                         var ticketResponse = new TicketResponse {Ticket = state.Items[id] };
-                        var mapper = req.HttpContext.RequestServices.GetRequiredService<IMapper>();
-                        mapper.Map(ticketRequest, ticketResponse);
+                        RequestMapper.ApplyTo(ticketRequest, ticketResponse);
 
                         resp.StatusCode = (int) HttpStatusCode.OK;
                         await resp.WriteAsJson(ticketResponse);

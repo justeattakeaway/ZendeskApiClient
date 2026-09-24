@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
@@ -7,38 +9,50 @@ using ZendeskApi.Client.Responses;
 
 namespace ZendeskApi.Client.IntegrationTests.Resources
 {
-    public class UserIdentitiesResourceTests : IClassFixture<ZendeskClientFactory>
+    public class UserIdentitiesResourceTests : IClassFixture<ZendeskClientFactory>, IDisposable
     {
         private readonly ZendeskClientFactory _clientFactory;
+        private IZendeskClient _client;
+        private const long TestUserId = 368420617118;
+        private readonly List<long> CleanUpIdentityId = new List<long>();
 
         public UserIdentitiesResourceTests(
             ZendeskClientFactory clientFactory)
         {
             _clientFactory = clientFactory;
+            _client = _clientFactory.GetClient();
         }
-        
+
         [Fact]
         public async Task GetAllAsync_WhenCalledWithCursorPagination_ShouldReturnUserIdentities()
         {
-            var client = _clientFactory.GetClient();
             var results = new UserIdentitiesCursorResponse();
 
-            try
+            await _client.UserIdentities.CreateUserIdentityAsync(new UserIdentity()
             {
-                await client.UserIdentities.CreateUserIdentityAsync(new UserIdentity()
-                {
-                    Type = "twitter",
-                    Value = "handle"
-                }, 368420617118);
+                Type = "twitter",
+                Value = "JustEatTakeaway" // Value must match an existing twitter handle, otherwise ZD will throw
+            }, TestUserId);
 
-                results = (UserIdentitiesCursorResponse)await client
-                    .UserIdentities.GetAllByUserIdAsync(368420617118, new CursorPager());
+            results = (UserIdentitiesCursorResponse)await _client
+                .UserIdentities.GetAllByUserIdAsync(TestUserId, new CursorPager());
 
-                Assert.NotNull(results);
-            }
-            finally
+            Assert.NotNull(results);
+
+            var identityId = results.First(x => x.Type == "twitter").Id;
+            Assert.NotNull(identityId);
+
+            CleanUpIdentityId.Add(identityId.Value);
+        }
+
+        public void Dispose()
+        {
+            // Cannot delete user, as user has "opened tickets"
+            // Cannot delete all Identities, as user "Must have at least one identity"
+            // IdentityID must be provided, so we are stuck capturing IdentityIDs to be
+            foreach (long identityId in CleanUpIdentityId)
             {
-                await client.UserIdentities.DeleteAsync(368420617118, (long)results.First().Id);
+                Task.Run(async () => await _client.UserIdentities.DeleteAsync(TestUserId, identityId));
             }
         }
     }

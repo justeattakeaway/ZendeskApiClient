@@ -1,33 +1,33 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-  <PropertyGroup>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <DebugType>portable</DebugType>
+    <PropertyGroup>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <DebugType>portable</DebugType>
 
-    <Authors>Just Eat</Authors>
-    <Company>Just Eat</Company>
-    <Copyright>Copyright (c) Just Eat 2015-$([System.DateTime]::Now.ToString(yyyy))</Copyright>
-    <PackageIcon>icon.png</PackageIcon>
-    <PackageProjectUrl>https://github.com/justeat/ZendeskApiClient</PackageProjectUrl>
-    <PackageLicenseFile>License.md</PackageLicenseFile>
-    <PackageReleaseNotes>$(PackageProjectUrl)/releases</PackageReleaseNotes>
-    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+        <Authors>Just Eat Takeaway</Authors>
+        <Company>Just Eat Takeaway</Company>
+        <Copyright>Copyright (c) Just Eat 2015-$([System.DateTime]::Now.ToString(yyyy))</Copyright>
+        <PackageIcon>icon.png</PackageIcon>
+        <PackageProjectUrl>https://github.com/justeattakeaway/ZendeskApiClient</PackageProjectUrl>
+        <PackageLicenseFile>License.md</PackageLicenseFile>
+        <PackageReleaseNotes>$(PackageProjectUrl)/releases</PackageReleaseNotes>
+        <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
 
-    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
-    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
-    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+        <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+        <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+        <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
 
-    <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>$(PackageProjectUrl).git</RepositoryUrl>
-  </PropertyGroup>
-  <PropertyGroup>
-      <Major>7</Major>
-      <Minor>0</Minor>
-      <Revision>7</Revision>
-      <PackageVersion>$(Major).$(Minor).$(Revision)</PackageVersion>
-  </PropertyGroup>
-  <ItemGroup>
-    <None Include="..\..\icon.png" Pack="true" PackagePath=""/>
-    <None Include="..\..\License.md" Pack="true" PackagePath=""/>
-  </ItemGroup>
+        <RepositoryType>git</RepositoryType>
+        <RepositoryUrl>$(PackageProjectUrl).git</RepositoryUrl>
+    </PropertyGroup>
+    <PropertyGroup>
+        <Major>7</Major>
+        <Minor>0</Minor>
+        <Revision>8</Revision>
+        <PackageVersion>$(Major).$(Minor).$(Revision)</PackageVersion>
+    </PropertyGroup>
+    <ItemGroup>
+        <None Include="..\..\icon.png" Pack="true" PackagePath="" />
+        <None Include="..\..\License.md" Pack="true" PackagePath="" />
+    </ItemGroup>
 </Project>
