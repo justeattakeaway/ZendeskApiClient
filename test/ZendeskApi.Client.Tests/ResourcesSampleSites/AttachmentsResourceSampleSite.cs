@@ -88,6 +88,13 @@ namespace ZendeskApi.Client.Tests.ResourcesSampleSites
                             req,
                             resp,
                             routeData);
+                    })
+                    .MapDelete("api/v2/attachments/{id}", (req, resp, routeData) =>
+                    {
+                        return RequestHelper.Delete<Attachment>(
+                            req,
+                            resp,
+                            routeData);
                     });
             }
         }

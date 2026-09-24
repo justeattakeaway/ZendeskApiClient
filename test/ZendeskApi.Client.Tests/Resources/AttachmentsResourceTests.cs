@@ -68,13 +68,41 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task DeleteAsync_WhenCalled_ShouldDelete()
         {
+#pragma warning disable CS0618
             await _resource.DeleteAsync("1");
+#pragma warning restore CS0618
         }
 
         [Fact]
         public async Task DeleteAsync_WhenUnexpectedHttpCode_ShouldThrow()
         {
+#pragma warning disable CS0618
             await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.DeleteAsync(int.MinValue.ToString()));
+#pragma warning restore CS0618
+        }
+
+        [Fact]
+        public async Task DeleteUploadAsync_WhenCalled_ShouldDelete()
+        {
+            await _resource.DeleteUploadAsync("1");
+        }
+
+        [Fact]
+        public async Task DeleteUploadAsync_WhenUnexpectedHttpCode_ShouldThrow()
+        {
+            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.DeleteUploadAsync(int.MinValue.ToString()));
+        }
+
+        [Fact]
+        public async Task DeleteAttachmentAsync_WhenCalled_ShouldDelete()
+        {
+            await _resource.DeleteAttachmentAsync(1);
+        }
+
+        [Fact]
+        public async Task DeleteAttachmentAsync_WhenUnexpectedHttpCode_ShouldThrow()
+        {
+            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.DeleteAttachmentAsync(int.MinValue));
         }
 
         public void Dispose()

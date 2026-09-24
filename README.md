@@ -9,6 +9,15 @@ A .netstandard NuGet package for use with the  Zendesk v2 API.
 
 ## 7.x.x
 
+#### Attachments: new delete methods and deprecation of `DeleteAsync`
+
+Two new methods have been added to `IAttachmentsResource`:
+
+- `DeleteUploadAsync(string token)` — deletes an upload by token. This replaces the now-deprecated `DeleteAsync(string token)`, which will be removed in a future major version.
+- `DeleteAttachmentAsync(long attachmentId)` — deletes an attachment by its ID.
+
+`DeleteAsync(string token)` is marked `[Obsolete]` and delegates to `DeleteUploadAsync` — no behaviour change, but please migrate call sites to `DeleteUploadAsync`.
+
 #### The deprecation and replacement of Status API endpoints
 
 More detailed information on the exact changes and motivation can be found [here](https://support.zendesk.com/hc/en-us/articles/5414949730842).

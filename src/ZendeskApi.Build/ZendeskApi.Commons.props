@@ -16,14 +16,13 @@
         <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
         <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
         <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
-
         <RepositoryType>git</RepositoryType>
         <RepositoryUrl>$(PackageProjectUrl).git</RepositoryUrl>
     </PropertyGroup>
     <PropertyGroup>
         <Major>7</Major>
-        <Minor>0</Minor>
-        <Revision>8</Revision>
+        <Minor>1</Minor>
+        <Revision>0</Revision>
         <PackageVersion>$(Major).$(Minor).$(Revision)</PackageVersion>
     </PropertyGroup>
     <ItemGroup>
