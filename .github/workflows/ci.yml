@@ -16,6 +16,7 @@ env:
   TERM: xterm
 
 permissions:
+  id-token: write
   contents: read
 
 jobs:
