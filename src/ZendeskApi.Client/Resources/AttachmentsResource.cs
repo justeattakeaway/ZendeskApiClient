@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Net;
 using System.Threading;
@@ -56,13 +57,31 @@ namespace ZendeskApi.Client.Resources
             return attachmentResponse.Upload;
         }
 
+        [Obsolete("Use DeleteUploadAsync instead")]
         public async Task DeleteAsync(
+            string token,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            await DeleteUploadAsync(token, cancellationToken);
+        }
+
+        public async Task DeleteUploadAsync(
             string token,
             CancellationToken cancellationToken = default(CancellationToken))
         {
             await DeleteAsync(
                 $"{UploadsResourceUri}/{token}",
-                "permanently-delete-user",
+                "delete-upload",
+                cancellationToken: cancellationToken);
+        }
+
+        public async Task DeleteAttachmentAsync(
+            long attachmentId,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            await DeleteAsync(
+                $"{AttachmentsResourceUri}/{attachmentId}",
+                "delete-attachment",
                 cancellationToken: cancellationToken);
         }
     }
