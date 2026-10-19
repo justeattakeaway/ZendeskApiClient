@@ -1,22 +1,22 @@
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace ZendeskApi.Client.Models.AuditEvents
 {
     public class FacebookCommentEvent : AuditEvent
     {
-        [JsonProperty("data")]
+        [JsonPropertyName("data")]
         public object Data { get; set; }
-        [JsonProperty("body")]
+        [JsonPropertyName("body")]
         public string Body { get; set; }
-        [JsonProperty("html_body")]
+        [JsonPropertyName("html_body")]
         public string HtmlBody { get; set; }
-        [JsonProperty("public")]
+        [JsonPropertyName("public")]
         public bool Public { get; set; }
-        [JsonProperty("trusted")]
+        [JsonPropertyName("trusted")]
         public bool Trusted { get; set; }
-        [JsonProperty("author_id")]
+        [JsonPropertyName("author_id")]
         public long AuthorId { get; set; }
-        [JsonProperty("graph_object_id")]
+        [JsonPropertyName("graph_object_id")]
         public string GraphObjectId { get; set; }
     }
 }

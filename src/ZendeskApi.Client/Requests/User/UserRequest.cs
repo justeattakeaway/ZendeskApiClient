@@ -1,10 +1,10 @@
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace ZendeskApi.Client.Requests
 {
     internal class UserRequest<T>
     {
-        [JsonProperty("user")]
+        [JsonPropertyName("user")]
         public T User { get; }
 
         public UserRequest(T user)

@@ -1,9 +1,9 @@
 using System.IO;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+using ZendeskApi.Client.Json;
 
 namespace ZendeskApi.Client.Tests.Extensions
 {
@@ -15,11 +15,7 @@ namespace ZendeskApi.Client.Tests.Extensions
             {
                 var body = await streamReader.ReadToEndAsync();
 
-                return JsonConvert.DeserializeObject<T>(body, new JsonSerializerSettings
-                {
-                    NullValueHandling = NullValueHandling.Ignore,
-                    Converters = { new StringEnumConverter() }
-                });
+                return JsonSerializer.Deserialize<T>(body, ZendeskJson.Options);
             }
         }
     }

@@ -1,11 +1,11 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 using ZendeskApi.Client.Models;
 
 namespace ZendeskApi.Client.Responses
 {
     public class OrganizationMembershipResponse
     {
-        [JsonProperty("organization_membership")]
+        [JsonPropertyName("organization_membership")]
         public OrganizationMembership OrganizationMembership { get; set; }
     }
 }

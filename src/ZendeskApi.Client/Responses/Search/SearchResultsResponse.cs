@@ -1,12 +1,11 @@
 using System.Collections.Generic;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace ZendeskApi.Client.Responses
 {
-    [JsonObject]
     public class SearchResultsResponse : PaginationResponse<ISearchResult>
     {
-        [JsonProperty("results")]
+        [JsonPropertyName("results")]
         public IEnumerable<ISearchResult> Results { get; set; }
 
         protected override IEnumerable<ISearchResult> Enumerable => Results;

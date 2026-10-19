@@ -2,7 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
+using System.Text.Json;
+using ZendeskApi.Client.Json;
 using ZendeskApi.Client.Responses;
 
 namespace ZendeskApi.Client.Pagination;
@@ -67,7 +68,7 @@ public class CursorPaginatedIterator<T> : IEnumerable<T>
     {
         var httpResponseMessage = await client.CreateClient().GetAsync(requestUrl);
         var responseBody = await httpResponseMessage.Content.ReadAsStringAsync();
-        Response = (ICursorPagination<T>)JsonConvert.DeserializeObject(responseBody, Type.GetType(ResponseType));
+        Response = (ICursorPagination<T>)JsonSerializer.Deserialize(responseBody, Type.GetType(ResponseType), ZendeskJson.Options);
     }
 
 }

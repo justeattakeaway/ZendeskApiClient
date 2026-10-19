@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace ZendeskApi.Client.Requests
 {
@@ -10,7 +10,7 @@ namespace ZendeskApi.Client.Requests
             Tickets = tickets;
         }
 
-        [JsonProperty("tickets")]
+        [JsonPropertyName("tickets")]
         public IEnumerable<T> Tickets { get; set; }
     }
 }

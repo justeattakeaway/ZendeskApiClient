@@ -1,61 +1,89 @@
 using System;
 using System.Collections.Generic;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using ZendeskApi.Client.Models;
 
 namespace ZendeskApi.Client.Converters
 {
-    public class CustomFieldConverter : JsonConverter
+    public class CustomFieldConverter : JsonConverter<CustomField>
     {
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        public override void Write(Utf8JsonWriter writer, CustomField customField, JsonSerializerOptions options)
         {
-            var customField = (CustomField)value;
-            var result = new JObject
-            {
-                {"id", customField.Id}
-            };
+            writer.WriteStartObject();
+            writer.WriteNumber("id", customField.Id);
 
             if (customField.Value != null)
             {
-                result.Add("value", customField.Value);
+                writer.WriteString("value", customField.Value);
             }
             else if (customField.Values == null || customField.Values.Count == 0)
             {
-                result.Add("value", null);
+                writer.WriteNull("value");
             }
             else
             {
-                result.Add("value", new JArray(customField.Values));
+                writer.WriteStartArray("value");
+                foreach (var value in customField.Values)
+                {
+                    writer.WriteStringValue(value);
+                }
+                writer.WriteEndArray();
             }
 
-            result.WriteTo(writer);
+            writer.WriteEndObject();
         }
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        public override CustomField Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            var token = JToken.Load(reader);
-            var customField = new CustomField()
+            using (var document = JsonDocument.ParseValue(ref reader))
             {
-                Id = (long)token["id"]
-            };
+                var root = document.RootElement;
 
-            var valueToken = token["value"];
-            if (valueToken.Type == JTokenType.Array)
-            {
-                customField.Values = valueToken.ToObject<List<string>>();
-            }
-            else
-            {
-                customField.Value = valueToken.ToObject<string>();
-            }
+                var customField = new CustomField
+                {
+                    Id = root.GetProperty("id").GetInt64()
+                };
 
-            return customField;
+                if (!root.TryGetProperty("value", out var valueElement))
+                {
+                    return customField;
+                }
+
+                if (valueElement.ValueKind == JsonValueKind.Array)
+                {
+                    var values = new List<string>();
+                    foreach (var item in valueElement.EnumerateArray())
+                    {
+                        values.Add(ToStringValue(item));
+                    }
+                    customField.Values = values;
+                }
+                else
+                {
+                    customField.Value = ToStringValue(valueElement);
+                }
+
+                return customField;
+            }
         }
 
-        public override bool CanConvert(Type objectType)
+        private static string ToStringValue(JsonElement element)
         {
-            return objectType == typeof(CustomField);
+            switch (element.ValueKind)
+            {
+                case JsonValueKind.Null:
+                case JsonValueKind.Undefined:
+                    return null;
+                case JsonValueKind.String:
+                    return element.GetString();
+                case JsonValueKind.True:
+                    return bool.TrueString;
+                case JsonValueKind.False:
+                    return bool.FalseString;
+                default:
+                    return element.GetRawText();
+            }
         }
     }
 }

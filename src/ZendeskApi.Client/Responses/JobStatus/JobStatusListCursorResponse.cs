@@ -1,13 +1,12 @@
 using System.Collections.Generic;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using ZendeskApi.Client.Models;
 
 namespace ZendeskApi.Client.Responses
 {
-    [JsonObject]
     public class JobStatusListCursorResponse : CursorPaginationResponse<JobStatusResponse>
     {
-        [JsonProperty("job_statuses")]
+        [JsonPropertyName("job_statuses")]
         public IEnumerable<JobStatusResponse> JobStatuses { get; set; }
 
         protected override IEnumerable<JobStatusResponse> Enumerable => JobStatuses;

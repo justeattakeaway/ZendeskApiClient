@@ -1,12 +1,12 @@
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace ZendeskApi.Client.Models.AuditEvents
 {
     public class AttachmentRedactionEvent : AuditEvent
     {
-        [JsonProperty("attachment_id")]
+        [JsonPropertyName("attachment_id")]
         public long AttachmentId { get; set; }
-        [JsonProperty("comment_id")]
+        [JsonPropertyName("comment_id")]
         public long CommentId { get; set; }
     }
 }

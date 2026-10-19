@@ -1,15 +1,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace ZendeskApi.Client.Models.AuditEvents
 {
     public class CreateEvent : AuditEvent
     {
-        [JsonProperty("field_name")]
+        [JsonPropertyName("field_name")]
         public string FieldName { get; set; }
-        [JsonProperty("value")]
+        [JsonPropertyName("value")]
         public object Value { get; set; }
     }
 }

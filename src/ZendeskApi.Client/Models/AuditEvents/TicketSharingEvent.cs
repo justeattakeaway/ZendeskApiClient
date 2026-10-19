@@ -1,12 +1,12 @@
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace ZendeskApi.Client.Models.AuditEvents
 {
     public class TicketSharingEvent : AuditEvent
     {
-        [JsonProperty("agreement_id")]
+        [JsonPropertyName("agreement_id")]
         public long AgreementId { get; set; }
-        [JsonProperty("action")]
+        [JsonPropertyName("action")]
         public string Action { get; set; }
     }
 }

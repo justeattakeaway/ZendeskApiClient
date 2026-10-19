@@ -1,11 +1,11 @@
 using System.Collections.Generic;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace ZendeskApi.Client.Requests
 {
     internal class GroupListRequest<T>
     {
-        [JsonProperty("groups")]
+        [JsonPropertyName("groups")]
         public IEnumerable<T> Groups { get; set; }
 
         public GroupListRequest(IEnumerable<T> groups)

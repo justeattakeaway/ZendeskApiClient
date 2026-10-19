@@ -1,60 +1,60 @@
 ﻿using System;
 using System.Collections.Generic;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace ZendeskApi.Client.Models
 {
     public class HelpCenterArticle
     {
-        [JsonProperty("id")]
+        [JsonPropertyName("id")]
         public long Id { get; set; }
 
-        [JsonProperty("created_at")]
+        [JsonPropertyName("created_at")]
         public DateTime? Created { get; set; }
 
-        [JsonProperty("updated_at")]
+        [JsonPropertyName("updated_at")]
         public DateTime? Updated { get; set; }
 
-        [JsonProperty("url")]
+        [JsonPropertyName("url")]
         public string Url { get; set; }
 
-        [JsonProperty("html_url")]
+        [JsonPropertyName("html_url")]
         public string HtmlUrl { get; set; }
 
-        [JsonProperty("title")]
+        [JsonPropertyName("title")]
         public string Title { get; set; }
 
-        [JsonProperty("body")]
+        [JsonPropertyName("body")]
         public string Body { get; set; }
 
-        [JsonProperty("author_id")]
+        [JsonPropertyName("author_id")]
         public long? AuthorId { get; set; }
 
-        [JsonProperty("comments_disabled")]
+        [JsonPropertyName("comments_disabled")]
         public bool? CommentsDisabled { get; set; }
 
-        [JsonProperty("outdated")]
+        [JsonPropertyName("outdated")]
         public bool? Outdated { get; set; }
 
-        [JsonProperty("label_names")]
+        [JsonPropertyName("label_names")]
         public IEnumerable<string> LabelNames { get; set; }
 
-        [JsonProperty("promoted")]
+        [JsonPropertyName("promoted")]
         public bool? Promoted { get; set; }
 
-        [JsonProperty("position")]
+        [JsonPropertyName("position")]
         public int? Position { get; set; }
 
-        [JsonProperty("section_id")]
+        [JsonPropertyName("section_id")]
         public long? SectionId { get; set; }
 
-        [JsonProperty("locale")]
+        [JsonPropertyName("locale")]
         public string Locale { get; set; }
 
-        [JsonProperty("source_locale")]
+        [JsonPropertyName("source_locale")]
         public string SourceLocale { get; set; }
 
-        [JsonProperty("draft")]
+        [JsonPropertyName("draft")]
         public bool Draft { get; set; }
     }
 }

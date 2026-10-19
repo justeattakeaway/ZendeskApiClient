@@ -1,28 +1,28 @@
 using System;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace ZendeskApi.Client.Models.Status;
 
 public class MaintenanceAttributes
 {
-    [JsonProperty("degradation")]
+    [JsonPropertyName("degradation")]
     public bool Degradation { get; set; }
 
-    [JsonProperty("impact")]
+    [JsonPropertyName("impact")]
     public Impact Impact { get; set; }
 
-    [JsonProperty("outage")]
+    [JsonPropertyName("outage")]
     public bool Outage { get; set; }
 
-    [JsonProperty("title")]
+    [JsonPropertyName("title")]
     public string Title { get; set; }
 
-    [JsonProperty("maintenance_article")]
+    [JsonPropertyName("maintenance_article")]
     public string MaintenanceArticle { get; set; }
 
-    [JsonProperty("maintenance_end_time")]
+    [JsonPropertyName("maintenance_end_time")]
     public DateTime MaintenanceEndTime { get; set; }
 
-    [JsonProperty("maintenance_start_time")]
+    [JsonPropertyName("maintenance_start_time")]
     public DateTime MaintenanceStartTime { get; set; }
 }

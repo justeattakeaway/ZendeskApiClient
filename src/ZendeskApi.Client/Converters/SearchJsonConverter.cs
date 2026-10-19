@@ -1,14 +1,14 @@
 using System;
 using System.Linq;
 using System.Reflection;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using ZendeskApi.Client.Models;
 using ZendeskApi.Client.Responses;
 
 namespace ZendeskApi.Client.Converters
 {
-    public class SearchJsonConverter : JsonConverter
+    public class SearchJsonConverter : JsonConverter<SearchResponse<ISearchResult>>
     {
         private static readonly Type[] DeserializableSearchTypes =
         {
@@ -18,41 +18,45 @@ namespace ZendeskApi.Client.Converters
             typeof(Organization)
         };
 
-        public override bool CanConvert(Type objectType)
-        {
-            return objectType.IsConstructedGenericType && objectType.GetGenericTypeDefinition() == typeof(SearchResponse<>).GetGenericTypeDefinition();
-        }
-
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        public override SearchResponse<ISearchResult> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             var resultTypes = DeserializableSearchTypes.ToDictionary(
                 k => k.GetTypeInfo().GetCustomAttribute<SearchResultTypeAttribute>().ResultType,
                 v => v
             );
 
-            var token = serializer
-                .Deserialize<JObject>(reader);
-            
-            var results = token.SelectToken("results")
-                .Children()
-                .Select(result => (ISearchResult) result.ToObject(resultTypes[result.Value<string>("result_type")]))
-                .ToList();
-
-            var nextPage = token.Value<string>("next_page");
-            var previousPage = token.Value<string>("previous_page");
-
-            return new SearchResponse<ISearchResult>
+            using (var document = JsonDocument.ParseValue(ref reader))
             {
-                Count = token.Value<int>("count"),
-                NextPage = nextPage != null ? new Uri(nextPage) : null,
-                PreviousPage = previousPage != null ? new Uri(previousPage) : null,
-                Results = results
-            };
+                var root = document.RootElement;
+
+                var results = root.GetProperty("results")
+                    .EnumerateArray()
+                    .Select(result => (ISearchResult)result.Deserialize(resultTypes[result.GetProperty("result_type").GetString()], options))
+                    .ToList();
+
+                var nextPage = GetString(root, "next_page");
+                var previousPage = GetString(root, "previous_page");
+
+                return new SearchResponse<ISearchResult>
+                {
+                    Count = root.GetProperty("count").GetInt32(),
+                    NextPage = nextPage != null ? new Uri(nextPage) : null,
+                    PreviousPage = previousPage != null ? new Uri(previousPage) : null,
+                    Results = results
+                };
+            }
         }
 
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        public override void Write(Utf8JsonWriter writer, SearchResponse<ISearchResult> value, JsonSerializerOptions options)
         {
             throw new NotSupportedException();
+        }
+
+        private static string GetString(JsonElement element, string name)
+        {
+            return element.TryGetProperty(name, out var value) && value.ValueKind == JsonValueKind.String
+                ? value.GetString()
+                : null;
         }
     }
 }

@@ -1,14 +1,14 @@
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace ZendeskApi.Client.Models.AuditEvents
 {
     public class ChangeEvent : AuditEvent
     {
-        [JsonProperty("field_name")]
+        [JsonPropertyName("field_name")]
         public string FieldName { get; set; }
-        [JsonProperty("value")]
+        [JsonPropertyName("value")]
         public object Value { get; set; }
-        [JsonProperty("previous_value")]
+        [JsonPropertyName("previous_value")]
         public object PreviousValue { get; set; }
     }
 }

@@ -2,7 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Newtonsoft.Json;
+using System.Text.Json;
+using ZendeskApi.Client.Json;
 using Xunit;
 using ZendeskApi.Client.Models;
 
@@ -17,7 +18,7 @@ namespace ZendeskApi.Client.Tests.Converters
             var ticketJson = File.ReadAllText(AppContext.BaseDirectory + "/Converters/testTicket.json");
 
             //Act
-            var ticket = JsonConvert.DeserializeObject<Ticket>(ticketJson);
+            var ticket = JsonSerializer.Deserialize<Ticket>(ticketJson, ZendeskJson.Options);
 
             //Assert
             AssertDeserializationWasSuccessful(ticket);
@@ -30,7 +31,7 @@ namespace ZendeskApi.Client.Tests.Converters
             var ticketJson = File.ReadAllText(AppContext.BaseDirectory + "/Converters/testTicketNull.json");
 
             //Act
-            var ticket = JsonConvert.DeserializeObject<Ticket>(ticketJson);
+            var ticket = JsonSerializer.Deserialize<Ticket>(ticketJson, ZendeskJson.Options);
 
             //Assert
             AssertDeserializationWasSuccessful(ticket, true);
@@ -50,8 +51,8 @@ namespace ZendeskApi.Client.Tests.Converters
             };
 
             //Act
-            var ticketJson = JsonConvert.SerializeObject(ticket, Formatting.Indented);
-            var deserializedTicket = JsonConvert.DeserializeObject<Ticket>(ticketJson);
+            var ticketJson = JsonSerializer.Serialize(ticket, ZendeskJson.Options);
+            var deserializedTicket = JsonSerializer.Deserialize<Ticket>(ticketJson, ZendeskJson.Options);
 
             //Assert
             AssertDeserializationWasSuccessful(deserializedTicket);
@@ -71,8 +72,8 @@ namespace ZendeskApi.Client.Tests.Converters
             };
 
             //Act
-            var ticketJson = JsonConvert.SerializeObject(ticket, Formatting.Indented);
-            var deserializedTicket = JsonConvert.DeserializeObject<Ticket>(ticketJson);
+            var ticketJson = JsonSerializer.Serialize(ticket, ZendeskJson.Options);
+            var deserializedTicket = JsonSerializer.Deserialize<Ticket>(ticketJson, ZendeskJson.Options);
 
             //Assert
             AssertDeserializationWasSuccessful(deserializedTicket, true);

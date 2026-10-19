@@ -1,9 +1,9 @@
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace ZendeskApi.Client.Models;
 
 public class DataContainer<T>
 {
-    [JsonProperty("data")]
+    [JsonPropertyName("data")]
     public T Data { get; set; }
 }

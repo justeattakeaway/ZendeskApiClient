@@ -1,13 +1,12 @@
 using System.Collections.Generic;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using ZendeskApi.Client.Models;
 
 namespace ZendeskApi.Client.Responses
 {
-    [JsonObject]
     public class HelpCenterArticleListCursorResponse : CursorPaginationResponse<HelpCenterArticle>
     {
-        [JsonProperty("articles")]
+        [JsonPropertyName("articles")]
         public IEnumerable<HelpCenterArticle> Articles { get; set; }
 
         protected override IEnumerable<HelpCenterArticle> Enumerable => Articles;

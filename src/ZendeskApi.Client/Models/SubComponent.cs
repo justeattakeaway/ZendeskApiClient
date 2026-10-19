@@ -1,31 +1,31 @@
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace ZendeskApi.Client.Models
 {
     public class SubComponentResponse
     {
-        [JsonProperty("subcomponents")]
+        [JsonPropertyName("subcomponents")]
         public SubComponent[] SubComponents { get; set; }
     }
 
     public class SubComponent
     {
-        [JsonProperty("id")]
+        [JsonPropertyName("id")]
         public string Id { get; set; }
 
-        [JsonProperty("name")]
+        [JsonPropertyName("name")]
         public string Name { get; set; }
 
-        [JsonProperty("tag")]
+        [JsonPropertyName("tag")]
         public string Tag { get; set; }
 
-        [JsonProperty("description")]
+        [JsonPropertyName("description")]
         public string Description { get; set; }
 
-        [JsonProperty("component_id")]
+        [JsonPropertyName("component_id")]
         public int? ComponentId { get; set; }
 
-        [JsonProperty("pod_id")]
+        [JsonPropertyName("pod_id")]
         public int PodId { get; set; }
     }
 }

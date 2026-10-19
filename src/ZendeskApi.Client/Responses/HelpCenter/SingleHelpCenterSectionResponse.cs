@@ -1,11 +1,11 @@
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using ZendeskApi.Client.Models;
 
 namespace ZendeskApi.Client.Responses
 {
     public class SingleHelpCenterSectionResponse
     {
-        [JsonProperty("section")]
+        [JsonPropertyName("section")]
         public HelpCenterSection Section { get; set; }
     }
 }

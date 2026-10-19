@@ -1,50 +1,50 @@
 using System;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace ZendeskApi.Client.Models.Status
 {
     public class Attributes
     {
-        [JsonProperty("degradation")]
+        [JsonPropertyName("degradation")]
         public bool Degradation { get; set; }
 
-        [JsonProperty("impact")]
+        [JsonPropertyName("impact")]
         public Impact Impact { get; set; }
 
-        [JsonProperty("outage")]
+        [JsonPropertyName("outage")]
         public bool Outage { get; set; }
 
-        [JsonProperty("postmortem")]
+        [JsonPropertyName("postmortem")]
         public string Postmortem { get; set; }
 
-        [JsonProperty("resolved_at")]
+        [JsonPropertyName("resolved_at")]
         public DateTime? ResolvedAt { get; set; }
 
-        [JsonProperty("started_at")]
+        [JsonPropertyName("started_at")]
         public DateTime StartedAt { get; set; }
 
-        [JsonProperty("status")]
+        [JsonPropertyName("status")]
         public Status Status { get; set; }
 
-        [JsonProperty("title")]
+        [JsonPropertyName("title")]
         public string Title { get; set; }
 
-        [JsonProperty("created_at")]
+        [JsonPropertyName("created_at")]
         public DateTime? CreatedAt { get; set; }
 
-        [JsonProperty("description")]
+        [JsonPropertyName("description")]
         public string Description { get; set; }
 
-        [JsonProperty("name")]
+        [JsonPropertyName("name")]
         public string Name { get; set; }
 
-        [JsonProperty("slug")]
+        [JsonPropertyName("slug")]
         public string Slug { get; set; }
 
-        [JsonProperty("incident_id")]
+        [JsonPropertyName("incident_id")]
         public string IncidentId { get; set; }
 
-        [JsonProperty("service_id")]
+        [JsonPropertyName("service_id")]
         public string ServiceId { get; set; }
     }
 }

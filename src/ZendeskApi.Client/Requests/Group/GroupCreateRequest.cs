@@ -1,4 +1,4 @@
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace ZendeskApi.Client.Requests
 {
@@ -12,7 +12,8 @@ namespace ZendeskApi.Client.Requests
         /// <summary>
         /// The name of the group
         /// </summary>
-        [JsonProperty("name")]
+        [JsonPropertyName("name")]
+        [JsonInclude]
         public string Name { get; internal set; }
     }
 }

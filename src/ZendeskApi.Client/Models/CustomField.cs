@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using ZendeskApi.Client.Converters;
 
 namespace ZendeskApi.Client.Models
@@ -9,7 +9,7 @@ namespace ZendeskApi.Client.Models
     [JsonConverter(typeof(CustomFieldConverter))]
     public class CustomField
     {
-        [JsonProperty("id")]
+        [JsonPropertyName("id")]
         public long Id { get; set; }
 
         public string Value { get; set; }

@@ -1,18 +1,18 @@
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace ZendeskApi.Client.Models.Status;
 
 public class MaintenanceIncident
 {
-    [JsonProperty("id")]
+    [JsonPropertyName("id")]
     public string Id { get; set; }
 
-    [JsonProperty("type")]  
+    [JsonPropertyName("type")]
     public string Type { get; set; }
 
-    [JsonProperty("attributes")]
+    [JsonPropertyName("attributes")]
     public MaintenanceAttributes Attributes { get; set; }
 
-    [JsonProperty("relationships")]
+    [JsonPropertyName("relationships")]
     public Relationships Relationships { get; set; }
 }

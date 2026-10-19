@@ -1,23 +1,23 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace ZendeskApi.Client.Responses
 {
     public interface ICursorPaginationVariantResponse<T> : IEnumerable<T>
     {
-        [JsonProperty("after_cursor")]
+        [JsonPropertyName("after_cursor")]
         string AfterCursor { get; set; }
-        [JsonProperty("before_cursor")]
+        [JsonPropertyName("before_cursor")]
         string BeforeCursor { get; set; }
     }
 
     public abstract class CursorPaginationVariantResponse<T> : ICursorPaginationVariantResponse<T>
     {
-        [JsonProperty("after_cursor")]
+        [JsonPropertyName("after_cursor")]
         public string AfterCursor { get; set; }
-        [JsonProperty("before_cursor")]
+        [JsonPropertyName("before_cursor")]
         public string BeforeCursor { get; set; }
         
         protected abstract IEnumerable<T> Enumerable { get; }

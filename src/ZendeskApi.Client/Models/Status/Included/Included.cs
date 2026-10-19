@@ -1,18 +1,18 @@
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace ZendeskApi.Client.Models.Status.Included;
 
 public class Included
 {
-    [JsonProperty("attributes")]
+    [JsonPropertyName("attributes")]
     public Attributes Attributes { get; set; }
 
-    [JsonProperty("id")]
+    [JsonPropertyName("id")]
     public string Id { get; set; }
 
-    [JsonProperty("type")]
+    [JsonPropertyName("type")]
     public Type Type { get; set; }
 
-    [JsonProperty("relationships")]
+    [JsonPropertyName("relationships")]
     public Relationships Relationships { get; set; }
 }

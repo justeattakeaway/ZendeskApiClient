@@ -1,28 +1,28 @@
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace ZendeskApi.Client.Models.AuditEvents
 {
     public class VoiceCommentEvent : AuditEvent
     {
-        [JsonProperty("data")]
+        [JsonPropertyName("data")]
         public object Data { get; set; }
-        [JsonProperty("formatted_from")]
+        [JsonPropertyName("formatted_from")]
         public string FormattedFrom { get; set; }
-        [JsonProperty("formatted_to")]
+        [JsonPropertyName("formatted_to")]
         public string FormattedTo { get; set; }
-        [JsonProperty("body")]
+        [JsonPropertyName("body")]
         public string Body { get; set; }
-        [JsonProperty("html_body")]
+        [JsonPropertyName("html_body")]
         public string HtmlBody { get; set; }
-        [JsonProperty("public")]
+        [JsonPropertyName("public")]
         public bool Public { get; set; }
-        [JsonProperty("trusted")]
+        [JsonPropertyName("trusted")]
         public bool Trusted { get; set; }
-        [JsonProperty("author_id")]
+        [JsonPropertyName("author_id")]
         public long AuthorId { get; set; }
-        [JsonProperty("transcription_visible")]
+        [JsonPropertyName("transcription_visible")]
         public bool TranscriptionVisible { get; set; }
-        [JsonProperty("attachments")]
+        [JsonPropertyName("attachments")]
         public Attachment[] Attachments { get; set; }
     }
 }

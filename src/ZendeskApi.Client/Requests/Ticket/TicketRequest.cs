@@ -1,16 +1,16 @@
 using System.Collections.Generic;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace ZendeskApi.Client.Requests
 {
     internal class TicketRequest<T>
     {
-        public TicketRequest(T ticketCreateRequest)
+        public TicketRequest(T ticket)
         {
-            Ticket = ticketCreateRequest;
+            Ticket = ticket;
         }
 
-        [JsonProperty("ticket")]
+        [JsonPropertyName("ticket")]
         public T Ticket { get; set; }
     }
 }

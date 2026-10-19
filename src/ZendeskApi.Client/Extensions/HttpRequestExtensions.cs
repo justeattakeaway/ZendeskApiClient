@@ -4,34 +4,29 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+using System.Text.Json;
+using ZendeskApi.Client.Json;
 
 namespace ZendeskApi.Client.Extensions
 {
     public static class HttpRequestExtensions
     {
-        private static JsonSerializerSettings DefaultJsonSettings<T>() {
-            var settings = new JsonSerializerSettings
-            {
-                NullValueHandling = NullValueHandling.Ignore,
-                Converters = { new StringEnumConverter() }
-            };
-            
-            return settings;
+        private static StringContent ToJsonContent<T>(T value, JsonSerializerOptions options)
+        {
+            // Serialize using the runtime type so derived types keep all of their properties
+            var json = JsonSerializer.Serialize(value, value?.GetType() ?? typeof(T), options ?? ZendeskJson.Options);
+
+            return new StringContent(json, Encoding.UTF8, "application/json");
         }
 
         public static async Task<HttpResponseMessage> PutAsJsonAsync<T>(
             this HttpClient client,
             string requestUri,
             T value,
-            JsonSerializerSettings settings = null,
+            JsonSerializerOptions options = null,
             CancellationToken cancellationToken = default(CancellationToken))
         {
-            var content = new StringContent(
-                JsonConvert.SerializeObject(value, settings ?? DefaultJsonSettings<T>()),
-                Encoding.UTF8,
-                "application/json");
+            var content = ToJsonContent(value, options);
 
             return await client.PutAsync(
                     requestUri, 
@@ -44,13 +39,10 @@ namespace ZendeskApi.Client.Extensions
             this HttpClient client,
             string requestUri,
             T value,
-            JsonSerializerSettings settings = null,
+            JsonSerializerOptions options = null,
             CancellationToken cancellationToken = default(CancellationToken))
         {
-            var content = new StringContent(
-                JsonConvert.SerializeObject(value, settings ?? DefaultJsonSettings<T>()),
-                Encoding.UTF8,
-                "application/json");
+            var content = ToJsonContent(value, options);
 
             return await client.PostAsync(
                     requestUri, 

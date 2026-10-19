@@ -1,12 +1,11 @@
 using System.Collections.Generic;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace ZendeskApi.Client.Responses
 {
-    [JsonObject]
     public class UsersListResponse : PaginationResponse<UserResponse>
     {
-        [JsonProperty("users")]
+        [JsonPropertyName("users")]
         public IEnumerable<UserResponse> Users { get; set; }
 
 

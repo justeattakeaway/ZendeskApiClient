@@ -1,12 +1,11 @@
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using ZendeskApi.Client.Models;
 
 namespace ZendeskApi.Client.Responses
 {
-    [JsonObject]
     public class UploadResponse
     {
-        [JsonProperty("upload")]
+        [JsonPropertyName("upload")]
         public Upload Upload { get; set; }
     }
 }

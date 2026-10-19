@@ -1,25 +1,25 @@
 using System;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace ZendeskApi.Client.Models.AuditEvents
 {
     public class CommentEvent : AuditEvent
     {
-        [JsonProperty("body")]
+        [JsonPropertyName("body")]
         public string Body { get; set; }
-        [JsonProperty("html_body")]
+        [JsonPropertyName("html_body")]
         public string HtmlBody { get; set; }
-        [JsonProperty("plain_body")]
+        [JsonPropertyName("plain_body")]
         public string PlainBody { get; set; }
-        [JsonProperty("public")]
+        [JsonPropertyName("public")]
         public bool Public { get; set; }
-        [JsonProperty("author_id")]
+        [JsonPropertyName("author_id")]
         public long AuthorId { get; set; }
-        [JsonProperty("attachments")]
+        [JsonPropertyName("attachments")]
         public Attachment[] Attachments { get; set; }
-        [JsonProperty("via")]
+        [JsonPropertyName("via")]
         public Via Via { get; set; }
-        [JsonProperty("created_at")]
+        [JsonPropertyName("created_at")]
         public DateTime CreatedAt { get; set; }
     }
 }

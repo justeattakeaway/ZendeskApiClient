@@ -1,12 +1,12 @@
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace ZendeskApi.Client.Models.AuditEvents
 {
     public class PushEvent : AuditEvent
     {
-        [JsonProperty("value")]
+        [JsonPropertyName("value")]
         public string Value { get; set; }
-        [JsonProperty("value_reference")]
+        [JsonPropertyName("value_reference")]
         public string ValueReference { get; set; }
     }
 }

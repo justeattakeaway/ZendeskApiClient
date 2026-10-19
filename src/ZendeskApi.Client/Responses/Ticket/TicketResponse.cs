@@ -1,11 +1,11 @@
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using ZendeskApi.Client.Models;
 
 namespace ZendeskApi.Client.Responses
 {
     public class TicketResponse
     {
-        [JsonProperty("ticket")]
+        [JsonPropertyName("ticket")]
         public Ticket Ticket { get; set; }
     }
 }

@@ -1,16 +1,16 @@
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace ZendeskApi.Client.Models.AuditEvents
 {
     public class FollowerNotificationEvent : AuditEvent
     {
-        [JsonProperty("subject")]
+        [JsonPropertyName("subject")]
         public string Subject { get; set; }
-        [JsonProperty("body")]
+        [JsonPropertyName("body")]
         public string Body { get; set; }
-        [JsonProperty("recipients")]
+        [JsonPropertyName("recipients")]
         public long[] Recipients { get; set; }
-        [JsonProperty("via")]
+        [JsonPropertyName("via")]
         public Via Via { get; set; }
     }
 }

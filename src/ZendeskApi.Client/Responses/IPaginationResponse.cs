@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Web;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using ZendeskApi.Client.Models;
 
 namespace ZendeskApi.Client.Responses
@@ -18,13 +18,13 @@ namespace ZendeskApi.Client.Responses
     {
         protected abstract IEnumerable<T> Enumerable { get; }
 
-        [JsonProperty("count")]
+        [JsonPropertyName("count")]
         public int Count { get; set; } = 0;
 
-        [JsonProperty("next_page")]
+        [JsonPropertyName("next_page")]
         public Uri NextPage { get; set; } = null;
 
-        [JsonProperty("previous_page")]
+        [JsonPropertyName("previous_page")]
         public Uri PreviousPage { get; set; } = null;
 
         [JsonIgnore]

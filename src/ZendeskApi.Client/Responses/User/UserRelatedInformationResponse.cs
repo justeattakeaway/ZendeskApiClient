@@ -1,37 +1,37 @@
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace ZendeskApi.Client.Responses
 {
     public class UserRelatedInformationResponse
     {
-        [JsonProperty("assigned_tickets")]
+        [JsonPropertyName("assigned_tickets")]
         public int AssignedTickets { get; set; }
 
-        [JsonProperty("requested_tickets")]
+        [JsonPropertyName("requested_tickets")]
         public int RequestedTickets { get; set; }
 
-        [JsonProperty("ccd_tickets")]
+        [JsonPropertyName("ccd_tickets")]
         public int CcdTickets { get; set; }
 
-        [JsonProperty("organization_subscriptions")]
+        [JsonPropertyName("organization_subscriptions")]
         public int OrganizationSubscriptions { get; set; }
 
-        [JsonProperty("topics")]
+        [JsonPropertyName("topics")]
         public int Topics { get; set; }
 
-        [JsonProperty("topic_comments")]
+        [JsonPropertyName("topic_comments")]
         public int TopicComments { get; set; }
 
-        [JsonProperty("votes")]
+        [JsonPropertyName("votes")]
         public int Votes { get; set; }
 
-        [JsonProperty("subscriptions")]
+        [JsonPropertyName("subscriptions")]
         public int Subscriptions { get; set; }
 
-        [JsonProperty("entry_subscriptions")]
+        [JsonPropertyName("entry_subscriptions")]
         public int EntrySubscriptions { get; set; }
 
-        [JsonProperty("forum_subscriptions")]
+        [JsonPropertyName("forum_subscriptions")]
         public int ForumSubscriptions { get; set; }
     }
 }
