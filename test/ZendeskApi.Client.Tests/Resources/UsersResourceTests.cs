@@ -27,7 +27,7 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task ListAsync_WhenCalled_ShouldGetAllUsers()
         {
-            var results = await _resource.ListAsync();
+            var results = await _resource.ListAsync(cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Equal(100, results.Count);
 
@@ -48,7 +48,7 @@ namespace ZendeskApi.Client.Tests.Resources
             {
                 Page = 2,
                 PageSize = 1
-            });
+            }, cancellationToken: TestContext.Current.CancellationToken);
 
             var user = results.First();
 
@@ -64,13 +64,13 @@ namespace ZendeskApi.Client.Tests.Resources
             {
                 Page = int.MaxValue,
                 PageSize = int.MaxValue
-            }));
+            }, cancellationToken: TestContext.Current.CancellationToken));
         }
 
         [Fact]
         public async Task ListInGroupAsync_WhenCalled_ShouldGetAllUsers()
         {
-            var results = await _resource.ListInGroupAsync(1);
+            var results = await _resource.ListInGroupAsync(1, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Equal(1, results.Count);
 
@@ -85,7 +85,7 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task ListInGroupAsync_WhenNotFound_ShouldReturnNull()
         {
-            var results = await _resource.ListInGroupAsync(int.MaxValue);
+            var results = await _resource.ListInGroupAsync(int.MaxValue, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Null(results);
         }
@@ -93,13 +93,13 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task ListInGroupAsync_WhenServiceUnavailable_ShouldThrow()
         {
-            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.ListInGroupAsync(int.MinValue));
+            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.ListInGroupAsync(int.MinValue, cancellationToken: TestContext.Current.CancellationToken));
         }
 
         [Fact]
         public async Task ListInOrganizationAsync_WhenCalled_ShouldGetAllUsers()
         {
-            var results = await _resource.ListInOrganizationAsync(1);
+            var results = await _resource.ListInOrganizationAsync(1, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Equal(1, results.Count);
 
@@ -115,7 +115,7 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task ListInOrganizationAsync_WhenNotFound_ShouldReturnNull()
         {
-            var results = await _resource.ListInOrganizationAsync(int.MaxValue);
+            var results = await _resource.ListInOrganizationAsync(int.MaxValue, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Null(results);
         }
@@ -123,13 +123,13 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task ListInOrganizationAsync_WhenServiceUnavailable_ShouldThrow()
         {
-            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.ListInOrganizationAsync(int.MinValue));
+            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.ListInOrganizationAsync(int.MinValue, cancellationToken: TestContext.Current.CancellationToken));
         }
 
         [Fact]
         public async Task ListAsync_WhenCalledWithOrganizationIds_ShouldGetAllUsers()
         {
-            var results = await _resource.ListAsync(new long[] { 1, 2, 3 });
+            var results = await _resource.ListAsync(new long[] { 1, 2, 3 }, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Equal(3, results.Count);
 
@@ -151,7 +151,7 @@ namespace ZendeskApi.Client.Tests.Resources
                 {
                     Page = 2,
                     PageSize = 1
-                });
+                }, cancellationToken: TestContext.Current.CancellationToken);
 
             var user = results.First();
 
@@ -162,13 +162,13 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task ListAsync_WhenCalledWithOrganizationIdsButServiceUnavailable_ShouldThrow()
         {
-            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.ListAsync(new long[] { long.MinValue }));
+            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.ListAsync(new long[] { long.MinValue }, cancellationToken: TestContext.Current.CancellationToken));
         }
 
         [Fact]
         public async Task ListByExternalIdsAsync_WhenCalledWithExternalIds_ShouldGetAllUsers()
         {
-            var results = await _resource.ListByExternalIdsAsync(new string[] { "1", "2", "3" });
+            var results = await _resource.ListByExternalIdsAsync(new string[] { "1", "2", "3" }, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Equal(3, results.Count);
 
@@ -190,7 +190,7 @@ namespace ZendeskApi.Client.Tests.Resources
                 {
                     Page = 2,
                     PageSize = 1
-                });
+                }, cancellationToken: TestContext.Current.CancellationToken);
 
             var user = results.First();
 
@@ -201,13 +201,13 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task ListByExternalIdsAsync_WhenCalledWithExternalIdsButServiceUnavailable_ShouldThrow()
         {
-            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.ListByExternalIdsAsync(new string[] { long.MinValue.ToString() }));
+            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.ListByExternalIdsAsync(new string[] { long.MinValue.ToString() }, cancellationToken: TestContext.Current.CancellationToken));
         }
 
         [Fact]
         public async Task GetAllAsync_WhenCalled_ShouldGetAllUsers()
         {
-            var results = await _resource.GetAllAsync();
+            var results = await _resource.GetAllAsync(cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Equal(100, results.Count);
 
@@ -227,7 +227,7 @@ namespace ZendeskApi.Client.Tests.Resources
             var results = await _resource.GetAllAsync(new CursorPager()
             {
                 Size = 3
-            });
+            }, cancellationToken: TestContext.Current.CancellationToken);
 
             var user = results.ElementAt(1);
 
@@ -243,7 +243,7 @@ namespace ZendeskApi.Client.Tests.Resources
             {
                 Page = 2,
                 PageSize = 1
-            });
+            }, cancellationToken: TestContext.Current.CancellationToken);
 
             var user = results.First();
 
@@ -259,13 +259,13 @@ namespace ZendeskApi.Client.Tests.Resources
             {
                 Page = int.MaxValue,
                 PageSize = int.MaxValue
-            }));
+            }, cancellationToken: TestContext.Current.CancellationToken));
         }
 
         [Fact]
         public async Task GetAllByGroupIdAsync_WhenCalled_ShouldGetAllUsers()
         {
-            var results = await _resource.GetAllByGroupIdAsync(1);
+            var results = await _resource.GetAllByGroupIdAsync(1, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Equal(1, results.Count);
 
@@ -280,7 +280,7 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task GetAllByGroupIdAsync_WhenCalledWithCursorPagination_ShouldGetAllUsers()
         {
-            var results = await _resource.GetAllByGroupIdAsync(1, new CursorPager());
+            var results = await _resource.GetAllByGroupIdAsync(1, new CursorPager(), cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Single(results);
 
@@ -295,7 +295,7 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task GetAllByGroupIdAsync_WhenNotFound_ShouldReturnNull()
         {
-            var results = await _resource.GetAllByGroupIdAsync(int.MaxValue);
+            var results = await _resource.GetAllByGroupIdAsync(int.MaxValue, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Null(results);
         }
@@ -303,13 +303,13 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task GetAllByGroupIdAsync_WhenServiceUnavailable_ShouldThrow()
         {
-            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.GetAllByGroupIdAsync(int.MinValue));
+            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.GetAllByGroupIdAsync(int.MinValue, cancellationToken: TestContext.Current.CancellationToken));
         }
 
         [Fact]
         public async Task GetAllByOrganizationIdAsync_WhenCalled_ShouldGetAllUsers()
         {
-            var results = await _resource.GetAllByOrganizationIdAsync(1);
+            var results = await _resource.GetAllByOrganizationIdAsync(1, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Equal(1, results.Count);
 
@@ -325,7 +325,7 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task GetAllByOrganizationIdAsync_WhenCalledWithCursorPagination_ShouldGetAllUsers()
         {
-            var results = await _resource.GetAllByOrganizationIdAsync(1, new CursorPager());
+            var results = await _resource.GetAllByOrganizationIdAsync(1, new CursorPager(), cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Single(results);
 
@@ -341,7 +341,7 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task GetAllByOrganizationIdAsync_WhenNotFound_ShouldReturnNull()
         {
-            var results = await _resource.GetAllByOrganizationIdAsync(int.MaxValue);
+            var results = await _resource.GetAllByOrganizationIdAsync(int.MaxValue, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Null(results);
         }
@@ -349,13 +349,13 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task GetAllByOrganizationIdAsync_WhenServiceUnavailable_ShouldThrow()
         {
-            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.GetAllByOrganizationIdAsync(int.MinValue));
+            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.GetAllByOrganizationIdAsync(int.MinValue, cancellationToken: TestContext.Current.CancellationToken));
         }
 
         [Fact]
         public async Task GetAllAsync_WhenCalledWithOrganizationIds_ShouldGetAllUsers()
         {
-            var results = await _resource.GetAllAsync(new long[] { 1, 2, 3 });
+            var results = await _resource.GetAllAsync(new long[] { 1, 2, 3 }, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Equal(3, results.Count);
 
@@ -377,7 +377,7 @@ namespace ZendeskApi.Client.Tests.Resources
                 {
                     Page = 2,
                     PageSize = 1
-                });
+                }, cancellationToken: TestContext.Current.CancellationToken);
 
             var user = results.First();
 
@@ -388,13 +388,13 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task GetAllAsync_WhenCalledWithOrganizationIdsButServiceUnavailable_ShouldThrow()
         {
-            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.GetAllAsync(new long[] { long.MinValue }));
+            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.GetAllAsync(new long[] { long.MinValue }, cancellationToken: TestContext.Current.CancellationToken));
         }
 
         [Fact]
         public async Task GetAllByExternalIdsAsync_WhenCalledWithExternalIds_ShouldGetAllUsers()
         {
-            var results = await _resource.GetAllByExternalIdsAsync(new string[] { "1", "2", "3" });
+            var results = await _resource.GetAllByExternalIdsAsync(new string[] { "1", "2", "3" }, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Equal(3, results.Count);
 
@@ -416,7 +416,7 @@ namespace ZendeskApi.Client.Tests.Resources
                 {
                     Page = 2,
                     PageSize = 1
-                });
+                }, cancellationToken: TestContext.Current.CancellationToken);
 
             var user = results.First();
 
@@ -427,13 +427,13 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task GetAllByExternalIdsAsync_WhenCalledWithExternalIdsButServiceUnavailable_ShouldThrow()
         {
-            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.GetAllByExternalIdsAsync(new string[] { long.MinValue.ToString() }));
+            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.GetAllByExternalIdsAsync(new string[] { long.MinValue.ToString() }, cancellationToken: TestContext.Current.CancellationToken));
         }
 
         [Fact]
         public async Task GetAsync_WhenCalled_ShouldGetUser()
         {
-            var org = await _resource.GetAsync(1);
+            var org = await _resource.GetAsync(1, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Equal("name.1", org.Name);
             Assert.Equal("1", org.ExternalId);
@@ -442,7 +442,7 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task GetAsync_WhenNotFound_ShouldReturnNull()
         {
-            var results = await _resource.GetAsync(int.MaxValue);
+            var results = await _resource.GetAsync(int.MaxValue, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Null(results);
         }
@@ -450,7 +450,7 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task GetAsync_WhenServiceUnavailable_ShouldThrow()
         {
-            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.GetAsync(int.MinValue));
+            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.GetAsync(int.MinValue, cancellationToken: TestContext.Current.CancellationToken));
         }
 
         [Fact]
@@ -460,18 +460,18 @@ namespace ZendeskApi.Client.Tests.Resources
                 new UserCreateRequest("User Name")
                 {
                     Email = "test@kung.fu",
-                });
+                }, cancellationToken: TestContext.Current.CancellationToken);
 
             // Querying every change in the last 5 minutes
             var now = DateTime.UtcNow.Subtract(new TimeSpan(0, 5, 0));
-            var changedUsers = await _resource.GetIncrementalExport(now);
+            var changedUsers = await _resource.GetIncrementalExport(now, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Equal(1, changedUsers.Count);
             Assert.Equal(user.Email, changedUsers.First().Email);
             Assert.False(changedUsers.HasMoreResults);
 
             // The second request with the end time of the previous request, should not return any
-            var emptyResult = await _resource.GetIncrementalExport(changedUsers.EndTime);
+            var emptyResult = await _resource.GetIncrementalExport(changedUsers.EndTime, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Equal(0, emptyResult.Count);
             Assert.Equal(changedUsers.EndTime, emptyResult.EndTime);
@@ -484,7 +484,7 @@ namespace ZendeskApi.Client.Tests.Resources
                 new UserCreateRequest("name")
                 {
                     Email = "Fu1@fu.com"
-                });
+                }, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Equal("Fu1@fu.com", user.Email);
         }
@@ -495,7 +495,7 @@ namespace ZendeskApi.Client.Tests.Resources
             await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.CreateAsync(new UserCreateRequest("name")
             {
                 Name = string.Empty
-            }));
+            }, cancellationToken: TestContext.Current.CancellationToken));
         }
 
         [Fact]
@@ -506,7 +506,7 @@ namespace ZendeskApi.Client.Tests.Resources
                 Id = 1,
                 Name = "MyNewOrgName",
                 ExternalId = "999999"
-            });
+            }, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Equal("MyNewOrgName", user.Name);
             Assert.Equal("999999", user.ExternalId);
@@ -519,7 +519,7 @@ namespace ZendeskApi.Client.Tests.Resources
             {
                 Name = "MyNewOrgName",
                 ExternalId = "999999"
-            });
+            }, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Null(org);
         }
@@ -530,7 +530,7 @@ namespace ZendeskApi.Client.Tests.Resources
             await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.UpdateAsync(new UserUpdateRequest(int.MinValue)
             {
                 Name = string.Empty
-            }));
+            }, cancellationToken: TestContext.Current.CancellationToken));
         }
 
         [Fact]
@@ -543,7 +543,7 @@ namespace ZendeskApi.Client.Tests.Resources
                 new UserUpdateRequest(3)
             };
 
-            var response = await _resource.UpdateAsync(users);
+            var response = await _resource.UpdateAsync(users, cancellationToken: TestContext.Current.CancellationToken);
             Assert.NotNull(response);
             Assert.NotNull(response.Id);
         }
@@ -557,7 +557,7 @@ namespace ZendeskApi.Client.Tests.Resources
                 new UserUpdateRequest(long.MinValue)
             };
 
-            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.UpdateAsync(users));
+            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.UpdateAsync(users, cancellationToken: TestContext.Current.CancellationToken));
         }
 
         [Fact]
@@ -568,7 +568,7 @@ namespace ZendeskApi.Client.Tests.Resources
                 {
                     Email = "Fu1@fu.com",
                     Name = "Cheese Master"
-                });
+                }, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Equal("Fu1@fu.com", user.Email);
             Assert.Equal("Cheese Master", user.Name);
@@ -578,7 +578,7 @@ namespace ZendeskApi.Client.Tests.Resources
                 {
                     Email = "Fu1@fu.com",
                     Name = "Kung Fu Wizard"
-                });
+                }, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Equal("Fu1@fu.com", user.Email);
             Assert.Equal("Kung Fu Wizard", user.Name);
@@ -587,13 +587,13 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task DeleteAsync_WhenCalled_ShouldDeleteUser()
         {
-            await _resource.DeleteAsync(1);
+            await _resource.DeleteAsync(1, cancellationToken: TestContext.Current.CancellationToken);
         }
 
         [Fact]
         public async Task DeleteAsync_WhenUnexpectedHttpCode_ShouldThrow()
         {
-            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.DeleteAsync(int.MinValue));
+            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.DeleteAsync(int.MinValue, cancellationToken: TestContext.Current.CancellationToken));
         }
 
         [Fact]
@@ -602,11 +602,11 @@ namespace ZendeskApi.Client.Tests.Resources
             var users = await CreateUsers(3);
             var userIds = users.Select(t => t.Id).ToArray();
 
-            await _resource.DeleteAsync(userIds);
+            await _resource.DeleteAsync(userIds, cancellationToken: TestContext.Current.CancellationToken);
 
             foreach (var userId in userIds)
             {
-                var user = await _resource.GetAsync(userId);
+                var user = await _resource.GetAsync(userId, cancellationToken: TestContext.Current.CancellationToken);
                 Assert.Null(user);
             }
         }

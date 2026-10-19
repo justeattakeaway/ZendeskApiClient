@@ -21,7 +21,7 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task GetRelatedInformationAsync_WhenCalled_ShouldGetUser()
         {
-            var userRelatedInformation = await _resource.GetRelatedInformationAsync(1);
+            var userRelatedInformation = await _resource.GetRelatedInformationAsync(1, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Equal(1, userRelatedInformation.AssignedTickets);
             Assert.Equal(2, userRelatedInformation.RequestedTickets);
@@ -38,7 +38,7 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task GetRelatedInformationAsync_WhenNotFound_ShouldReturnNull()
         {
-            var results = await _resource.GetRelatedInformationAsync(int.MaxValue);
+            var results = await _resource.GetRelatedInformationAsync(int.MaxValue, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Null(results);
         }
@@ -46,7 +46,7 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task GetRelatedInformationAsync_WhenServiceUnavailable_ShouldThrow()
         {
-            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.GetRelatedInformationAsync(int.MinValue));
+            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.GetRelatedInformationAsync(int.MinValue, cancellationToken: TestContext.Current.CancellationToken));
         }
     }
 }

@@ -25,23 +25,23 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task ListAsync_WhenCalled_ShouldGetAllCommentsForTicket()
         {
-            var ticket = await _ticketResource.CreateAsync(new TicketCreateRequest("description") { Subject = "Test 1" });
+            var ticket = await _ticketResource.CreateAsync(new TicketCreateRequest("description") { Subject = "Test 1" }, cancellationToken: TestContext.Current.CancellationToken);
 
-            var comments = await _resource.ListAsync(ticket.Ticket.Id);
+            var comments = await _resource.ListAsync(ticket.Ticket.Id, cancellationToken: TestContext.Current.CancellationToken);
             Assert.Single(comments);
             Assert.NotNull(comments.ElementAt(0).Id);
             Assert.Equal("description", comments.ElementAt(0).Body);
 
-            await _resource.AddComment(ticket.Ticket.Id, new Models.TicketComment { Body = "Hi there! im a comments..." });
+            await _resource.AddComment(ticket.Ticket.Id, new Models.TicketComment { Body = "Hi there! im a comments..." }, cancellationToken: TestContext.Current.CancellationToken);
 
-            comments = await _resource.ListAsync(ticket.Ticket.Id);
+            comments = await _resource.ListAsync(ticket.Ticket.Id, cancellationToken: TestContext.Current.CancellationToken);
             Assert.Equal(2, comments.Count());
             Assert.NotNull(comments.ElementAt(1).Id);
             Assert.Equal("Hi there! im a comments...", comments.ElementAt(1).Body);
 
-            await _resource.AddComment(ticket.Ticket.Id, new Models.TicketComment { Body = "Hi there! im a second comment..." });
+            await _resource.AddComment(ticket.Ticket.Id, new Models.TicketComment { Body = "Hi there! im a second comment..." }, cancellationToken: TestContext.Current.CancellationToken);
 
-            comments = await _resource.ListAsync(ticket.Ticket.Id);
+            comments = await _resource.ListAsync(ticket.Ticket.Id, cancellationToken: TestContext.Current.CancellationToken);
             Assert.Equal(3, comments.Count());
             Assert.NotNull(comments.ElementAt(1).Id);
             Assert.Equal("Hi there! im a comments...", comments.ElementAt(1).Body);
@@ -52,29 +52,29 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task GetAllAsync_WhenServiceUnavailable_ShouldThrow()
         {
-            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.GetAllAsync(int.MinValue));
+            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.GetAllAsync(int.MinValue, cancellationToken: TestContext.Current.CancellationToken));
         }
 
         [Fact]
         public async Task GetAllAsync_WhenCalledWithCursorPagination_ShouldGetAllCommentsForTicket()
         {
-            var ticket = await _ticketResource.CreateAsync(new TicketCreateRequest("description") { Subject = "Test 1" });
+            var ticket = await _ticketResource.CreateAsync(new TicketCreateRequest("description") { Subject = "Test 1" }, cancellationToken: TestContext.Current.CancellationToken);
 
-            var comments = await _resource.GetAllAsync(ticket.Ticket.Id, new CursorPager());
+            var comments = await _resource.GetAllAsync(ticket.Ticket.Id, new CursorPager(), cancellationToken: TestContext.Current.CancellationToken);
             Assert.Single(comments);
             Assert.NotNull(comments.ElementAt(0).Id);
             Assert.Equal("description", comments.ElementAt(0).Body);
 
-            await _resource.AddComment(ticket.Ticket.Id, new Models.TicketComment { Body = "Hi there! im a comments..." });
+            await _resource.AddComment(ticket.Ticket.Id, new Models.TicketComment { Body = "Hi there! im a comments..." }, cancellationToken: TestContext.Current.CancellationToken);
 
-            comments = await _resource.GetAllAsync(ticket.Ticket.Id, new CursorPager());
+            comments = await _resource.GetAllAsync(ticket.Ticket.Id, new CursorPager(), cancellationToken: TestContext.Current.CancellationToken);
             Assert.Equal(2, comments.Count());
             Assert.NotNull(comments.ElementAt(1).Id);
             Assert.Equal("Hi there! im a comments...", comments.ElementAt(1).Body);
 
-            await _resource.AddComment(ticket.Ticket.Id, new Models.TicketComment { Body = "Hi there! im a second comment..." });
+            await _resource.AddComment(ticket.Ticket.Id, new Models.TicketComment { Body = "Hi there! im a second comment..." }, cancellationToken: TestContext.Current.CancellationToken);
 
-            comments = await _resource.GetAllAsync(ticket.Ticket.Id, new CursorPager());
+            comments = await _resource.GetAllAsync(ticket.Ticket.Id, new CursorPager(), cancellationToken: TestContext.Current.CancellationToken);
             Assert.Equal(3, comments.Count());
             Assert.NotNull(comments.ElementAt(1).Id);
             Assert.Equal("Hi there! im a comments...", comments.ElementAt(1).Body);
@@ -85,23 +85,23 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task GetAllAsync_WhenCalled_ShouldGetAllCommentsForTicket()
         {
-            var ticket = await _ticketResource.CreateAsync(new TicketCreateRequest("description") { Subject = "Test 1" });
+            var ticket = await _ticketResource.CreateAsync(new TicketCreateRequest("description") { Subject = "Test 1" }, cancellationToken: TestContext.Current.CancellationToken);
 
-            var comments = await _resource.GetAllAsync(ticket.Ticket.Id);
+            var comments = await _resource.GetAllAsync(ticket.Ticket.Id, cancellationToken: TestContext.Current.CancellationToken);
             Assert.Single(comments);
             Assert.NotNull(comments.ElementAt(0).Id);
             Assert.Equal("description", comments.ElementAt(0).Body);
 
-            await _resource.AddComment(ticket.Ticket.Id, new Models.TicketComment { Body = "Hi there! im a comments..." });
+            await _resource.AddComment(ticket.Ticket.Id, new Models.TicketComment { Body = "Hi there! im a comments..." }, cancellationToken: TestContext.Current.CancellationToken);
 
-            comments = await _resource.GetAllAsync(ticket.Ticket.Id);
+            comments = await _resource.GetAllAsync(ticket.Ticket.Id, cancellationToken: TestContext.Current.CancellationToken);
             Assert.Equal(2, comments.Count());
             Assert.NotNull(comments.ElementAt(1).Id);
             Assert.Equal("Hi there! im a comments...", comments.ElementAt(1).Body);
 
-            await _resource.AddComment(ticket.Ticket.Id, new Models.TicketComment { Body = "Hi there! im a second comment..." });
+            await _resource.AddComment(ticket.Ticket.Id, new Models.TicketComment { Body = "Hi there! im a second comment..." }, cancellationToken: TestContext.Current.CancellationToken);
 
-            comments = await _resource.GetAllAsync(ticket.Ticket.Id);
+            comments = await _resource.GetAllAsync(ticket.Ticket.Id, cancellationToken: TestContext.Current.CancellationToken);
             Assert.Equal(3, comments.Count());
             Assert.NotNull(comments.ElementAt(1).Id);
             Assert.Equal("Hi there! im a comments...", comments.ElementAt(1).Body);
@@ -112,7 +112,7 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task ListAsync_WhenServiceUnavailable_ShouldThrow()
         {
-            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.GetAllAsync(int.MinValue));
+            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.GetAllAsync(int.MinValue, cancellationToken: TestContext.Current.CancellationToken));
         }
     }
 }

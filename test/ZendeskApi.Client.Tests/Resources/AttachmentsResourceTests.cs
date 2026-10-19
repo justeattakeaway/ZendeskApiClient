@@ -25,7 +25,7 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task GetAsync_WhenCalled_ShouldGet()
         {
-            var attachment = await _resource.GetAsync(1);
+            var attachment = await _resource.GetAsync(1, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Equal(1, attachment.Id);
             Assert.Equal("filename.1", attachment.FileName);
@@ -34,7 +34,7 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task GetAsync_WhenNotFound_ShouldReturnNull()
         {
-            var results = await _resource.GetAsync(int.MaxValue);
+            var results = await _resource.GetAsync(int.MaxValue, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Null(results);
         }
@@ -42,7 +42,7 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task GetAsync_WhenServiceUnavailable_ShouldThrow()
         {
-            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.GetAsync(int.MinValue));
+            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.GetAsync(int.MinValue, cancellationToken: TestContext.Current.CancellationToken));
         }
 
         [Fact]
@@ -52,7 +52,7 @@ namespace ZendeskApi.Client.Tests.Resources
             var stream = new MemoryStream(byteArray);
 
             var response = await _resource
-                .UploadAsync("crash.log", stream, "6bk3gql82em5nmf");
+                .UploadAsync("crash.log", stream, "6bk3gql82em5nmf", cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Equal("6bk3gql82em5nmf", response.Token);
             Assert.Equal("text/plain", response.Attachment.ContentType);
@@ -62,14 +62,14 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task UploadAsync_WhenUnexpectedHttpCode_ShouldThrow()
         {
-            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.UploadAsync(string.Empty, new MemoryStream(), "6bk3gql82em5nmf"));
+            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.UploadAsync(string.Empty, new MemoryStream(), "6bk3gql82em5nmf", cancellationToken: TestContext.Current.CancellationToken));
         }
 
         [Fact]
         public async Task DeleteAsync_WhenCalled_ShouldDelete()
         {
 #pragma warning disable CS0618
-            await _resource.DeleteAsync("1");
+            await _resource.DeleteAsync("1", cancellationToken: TestContext.Current.CancellationToken);
 #pragma warning restore CS0618
         }
 
@@ -77,38 +77,38 @@ namespace ZendeskApi.Client.Tests.Resources
         public async Task DeleteAsync_WhenUnexpectedHttpCode_ShouldThrow()
         {
 #pragma warning disable CS0618
-            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.DeleteAsync(int.MinValue.ToString()));
+            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.DeleteAsync(int.MinValue.ToString(), cancellationToken: TestContext.Current.CancellationToken));
 #pragma warning restore CS0618
         }
 
         [Fact]
         public async Task DeleteUploadAsync_WhenCalled_ShouldDelete()
         {
-            await _resource.DeleteUploadAsync("1");
+            await _resource.DeleteUploadAsync("1", cancellationToken: TestContext.Current.CancellationToken);
         }
 
         [Fact]
         public async Task DeleteUploadAsync_WhenUnexpectedHttpCode_ShouldThrow()
         {
-            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.DeleteUploadAsync(int.MinValue.ToString()));
+            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.DeleteUploadAsync(int.MinValue.ToString(), cancellationToken: TestContext.Current.CancellationToken));
         }
 
         [Fact]
         public async Task DeleteAttachmentAsync_WhenCalled_ShouldDelete()
         {
-            await _resource.DeleteAttachmentAsync(1);
+            await _resource.DeleteAttachmentAsync(1, cancellationToken: TestContext.Current.CancellationToken);
         }
 
         [Fact]
         public async Task DeleteAttachmentAsync_WhenUnexpectedHttpCode_ShouldThrow()
         {
-            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.DeleteAttachmentAsync(int.MinValue));
+            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.DeleteAttachmentAsync(int.MinValue, cancellationToken: TestContext.Current.CancellationToken));
         }
 
         [Fact]
         public async Task RedactAttachmentAsync_WhenCalled_ShouldReturnAttachment()
         {
-            var attachment = await _resource.RedactAttachmentAsync(1, 2, 3);
+            var attachment = await _resource.RedactAttachmentAsync(1, 2, 3, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.NotNull(attachment);
             Assert.Equal(3, attachment.Id);
@@ -117,7 +117,7 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task RedactAttachmentAsync_WhenUnexpectedHttpCode_ShouldThrow()
         {
-            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.RedactAttachmentAsync(int.MinValue, 2, 3));
+            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.RedactAttachmentAsync(int.MinValue, 2, 3, cancellationToken: TestContext.Current.CancellationToken));
         }
 
         public void Dispose()

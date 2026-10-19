@@ -25,7 +25,7 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task GetAllForUserAsync_WhenCalled_ShouldGetAll()
         {
-            var results = await _resource.GetAllForUserAsync(1);
+            var results = await _resource.GetAllForUserAsync(1, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Equal(1, results.Count);
 
@@ -43,7 +43,7 @@ namespace ZendeskApi.Client.Tests.Resources
             {
                 Page = 2,
                 PageSize = 1
-            });
+            }, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Empty(results);
         }
@@ -55,13 +55,13 @@ namespace ZendeskApi.Client.Tests.Resources
             {
                 Page = int.MaxValue,
                 PageSize = int.MaxValue
-            }));
+            }, cancellationToken: TestContext.Current.CancellationToken));
         }
 
         [Fact]
         public async Task GetAllByUserIdAsync_WhenCalled_ShouldGetAll()
         {
-            var results = await _resource.GetAllByUserIdAsync(1);
+            var results = await _resource.GetAllByUserIdAsync(1, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Equal(1, results.Count);
 
@@ -78,7 +78,7 @@ namespace ZendeskApi.Client.Tests.Resources
             var results = await _resource.GetAllByUserIdAsync(1, new CursorPager()
             {
                 Size = 3
-            });
+            }, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Single(results);
         }
@@ -90,7 +90,7 @@ namespace ZendeskApi.Client.Tests.Resources
             {
                 Page = 2,
                 PageSize = 1
-            });
+            }, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Empty(results);
         }
@@ -102,13 +102,13 @@ namespace ZendeskApi.Client.Tests.Resources
             {
                 Page = int.MaxValue,
                 PageSize = int.MaxValue
-            }));
+            }, cancellationToken: TestContext.Current.CancellationToken));
         }
 
         [Fact]
         public async Task GetIdentityForUserAsync_WhenCalled_ShouldGet()
         {
-            var item = await _resource.GetIdentityForUserAsync(10, 10);
+            var item = await _resource.GetIdentityForUserAsync(10, 10, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Equal(10, item.Id);
             Assert.Equal(10, item.UserId);
@@ -118,7 +118,7 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task GetIdentityForUserAsync_WhenNotFound_ShouldReturnNull()
         {
-            var results = await _resource.GetIdentityForUserAsync(int.MaxValue, int.MaxValue);
+            var results = await _resource.GetIdentityForUserAsync(int.MaxValue, int.MaxValue, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Null(results);
         }
@@ -126,13 +126,13 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task GetIdentityForUserAsync_WhenServiceUnavailable_ShouldThrow()
         {
-            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.GetIdentityForUserAsync(int.MinValue, int.MinValue));
+            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.GetIdentityForUserAsync(int.MinValue, int.MinValue, cancellationToken: TestContext.Current.CancellationToken));
         }
 
         [Fact]
         public async Task GetIdentityByUserIdAsync_WhenCalled_ShouldGet()
         {
-            var item = await _resource.GetIdentityByUserIdAsync(10, 10);
+            var item = await _resource.GetIdentityByUserIdAsync(10, 10, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Equal(10, item.Id);
             Assert.Equal(10, item.UserId);
@@ -142,7 +142,7 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task GetIdentityByUserIdAsync_WhenNotFound_ShouldReturnNull()
         {
-            var results = await _resource.GetIdentityByUserIdAsync(int.MaxValue, int.MaxValue);
+            var results = await _resource.GetIdentityByUserIdAsync(int.MaxValue, int.MaxValue, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Null(results);
         }
@@ -150,7 +150,7 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task GetIdentityByUserIdAsync_WhenServiceUnavailable_ShouldThrow()
         {
-            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.GetIdentityByUserIdAsync(int.MinValue, int.MinValue));
+            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.GetIdentityByUserIdAsync(int.MinValue, int.MinValue, cancellationToken: TestContext.Current.CancellationToken));
         }
 
         [Fact]
@@ -161,7 +161,7 @@ namespace ZendeskApi.Client.Tests.Resources
                 Id = 101,
                 Name = "name.101",
                 UserId = 101
-            }, 101);
+            }, 101, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Equal(101, item.Id);
             Assert.Equal("name.101", item.Name);
@@ -174,7 +174,7 @@ namespace ZendeskApi.Client.Tests.Resources
             {
                 Id = int.MinValue,
                 UserId = int.MinValue
-            }, int.MinValue));
+            }, int.MinValue, cancellationToken: TestContext.Current.CancellationToken));
         }
 
         [Fact]
@@ -185,7 +185,7 @@ namespace ZendeskApi.Client.Tests.Resources
                 Id = 102,
                 Name = "name.102",
                 UserId = 102
-            }, 102);
+            }, 102, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Equal(102, item.Id);
             Assert.Equal("name.102", item.Name);
@@ -198,7 +198,7 @@ namespace ZendeskApi.Client.Tests.Resources
             {
                 Id = int.MinValue,
                 UserId = int.MinValue
-            }, int.MinValue));
+            }, int.MinValue, cancellationToken: TestContext.Current.CancellationToken));
         }
 
         [Fact]
@@ -209,7 +209,7 @@ namespace ZendeskApi.Client.Tests.Resources
                 Id = 1,
                 Name = "name.new.1",
                 UserId = 1
-            });
+            }, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Equal(1, item.Id);
             Assert.Equal("name.new.1", item.Name);
@@ -222,7 +222,7 @@ namespace ZendeskApi.Client.Tests.Resources
             {
                 Id = int.MaxValue,
                 UserId = int.MaxValue
-            });
+            }, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Null(org);
         }
@@ -234,19 +234,19 @@ namespace ZendeskApi.Client.Tests.Resources
             {
                 Id = int.MinValue,
                 UserId = int.MinValue
-            }));
+            }, cancellationToken: TestContext.Current.CancellationToken));
         }
 
         [Fact]
         public async Task DeleteAsync_WhenCalled_ShouldDelete()
         {
-            await _resource.DeleteAsync(1, 1);
+            await _resource.DeleteAsync(1, 1, cancellationToken: TestContext.Current.CancellationToken);
         }
 
         [Fact]
         public async Task DeleteAsync_WhenUnexpectedHttpCode_ShouldThrow()
         {
-            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.DeleteAsync(int.MinValue, int.MinValue));
+            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.DeleteAsync(int.MinValue, int.MinValue, cancellationToken: TestContext.Current.CancellationToken));
         }
 
         public void Dispose()

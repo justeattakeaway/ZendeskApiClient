@@ -24,7 +24,7 @@ namespace ZendeskApi.Client.Tests.Resources
         [Obsolete]
         public async Task GetAllAsync_WhenCalled_ShouldGetAllTicketAudits()
         {
-            var results = await _resource.GetAllAsync();
+            var results = await _resource.GetAllAsync(cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Equal(100, results.Audits.Count());
         }
@@ -36,7 +36,7 @@ namespace ZendeskApi.Client.Tests.Resources
             var results = await _resource.GetAllAsync(new CursorPagerVariant
             {
                 ResultsLimit = 10
-            });
+            }, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Equal(10, results.Audits.Count());
         }
@@ -44,7 +44,7 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task GetAllByTicketAsync_WhenCalled_ShouldGetAllTicketAudits()
         {
-            var results = await _resource.GetAllByTicketAsync(1);
+            var results = await _resource.GetAllByTicketAsync(1, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.NotNull(results.Audits);
             Assert.Single(results.Audits);
@@ -53,7 +53,7 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task Get_WhenCalled_ShouldGetTicketAudits()
         {
-            var results = await _resource.Get(1, 1);
+            var results = await _resource.Get(1, 1, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.NotNull(results);
         }

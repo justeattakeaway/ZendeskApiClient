@@ -26,7 +26,7 @@ namespace ZendeskApi.Client.IntegrationTests.CBPSupport
 
             var cursorPager = new CursorPager { Size = 5 };
             var ticketsPageOne = await client
-                .Tickets.GetAllAsync(cursorPager);
+                .Tickets.GetAllAsync(cursorPager, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.NotNull(ticketsPageOne);
             Assert.Equal(5, ticketsPageOne.Count());
@@ -34,7 +34,7 @@ namespace ZendeskApi.Client.IntegrationTests.CBPSupport
 
             cursorPager.AfterCursor = ticketsPageOne.Meta.AfterCursor;
 
-            var ticketsPageTwo = await client.Tickets.GetAllAsync(cursorPager);
+            var ticketsPageTwo = await client.Tickets.GetAllAsync(cursorPager, cancellationToken: TestContext.Current.CancellationToken);
             Assert.NotNull(ticketsPageTwo);
             Assert.Equal(5, ticketsPageTwo.Count());
 
@@ -50,7 +50,7 @@ namespace ZendeskApi.Client.IntegrationTests.CBPSupport
            
             var cursorPager = new CursorPager { Size = 2 };
             var ticketsResponse = await client
-                .Tickets.GetAllAsync(cursorPager);
+                .Tickets.GetAllAsync(cursorPager, cancellationToken: TestContext.Current.CancellationToken);
 
             var iterator = cursorPaginatedIteratorFactory.Create<Ticket>(ticketsResponse);
             Assert.True(iterator.HasMore());

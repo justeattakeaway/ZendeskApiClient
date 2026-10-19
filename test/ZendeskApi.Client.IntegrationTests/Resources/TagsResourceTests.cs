@@ -28,7 +28,7 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
             {
                 var cursorPager = new CursorPager { Size = 2 };
                 var tagsPageOne = await client
-                    .Tags.GetAllAsync(cursorPager);
+                    .Tags.GetAllAsync(cursorPager, cancellationToken: TestContext.Current.CancellationToken);
 
                 Assert.NotNull(tagsPageOne);
                 Assert.Equal(2, tagsPageOne.Count());
@@ -36,7 +36,7 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
 
                 cursorPager.AfterCursor = tagsPageOne.Meta.AfterCursor;
 
-                var tagsPageTwo = await client.Tags.GetAllAsync(cursorPager);
+                var tagsPageTwo = await client.Tags.GetAllAsync(cursorPager, cancellationToken: TestContext.Current.CancellationToken);
                 Assert.NotNull(tagsPageTwo);
                 Assert.Equal(2, tagsPageTwo.Count());
 

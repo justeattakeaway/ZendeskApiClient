@@ -1,6 +1,5 @@
 using System.Threading.Tasks;
 using Xunit;
-using Xunit.Abstractions;
 using ZendeskApi.Client.IntegrationTests.Factories;
 using ZendeskApi.Client.Models;
 
@@ -26,7 +25,7 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
 
             var fields = await client
                 .OrganizationFields
-                .GetAllAsync(new CursorPager());
+                .GetAllAsync(new CursorPager(), cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.NotEmpty(fields);
         }

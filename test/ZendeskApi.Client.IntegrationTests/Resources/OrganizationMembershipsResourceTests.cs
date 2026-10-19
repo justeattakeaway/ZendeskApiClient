@@ -2,7 +2,6 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
-using Xunit.Abstractions;
 using ZendeskApi.Client.Exceptions;
 using ZendeskApi.Client.IntegrationTests.Factories;
 using ZendeskApi.Client.Models;
@@ -33,7 +32,7 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
 
             var memberships = await client
                 .OrganizationMemberships
-                .GetAllAsync();
+                .GetAllAsync(cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.NotEmpty(memberships);
 
@@ -49,7 +48,7 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
 
             var memberships = await client
                 .OrganizationMemberships
-                .GetAllAsync(new CursorPager());
+                .GetAllAsync(new CursorPager(), cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.NotEmpty(memberships);
 
@@ -65,7 +64,7 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
 
             var memberships = await client
                 .OrganizationMemberships
-                .GetAllForUserAsync(setup.User.Id);
+                .GetAllForUserAsync(setup.User.Id, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.NotEmpty(memberships);
 
@@ -81,7 +80,7 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
 
             var membership = await client
                 .OrganizationMemberships
-                .GetAsync(setup.OrganizationMembership.Id.Value);
+                .GetAsync(setup.OrganizationMembership.Id.Value, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.NotNull(membership);
 
@@ -95,7 +94,7 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
 
             var membership = await client
                 .OrganizationMemberships
-                .GetAsync(long.MaxValue);
+                .GetAsync(long.MaxValue, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Null(membership);
         }
@@ -109,7 +108,7 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
 
             var membership = await client
                 .OrganizationMemberships
-                .GetForUserAndOrganizationAsync(setup.User.Id, setup.OrganizationMembership.Id.Value);
+                .GetForUserAndOrganizationAsync(setup.User.Id, setup.OrganizationMembership.Id.Value, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.NotNull(membership);
 
@@ -123,7 +122,7 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
 
             var membership = await client
                 .OrganizationMemberships
-                .GetForUserAndOrganizationAsync(long.MaxValue, long.MaxValue);
+                .GetForUserAndOrganizationAsync(long.MaxValue, long.MaxValue, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Null(membership);
         }
@@ -137,7 +136,7 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
 
             var memberships = await client
                 .OrganizationMemberships
-                .GetAllForOrganizationAsync(setup.Organization.Id);
+                .GetAllForOrganizationAsync(setup.Organization.Id, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.NotEmpty(memberships);
 
@@ -153,7 +152,7 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
 
             var memberships = await client
                 .OrganizationMemberships
-                .GetAllByOrganizationIdAsync(setup.Organization.Id, new CursorPager());
+                .GetAllByOrganizationIdAsync(setup.Organization.Id, new CursorPager(), cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.NotEmpty(memberships);
 
@@ -169,7 +168,7 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
 
             var memberships = await client
                 .OrganizationMemberships
-                .GetAllByUserIdAsync(setup.User.Id, new CursorPager());
+                .GetAllByUserIdAsync(setup.User.Id, new CursorPager(), cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.NotEmpty(memberships);
 
@@ -189,19 +188,19 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
                 {
                     OrganizationId = setup.Organization.Id,
                     UserId = setup.User.Id
-                });
+                }, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.True(createdOrganisationMembership.Id.HasValue);
 
             var getOrganisationMembership = await client
                 .OrganizationMemberships
-                .GetAsync(createdOrganisationMembership.Id.Value);
+                .GetAsync(createdOrganisationMembership.Id.Value, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.NotNull(getOrganisationMembership);
 
             await client
                 .OrganizationMemberships
-                .DeleteAsync(createdOrganisationMembership.Id.Value);
+                .DeleteAsync(createdOrganisationMembership.Id.Value, cancellationToken: TestContext.Current.CancellationToken);
 
             await Teardown(client, setup);
         }
@@ -219,19 +218,19 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
                 {
                     OrganizationId = setup.Organization.Id,
                     UserId = setup.User.Id
-                }, setup.User.Id);
+                }, setup.User.Id, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.True(createdOrganisationMembership.Id.HasValue);
 
             var getOrganisationMembership = await client
                 .OrganizationMemberships
-                .GetAsync(createdOrganisationMembership.Id.Value);
+                .GetAsync(createdOrganisationMembership.Id.Value, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.NotNull(getOrganisationMembership);
 
             await client
                 .OrganizationMemberships
-                .DeleteAsync(createdOrganisationMembership.Id.Value);
+                .DeleteAsync(createdOrganisationMembership.Id.Value, cancellationToken: TestContext.Current.CancellationToken);
 
             await Teardown(client, setup);
         }
@@ -258,17 +257,17 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
                         OrganizationId = setupTwo.Organization.Id,
                         UserId = setupTwo.User.Id
                     }
-                });
+                }, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.NotNull(jobStatus);
 
             var membershipOne = await client
                 .OrganizationMemberships
-                .GetAllForOrganizationAsync(setupOne.Organization.Id);
+                .GetAllForOrganizationAsync(setupOne.Organization.Id, cancellationToken: TestContext.Current.CancellationToken);
 
             var membershipTwo = await client
                 .OrganizationMemberships
-                .GetAllForOrganizationAsync(setupOne.Organization.Id);
+                .GetAllForOrganizationAsync(setupOne.Organization.Id, cancellationToken: TestContext.Current.CancellationToken);
 
             try
             {
@@ -276,7 +275,7 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
                 {
                     await client
                         .OrganizationMemberships
-                        .DeleteAsync(membership);
+                        .DeleteAsync(membership, cancellationToken: TestContext.Current.CancellationToken);
                 }
             }
             catch
@@ -295,11 +294,11 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
 
             await client
                 .OrganizationMemberships
-                .DeleteAsync(setup.OrganizationMembership.Id.Value);
+                .DeleteAsync(setup.OrganizationMembership.Id.Value, cancellationToken: TestContext.Current.CancellationToken);
 
             var getOrganisationMembershipAfterDelete = await client
                 .OrganizationMemberships
-                .GetAsync(setup.OrganizationMembership.Id.Value);
+                .GetAsync(setup.OrganizationMembership.Id.Value, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Null(getOrganisationMembershipAfterDelete);
 
@@ -313,7 +312,7 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
 
             await Assert.ThrowsAsync<ZendeskRequestException>(() => client
                 .OrganizationMemberships
-                .DeleteAsync(long.MaxValue));
+                .DeleteAsync(long.MaxValue, cancellationToken: TestContext.Current.CancellationToken));
         }
 
         [Fact]
@@ -325,11 +324,11 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
 
             await client
                 .OrganizationMemberships
-                .DeleteAsync(setup.User.Id, setup.OrganizationMembership.Id.Value);
+                .DeleteAsync(setup.User.Id, setup.OrganizationMembership.Id.Value, cancellationToken: TestContext.Current.CancellationToken);
 
             var getOrganisationMembershipAfterDelete = await client
                 .OrganizationMemberships
-                .GetAsync(setup.OrganizationMembership.Id.Value);
+                .GetAsync(setup.OrganizationMembership.Id.Value, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Null(getOrganisationMembershipAfterDelete);
 
@@ -343,7 +342,7 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
 
             await Assert.ThrowsAsync<ZendeskRequestException>(() => client
                 .OrganizationMemberships
-                .DeleteAsync(long.MaxValue, long.MaxValue));
+                .DeleteAsync(long.MaxValue, long.MaxValue, cancellationToken: TestContext.Current.CancellationToken));
         }
 
         private async Task<BasicSetupResult> Setup(IZendeskClient client)

@@ -24,7 +24,7 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task GetAllAsync_WhenCalled_ShouldGetAll()
         {
-            var results = await _resource.GetAllAsync();
+            var results = await _resource.GetAllAsync(cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Equal(100, results.Count);
 
@@ -45,7 +45,7 @@ namespace ZendeskApi.Client.Tests.Resources
             {
                 Page = 2,
                 PageSize = 1
-            });
+            }, cancellationToken: TestContext.Current.CancellationToken);
 
             var item = results.First();
 
@@ -61,13 +61,13 @@ namespace ZendeskApi.Client.Tests.Resources
             {
                 Page = int.MaxValue,
                 PageSize = int.MaxValue
-            }));
+            }, cancellationToken: TestContext.Current.CancellationToken));
         }
 
         [Fact]
         public async Task GetAsync_WhenCalled_ShouldGetOrganization()
         {
-            var item = await _resource.GetAsync(1);
+            var item = await _resource.GetAsync(1, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Equal(1, item.Id);
             Assert.Equal("subject.1", item.Subject);
@@ -77,7 +77,7 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task GetAsync_WhenNotFound_ShouldReturnNull()
         {
-            var results = await _resource.GetAsync(int.MaxValue);
+            var results = await _resource.GetAsync(int.MaxValue, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Null(results);
         }
@@ -85,14 +85,14 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task GetAsync_WhenServiceUnavailable_ShouldThrow()
         {
-            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.GetAsync(int.MinValue));
+            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.GetAsync(int.MinValue, cancellationToken: TestContext.Current.CancellationToken));
         }
 
 
         [Fact]
         public async Task GetAllComments_WhenCalled_ShouldGetAll()
         {
-            var results = await _resource.GetAllComments(1);
+            var results = await _resource.GetAllComments(1, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Equal(100, results.Count);
 
@@ -112,7 +112,7 @@ namespace ZendeskApi.Client.Tests.Resources
             {
                 Page = 2,
                 PageSize = 1
-            });
+            }, cancellationToken: TestContext.Current.CancellationToken);
 
             var item = results.First();
 
@@ -127,13 +127,13 @@ namespace ZendeskApi.Client.Tests.Resources
             {
                 Page = int.MaxValue,
                 PageSize = int.MaxValue
-            }));
+            }, cancellationToken: TestContext.Current.CancellationToken));
         }
 
         [Fact]
         public async Task GetTicketCommentAsync_WhenCalled_ShouldGetOrganization()
         {
-            var item = await _resource.GetTicketCommentAsync(1, 1);
+            var item = await _resource.GetTicketCommentAsync(1, 1, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Equal(1, item.Id);
             Assert.Equal("body.1", item.Body);
@@ -142,7 +142,7 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task GetTicketCommentAsync_WhenNotFound_ShouldReturnNull()
         {
-            var results = await _resource.GetTicketCommentAsync(int.MaxValue, int.MaxValue);
+            var results = await _resource.GetTicketCommentAsync(int.MaxValue, int.MaxValue, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Null(results);
         }
@@ -150,7 +150,7 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task GetTicketCommentAsync_WhenServiceUnavailable_ShouldThrow()
         {
-            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.GetTicketCommentAsync(int.MinValue, int.MinValue));
+            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.GetTicketCommentAsync(int.MinValue, int.MinValue, cancellationToken: TestContext.Current.CancellationToken));
         }
 
         [Fact]
@@ -161,7 +161,7 @@ namespace ZendeskApi.Client.Tests.Resources
                 Id = 101,
                 Subject = "subject.101",
                 Description = "description.101"
-            });
+            }, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Equal(101, item.Id);
             Assert.Equal("subject.101", item.Subject);
@@ -174,7 +174,7 @@ namespace ZendeskApi.Client.Tests.Resources
             await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.CreateAsync(new Request
             {
                 Id = int.MinValue
-            }));
+            }, cancellationToken: TestContext.Current.CancellationToken));
         }
 
         [Fact]
@@ -185,7 +185,7 @@ namespace ZendeskApi.Client.Tests.Resources
                 Id = 1,
                 Subject = "subject.1.new",
                 Description = "description.1.new"
-            });
+            }, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Equal(1, item.Id);
             Assert.Equal("subject.1.new", item.Subject);
@@ -198,7 +198,7 @@ namespace ZendeskApi.Client.Tests.Resources
             var org = await _resource.UpdateAsync(new Request
             {
                 Id = int.MaxValue
-            });
+            }, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Null(org);
         }
@@ -209,7 +209,7 @@ namespace ZendeskApi.Client.Tests.Resources
             await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.UpdateAsync(new Request
             {
                 Id = int.MinValue
-            }));
+            }, cancellationToken: TestContext.Current.CancellationToken));
         }
     }
 }

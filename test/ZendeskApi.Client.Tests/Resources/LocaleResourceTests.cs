@@ -22,7 +22,7 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task GetAllAsync_WhenCalled_ShouldGetAllUsers()
         {
-            var results = await _resource.GetAllAsync();
+            var results = await _resource.GetAllAsync(cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Equal(100, results.Count);
 
@@ -37,7 +37,7 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task GetAllPublicAsync_WhenCalled_ShouldGetAllUsers()
         {
-            var results = await _resource.GetAllAsync();
+            var results = await _resource.GetAllAsync(cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Equal(100, results.Count);
 
@@ -52,7 +52,7 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task GetAllAgentAsync_WhenCalled_ShouldGetAllUsers()
         {
-            var results = await _resource.GetAllAsync();
+            var results = await _resource.GetAllAsync(cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Equal(100, results.Count);
 
@@ -67,7 +67,7 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task GetAsync_WhenCalled_ShouldGetUser()
         {
-            var org = await _resource.GetAsync(1);
+            var org = await _resource.GetAsync(1, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Equal("name.1", org.Name);
         }
@@ -75,7 +75,7 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task GetAsync_WhenNotFound_ShouldReturnNull()
         {
-            var results = await _resource.GetAsync(int.MaxValue);
+            var results = await _resource.GetAsync(int.MaxValue, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Null(results);
         }
@@ -83,13 +83,13 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task GetAsync_WhenServiceUnavailable_ShouldThrow()
         {
-            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.GetAsync(int.MinValue));
+            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.GetAsync(int.MinValue, cancellationToken: TestContext.Current.CancellationToken));
         }
 
         [Fact]
         public async Task GetCurrentAsync_WhenCalled_ShouldGetUser()
         {
-            var org = await _resource.GetCurrentAsync();
+            var org = await _resource.GetCurrentAsync(cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Equal("name.1", org.Name);
         }
@@ -97,7 +97,7 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task GetBestLanguageForUserAsync_WhenCalled_ShouldGetUser()
         {
-            var org = await _resource.GetBestLanguageForUserAsync();
+            var org = await _resource.GetBestLanguageForUserAsync(cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Equal("name.1", org.Name);
         }

@@ -26,7 +26,7 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
 
             var activeIncidents = await client
                 .ServiceStatus
-                .ListActiveIncidents(subdomain);
+                .ListActiveIncidents(subdomain, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.NotNull(activeIncidents.Data);
         }
@@ -42,7 +42,7 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
 
             var maintenanceIncidents = await client
                 .ServiceStatus
-                .ListMaintenanceIncidents(subdomain);
+                .ListMaintenanceIncidents(subdomain, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.NotNull(maintenanceIncidents.Data);
         }

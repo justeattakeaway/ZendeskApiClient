@@ -22,7 +22,7 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
             var client = _clientFactory.GetClient();
 
             var results = await client
-                .TicketAudits.GetAllAsync(new CursorPagerVariant());
+                .TicketAudits.GetAllAsync(new CursorPagerVariant(), cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.NotNull(results);
             Assert.Equal(100, results.Count());
@@ -35,7 +35,7 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
 
             var cursorPager = new CursorPager { Size = 2 };
             var auditsPageOne = await client
-                .TicketAudits.GetAllAsync(cursorPager);
+                .TicketAudits.GetAllAsync(cursorPager, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.NotNull(auditsPageOne);
             Assert.Equal(2, auditsPageOne.Count());
@@ -43,7 +43,7 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
 
             cursorPager.AfterCursor = auditsPageOne.Meta.AfterCursor;
 
-            var auditsPageTwo = await client.TicketAudits.GetAllAsync(cursorPager);
+            var auditsPageTwo = await client.TicketAudits.GetAllAsync(cursorPager, cancellationToken: TestContext.Current.CancellationToken);
             Assert.NotNull(auditsPageTwo);
             Assert.Equal(2, auditsPageTwo.Count());
 
