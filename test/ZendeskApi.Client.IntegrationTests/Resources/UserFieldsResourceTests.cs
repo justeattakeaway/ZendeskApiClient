@@ -21,7 +21,7 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
             var client = _clientFactory.GetClient();
 
             var results = await client
-                .UserFields.GetAllAsync(new CursorPager());
+                .UserFields.GetAllAsync(new CursorPager(), cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.NotNull(results);
         }

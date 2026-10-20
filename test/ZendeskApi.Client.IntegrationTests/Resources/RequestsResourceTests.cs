@@ -2,7 +2,6 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
-using Xunit.Abstractions;
 using ZendeskApi.Client.IntegrationTests.Factories;
 using ZendeskApi.Client.Models;
 
@@ -39,11 +38,11 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
                     {
                         Body = $"ZendeskApi.Client.IntegrationTests {id}"
                     }
-                });
+                }, cancellationToken: TestContext.Current.CancellationToken);
 
             var requests = await client
                 .Requests
-                .GetAllAsync();
+                .GetAllAsync(cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.NotEmpty(requests);
         }
@@ -64,13 +63,13 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
                     {
                         Body = $"ZendeskApi.Client.IntegrationTests {id}"
                     }
-                });
+                }, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.True(created.Id.HasValue);
 
             var request = await client
                 .Requests
-                .GetAsync(created.Id.Value);
+                .GetAsync(created.Id.Value, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.NotNull(request);
         }
@@ -91,13 +90,13 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
                     {
                         Body = $"ZendeskApi.Client.IntegrationTests {id}"
                     }
-                });
+                }, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.True(created.Id.HasValue);
 
             var comments = await client
                 .Requests
-                .GetAllComments(created.Id.Value);
+                .GetAllComments(created.Id.Value, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.NotEmpty(comments);
             Assert.Contains(
@@ -112,7 +111,7 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
 
             var comments = await client
                 .Requests
-                .GetAllComments(long.MaxValue);
+                .GetAllComments(long.MaxValue, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Null(comments);
         }
@@ -133,13 +132,13 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
                     {
                         Body = $"ZendeskApi.Client.IntegrationTests {id}"
                     }
-                });
+                }, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.True(created.Id.HasValue);
 
             var comments = await client
                 .Requests
-                .GetAllComments(created.Id.Value);
+                .GetAllComments(created.Id.Value, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.NotEmpty(comments);
             Assert.Contains(
@@ -152,7 +151,7 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
 
             var commentByCommentId = await client
                 .Requests
-                .GetTicketCommentAsync(created.Id.Value, createdComment.Id.Value);
+                .GetTicketCommentAsync(created.Id.Value, createdComment.Id.Value, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.NotNull(commentByCommentId);
         }
@@ -164,7 +163,7 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
 
             var comment = await client
                 .Requests
-                .GetTicketCommentAsync(long.MaxValue, long.MaxValue);
+                .GetTicketCommentAsync(long.MaxValue, long.MaxValue, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Null(comment);
         }
@@ -176,7 +175,7 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
 
             var request = await client
                 .Requests
-                .GetAsync(long.MaxValue);
+                .GetAsync(long.MaxValue, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Null(request);
         }
@@ -197,7 +196,7 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
                     {
                         Body = $"ZendeskApi.Client.IntegrationTests {id}"
                     }
-                });
+                }, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.NotNull(request);
         }
@@ -218,7 +217,7 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
                     {
                         Body = $"ZendeskApi.Client.IntegrationTests {id}"
                     }
-                });
+                }, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.True(createdRequest.Id.HasValue);
 
@@ -233,13 +232,13 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
                     {
                         Body = $"ZendeskApi.Client.IntegrationTests {updatedId}"
                     }
-                });
+                }, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.NotNull(updatedRequest);
 
             var comments = await client
                 .Requests
-                .GetAllComments(createdRequest.Id.Value);
+                .GetAllComments(createdRequest.Id.Value, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.NotEmpty(comments);
             Assert.Contains(
@@ -252,17 +251,17 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
         {
             var client = _clientFactory.GetClient();
             var cursor = new CursorPager { Size = 1 };
-            var requestsResponse = await client.Requests.GetAllAsync(cursor);
+            var requestsResponse = await client.Requests.GetAllAsync(cursor, cancellationToken: TestContext.Current.CancellationToken);
 
             var requestsIterator = cursorPaginatedIteratorFactory.Create<Request>(requestsResponse);
             Assert.Equal(1, requestsIterator.Count());
 
-            var commentsResponse = await client.Requests.GetAllComments((long)requestsIterator.First().Id, cursor);
+            var commentsResponse = await client.Requests.GetAllComments((long)requestsIterator.First().Id, cursor, cancellationToken: TestContext.Current.CancellationToken);
             Assert.Equal(1, commentsResponse.Count());
 
             await requestsIterator.NextPage();
             Assert.Equal(1, requestsIterator.Count());
-            commentsResponse = await client.Requests.GetAllComments((long)requestsIterator.First().Id, cursor);
+            commentsResponse = await client.Requests.GetAllComments((long)requestsIterator.First().Id, cursor, cancellationToken: TestContext.Current.CancellationToken);
             Assert.Equal(1, commentsResponse.Count());
         }
 

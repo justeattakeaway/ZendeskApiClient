@@ -25,7 +25,7 @@ namespace ZendeskApi.Client.Tests.Resources
 
         [Fact]
         public async Task SearchAsync_WhenCalled_ShouldGetObjects() {
-            var results = await _resource.SearchAsync(query => { });
+            var results = await _resource.SearchAsync(query => { }, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Equal(5, results.Count);
             Assert.Equal(1, results.OfType<Ticket>().First().Id);
@@ -43,7 +43,7 @@ namespace ZendeskApi.Client.Tests.Resources
                 {
                     Page = 2,
                     PageSize = 1
-                });
+                }, cancellationToken: TestContext.Current.CancellationToken);
 
             var item = results.First();
 
@@ -60,13 +60,13 @@ namespace ZendeskApi.Client.Tests.Resources
                 {
                     Page = int.MaxValue,
                     PageSize = int.MaxValue
-                }));
+                }, cancellationToken: TestContext.Current.CancellationToken));
         }
 
         [Fact]
         public async Task SearchAsync_WhenCalledWithType_ShouldGetTicket()
         {
-            var results = await _resource.SearchAsync<Ticket>(query => { });
+            var results = await _resource.SearchAsync<Ticket>(query => { }, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Equal(2, results.Count);
             Assert.Equal(1, results.First().Id);
@@ -81,7 +81,7 @@ namespace ZendeskApi.Client.Tests.Resources
                 {
                     Page = 2,
                     PageSize = 1
-                });
+                }, cancellationToken: TestContext.Current.CancellationToken);
 
             var item = results.First();
 
@@ -98,7 +98,7 @@ namespace ZendeskApi.Client.Tests.Resources
                 {
                     Page = int.MaxValue,
                     PageSize = int.MaxValue
-                }));
+                }, cancellationToken: TestContext.Current.CancellationToken));
         }
     }
 }

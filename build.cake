@@ -1,5 +1,3 @@
-#tool "nuget:?package=xunit.runner.console"
-
 //////////////////////////////////////////////////////////////////////
 // ARGUMENTS
 //////////////////////////////////////////////////////////////////////
@@ -47,6 +45,21 @@ Task("Build")
     DotNetCoreBuild("./ZendeskApiClient.sln", buildSettings);
 });
 
+// xunit v3 runs on Microsoft.Testing.Platform, which requires `dotnet test --project`
+void RunTests(string project, IDictionary<string, string> environmentVariables)
+{
+    var exitCode = StartProcess("dotnet", new ProcessSettings
+    {
+        Arguments = $"test --project \"{project}\" --configuration {configuration}",
+        EnvironmentVariables = environmentVariables
+    });
+
+    if (exitCode != 0)
+    {
+        throw new Exception($"Tests failed for {project} (exit code {exitCode})");
+    }
+}
+
 Task("Run-Unit-Tests")
     .IsDependentOn("Build")
     .Does(() =>
@@ -55,13 +68,7 @@ Task("Run-Unit-Tests")
     
     foreach(var project in projects)
     {
-        DotNetCoreTest(
-            project.FullPath,
-            new DotNetCoreTestSettings()
-            {
-                Configuration = configuration
-            }
-        );
+        RunTests(project.FullPath, new Dictionary<string, string>());
     }
 });
 
@@ -73,17 +80,13 @@ Task("Run-Integration-Tests")
     
     foreach(var project in projects)
     {
-        DotNetCoreTest(
+        RunTests(
             project.FullPath,
-            new DotNetCoreTestSettings()
+            new Dictionary<string, string>
             {
-                Configuration = configuration,
-                EnvironmentVariables = new Dictionary<string, string>
-                {
-                    { "ZendeskApi_Credentials_Url", zendeskUrl },
-                    { "ZendeskApi_Credentials_Username", zendeskUsername },
-                    { "ZendeskApi_Credentials_Token", zendeskToken }
-                }
+                { "ZendeskApi_Credentials_Url", zendeskUrl },
+                { "ZendeskApi_Credentials_Username", zendeskUsername },
+                { "ZendeskApi_Credentials_Token", zendeskToken }
             }
         );
     }

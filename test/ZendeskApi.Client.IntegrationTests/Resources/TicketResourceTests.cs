@@ -24,7 +24,7 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
             var client = _clientFactory.GetClient();
 
             var results = await client
-                .Tickets.GetAllAsync(new CursorPager());
+                .Tickets.GetAllAsync(new CursorPager(), cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.NotNull(results);
             Assert.Equal(100, results.Count());
@@ -39,7 +39,7 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
                 .Tickets.GetAllAsync(new CursorPager()
                 {
                     Size = 10
-                });
+                }, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.NotNull(results);
             Assert.Equal(10, results.Count());
@@ -56,16 +56,16 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
                 {
                     Comment = new TicketComment() { Body = "Printer is on fire" },
                     OrganisationId = 360195486037,
-                });
+                }, cancellationToken: TestContext.Current.CancellationToken);
                 var results = (TicketsListCursorResponse)await client
-                    .Tickets.GetAllByOrganizationIdAsync(360195486037, new CursorPager());
+                    .Tickets.GetAllByOrganizationIdAsync(360195486037, new CursorPager(), cancellationToken: TestContext.Current.CancellationToken);
 
                 Assert.NotNull(results);
             }
             finally
             {
                 if (createdTicket != null)
-                    await client.Tickets.DeleteAsync(createdTicket.Ticket.Id);
+                    await client.Tickets.DeleteAsync(createdTicket.Ticket.Id, cancellationToken: TestContext.Current.CancellationToken);
             }
         }
 
@@ -76,7 +76,7 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
 
             var cursorPager = new CursorPager { Size = 5 };
             var ticketsPageOne = await client
-                .Tickets.GetAllAsync(cursorPager);
+                .Tickets.GetAllAsync(cursorPager, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.NotNull(ticketsPageOne);
             Assert.Equal(5, ticketsPageOne.Count());
@@ -84,7 +84,7 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
 
             cursorPager.AfterCursor = ticketsPageOne.Meta.AfterCursor;
 
-            var ticketsPageTwo = await client.Tickets.GetAllAsync(cursorPager);
+            var ticketsPageTwo = await client.Tickets.GetAllAsync(cursorPager, cancellationToken: TestContext.Current.CancellationToken);
             Assert.NotNull(ticketsPageTwo);
             Assert.Equal(5, ticketsPageTwo.Count());
 

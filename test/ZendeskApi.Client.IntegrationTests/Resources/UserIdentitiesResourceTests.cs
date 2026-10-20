@@ -32,10 +32,10 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
             {
                 Type = "twitter",
                 Value = "JustEatTakeaway" // Value must match an existing twitter handle, otherwise ZD will throw
-            }, TestUserId);
+            }, TestUserId, cancellationToken: TestContext.Current.CancellationToken);
 
             results = (UserIdentitiesCursorResponse)await _client
-                .UserIdentities.GetAllByUserIdAsync(TestUserId, new CursorPager());
+                .UserIdentities.GetAllByUserIdAsync(TestUserId, new CursorPager(), cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.NotNull(results);
 

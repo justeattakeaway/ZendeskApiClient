@@ -29,7 +29,7 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task GetAllAsync_WhenCalled_ShouldGetAllTickets()
         {
-            var results = await _resource.GetAllAsync();
+            var results = await _resource.GetAllAsync(cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Equal(100, results.Count);
 
@@ -52,7 +52,7 @@ namespace ZendeskApi.Client.Tests.Resources
             var results = await _resource.GetAllAsync(new CursorPager()
             {
                 Size = 3
-            });
+            }, cancellationToken: TestContext.Current.CancellationToken);
 
             var ticket = results.ElementAt(1);
 
@@ -71,7 +71,7 @@ namespace ZendeskApi.Client.Tests.Resources
             {
                 Page = 2,
                 PageSize = 1
-            });
+            }, cancellationToken: TestContext.Current.CancellationToken);
 
             var ticket = results.First();
 
@@ -90,13 +90,13 @@ namespace ZendeskApi.Client.Tests.Resources
             {
                 Page = int.MaxValue,
                 PageSize = int.MaxValue
-            }));
+            }, cancellationToken: TestContext.Current.CancellationToken));
         }
 
         [Fact]
         public async Task GetAllByOrganizationIdAsync_WhenCalled_ShouldGetAllTickets()
         {
-            var results = await _resource.GetAllByOrganizationIdAsync(10);
+            var results = await _resource.GetAllByOrganizationIdAsync(10, cancellationToken: TestContext.Current.CancellationToken);
 
             var ticket = results.First();
 
@@ -111,7 +111,7 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task GetAllByOrganizationIdAsync_WhenNotFound_ShouldReturnNull()
         {
-            var results = await _resource.GetAllByOrganizationIdAsync(int.MaxValue);
+            var results = await _resource.GetAllByOrganizationIdAsync(int.MaxValue, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Null(results);
         }
@@ -119,13 +119,13 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task GetAllByOrganizationIdAsync_WhenServiceUnavailable_ShouldThrow()
         {
-            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.GetAllByOrganizationIdAsync(int.MinValue));
+            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.GetAllByOrganizationIdAsync(int.MinValue, cancellationToken: TestContext.Current.CancellationToken));
         }
 
         [Fact]
         public async Task GetAllByRequestedByIdAsync_WhenCalled_ShouldGetAllTickets()
         {
-            var results = await _resource.GetAllByRequestedByIdAsync(40);
+            var results = await _resource.GetAllByRequestedByIdAsync(40, cancellationToken: TestContext.Current.CancellationToken);
 
             var ticket = results.First();
 
@@ -140,7 +140,7 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task GetAllByRequestedByIdAsync_WhenNotFound_ShouldReturnNull()
         {
-            var results = await _resource.GetAllByRequestedByIdAsync(int.MaxValue);
+            var results = await _resource.GetAllByRequestedByIdAsync(int.MaxValue, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Null(results);
         }
@@ -148,13 +148,13 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task GetAllByRequestedByIdAsync_WhenServiceUnavailable_ShouldThrow()
         {
-            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.GetAllByRequestedByIdAsync(int.MinValue));
+            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.GetAllByRequestedByIdAsync(int.MinValue, cancellationToken: TestContext.Current.CancellationToken));
         }
 
         [Fact]
         public async Task GetAllByCcdIdAsync_WhenCalled_ShouldGetAllTickets()
         {
-            var results = await _resource.GetAllByCcdIdAsync(20);
+            var results = await _resource.GetAllByCcdIdAsync(20, cancellationToken: TestContext.Current.CancellationToken);
 
             var ticket = results.First();
 
@@ -169,7 +169,7 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task GetAllByCcdIdAsync_WhenNotFound_ShouldReturnNull()
         {
-            var results = await _resource.GetAllByCcdIdAsync(int.MaxValue);
+            var results = await _resource.GetAllByCcdIdAsync(int.MaxValue, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Null(results);
         }
@@ -177,13 +177,13 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task GetAllByCcdIdAsync_WhenServiceUnavailable_ShouldThrow()
         {
-            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.GetAllByCcdIdAsync(int.MinValue));
+            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.GetAllByCcdIdAsync(int.MinValue, cancellationToken: TestContext.Current.CancellationToken));
         }
 
         [Fact]
         public async Task GetAllByAssignedToIdAsync_WhenCalled_ShouldGetAllTickets()
         {
-            var results = await _resource.GetAllByAssignedToIdAsync(30);
+            var results = await _resource.GetAllByAssignedToIdAsync(30, cancellationToken: TestContext.Current.CancellationToken);
 
             var ticket = results.First();
 
@@ -198,7 +198,7 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task GetAllByAssignedToIdAsync_WhenNotFound_ShouldReturnNull()
         {
-            var results = await _resource.GetAllByAssignedToIdAsync(int.MaxValue);
+            var results = await _resource.GetAllByAssignedToIdAsync(int.MaxValue, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Null(results);
         }
@@ -206,13 +206,13 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task GetAllByAssignedToIdAsync_WhenServiceUnavailable_ShouldThrow()
         {
-            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.GetAllByAssignedToIdAsync(int.MinValue));
+            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.GetAllByAssignedToIdAsync(int.MinValue, cancellationToken: TestContext.Current.CancellationToken));
         }
 
         [Fact]
         public async Task GetAllByExternalIdAsync_WhenCalled_ShouldGetAllTickets()
         {
-            var results = await _resource.GetAllByExternalIdAsync("40");
+            var results = await _resource.GetAllByExternalIdAsync("40", cancellationToken: TestContext.Current.CancellationToken);
 
             var ticket = results.First();
 
@@ -227,7 +227,7 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task GetAllByExternalIdAsync_WhenNotFound_ShouldReturnEmpty()
         {
-            var results = await _resource.GetAllByExternalIdAsync("100000");
+            var results = await _resource.GetAllByExternalIdAsync("100000", cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Empty(results);
         }
@@ -235,13 +235,13 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task GetAllByExternalIdAsync_WhenServiceUnavailable_ShouldThrow()
         {
-            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.GetAllByExternalIdAsync(int.MinValue.ToString()));
+            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.GetAllByExternalIdAsync(int.MinValue.ToString(), cancellationToken: TestContext.Current.CancellationToken));
         }
 
         [Fact]
         public async Task ListAsync_WhenCalled_ShouldGetAllTickets()
         {
-            var results = await _resource.ListAsync();
+            var results = await _resource.ListAsync(cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Equal(100, results.Count);
 
@@ -265,7 +265,7 @@ namespace ZendeskApi.Client.Tests.Resources
             {
                 Page = 2,
                 PageSize = 1
-            });
+            }, cancellationToken: TestContext.Current.CancellationToken);
 
             var ticket = results.First();
 
@@ -284,13 +284,13 @@ namespace ZendeskApi.Client.Tests.Resources
             {
                 Page = int.MaxValue,
                 PageSize = int.MaxValue
-            }));
+            }, cancellationToken: TestContext.Current.CancellationToken));
         }
 
         [Fact]
         public async Task ListForOrganizationAsync_WhenCalled_ShouldGetAllTickets()
         {
-            var results = await _resource.ListForOrganizationAsync(10);
+            var results = await _resource.ListForOrganizationAsync(10, cancellationToken: TestContext.Current.CancellationToken);
 
             var ticket = results.First();
 
@@ -305,7 +305,7 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task ListForOrganizationAsync_WhenNotFound_ShouldReturnNull()
         {
-            var results = await _resource.ListForOrganizationAsync(int.MaxValue);
+            var results = await _resource.ListForOrganizationAsync(int.MaxValue, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Null(results);
         }
@@ -313,13 +313,13 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task ListForOrganizationAsync_WhenServiceUnavailable_ShouldThrow()
         {
-            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.ListForOrganizationAsync(int.MinValue));
+            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.ListForOrganizationAsync(int.MinValue, cancellationToken: TestContext.Current.CancellationToken));
         }
 
         [Fact]
         public async Task ListRequestedByAsync_WhenCalled_ShouldGetAllTickets()
         {
-            var results = await _resource.ListRequestedByAsync(40);
+            var results = await _resource.ListRequestedByAsync(40, cancellationToken: TestContext.Current.CancellationToken);
 
             var ticket = results.First();
 
@@ -334,7 +334,7 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task ListRequestedByAsync_WhenNotFound_ShouldReturnNull()
         {
-            var results = await _resource.ListRequestedByAsync(int.MaxValue);
+            var results = await _resource.ListRequestedByAsync(int.MaxValue, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Null(results);
         }
@@ -342,13 +342,13 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task ListRequestedByAsync_WhenServiceUnavailable_ShouldThrow()
         {
-            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.ListRequestedByAsync(int.MinValue));
+            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.ListRequestedByAsync(int.MinValue, cancellationToken: TestContext.Current.CancellationToken));
         }
 
         [Fact]
         public async Task ListCcdAsync_WhenCalled_ShouldGetAllTickets()
         {
-            var results = await _resource.ListCcdAsync(20);
+            var results = await _resource.ListCcdAsync(20, cancellationToken: TestContext.Current.CancellationToken);
 
             var ticket = results.First();
 
@@ -363,7 +363,7 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task ListCcdAsync_WhenNotFound_ShouldReturnNull()
         {
-            var results = await _resource.ListCcdAsync(int.MaxValue);
+            var results = await _resource.ListCcdAsync(int.MaxValue, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Null(results);
         }
@@ -371,13 +371,13 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task ListCcdAsync_WhenServiceUnavailable_ShouldThrow()
         {
-            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.ListCcdAsync(int.MinValue));
+            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.ListCcdAsync(int.MinValue, cancellationToken: TestContext.Current.CancellationToken));
         }
 
         [Fact]
         public async Task ListAssignedToAsync_WhenCalled_ShouldGetAllTickets()
         {
-            var results = await _resource.ListAssignedToAsync(30);
+            var results = await _resource.ListAssignedToAsync(30, cancellationToken: TestContext.Current.CancellationToken);
 
             var ticket = results.First();
 
@@ -392,7 +392,7 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task ListAssignedToAsync_WhenNotFound_ShouldReturnNull()
         {
-            var results = await _resource.ListAssignedToAsync(int.MaxValue);
+            var results = await _resource.ListAssignedToAsync(int.MaxValue, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Null(results);
         }
@@ -400,13 +400,13 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task ListAssignedToAsync_WhenServiceUnavailable_ShouldThrow()
         {
-            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.ListAssignedToAsync(int.MinValue));
+            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.ListAssignedToAsync(int.MinValue, cancellationToken: TestContext.Current.CancellationToken));
         }
 
         [Fact]
         public async Task GetAsync_WhenCalled_ShouldGetTicket()
         {
-            var ticket = (await _resource.GetAsync(1))
+            var ticket = (await _resource.GetAsync(1, cancellationToken: TestContext.Current.CancellationToken))
                 .Ticket;
 
             Assert.Equal(1, ticket.Id);
@@ -420,7 +420,7 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task GetAsync_WhenNotFound_ShouldReturnNull()
         {
-            var results = await _resource.GetAsync(int.MaxValue);
+            var results = await _resource.GetAsync(int.MaxValue, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Null(results);
         }
@@ -428,13 +428,13 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task GetAsync_WhenServiceUnavailable_ShouldThrow()
         {
-            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.GetAsync(int.MinValue));
+            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.GetAsync(int.MinValue, cancellationToken: TestContext.Current.CancellationToken));
         }
 
         [Fact]
         public async Task GetAsync_WhenCalledWithTicketIds_ShouldGetAllUsers()
         {
-            var results = await _resource.GetAsync(new long[] { 1, 2, 3 });
+            var results = await _resource.GetAsync(new long[] { 1, 2, 3 }, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Equal(3, results.Count);
 
@@ -460,7 +460,7 @@ namespace ZendeskApi.Client.Tests.Resources
                 {
                     Page = 2,
                     PageSize = 1
-                });
+                }, cancellationToken: TestContext.Current.CancellationToken);
 
             var ticket = results.First();
 
@@ -475,13 +475,13 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task GetAsync_WhenCalledWithTicketIdsButServiceUnavailable_ShouldThrow()
         {
-            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.GetAsync(new long[] { long.MinValue }));
+            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.GetAsync(new long[] { long.MinValue }, cancellationToken: TestContext.Current.CancellationToken));
         }
 
         [Fact]
         public async Task GetAllAsync_WhenCalledWithTicketIds_ShouldGetAllUsers()
         {
-            var results = await _resource.GetAllAsync(new long[] { 1, 2, 3 });
+            var results = await _resource.GetAllAsync(new long[] { 1, 2, 3 }, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Equal(3, results.Count);
 
@@ -507,7 +507,7 @@ namespace ZendeskApi.Client.Tests.Resources
                 {
                     Page = 2,
                     PageSize = 1
-                });
+                }, cancellationToken: TestContext.Current.CancellationToken);
 
             var ticket = results.First();
 
@@ -522,7 +522,7 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task GetAllAsync_WhenCalledWithTicketIdsButServiceUnavailable_ShouldThrow()
         {
-            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.GetAllAsync(new long[] { long.MinValue }));
+            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.GetAllAsync(new long[] { long.MinValue }, cancellationToken: TestContext.Current.CancellationToken));
         }
 
         [Fact]
@@ -537,7 +537,7 @@ namespace ZendeskApi.Client.Tests.Resources
                         Body = "The smoke is very colorful."
                     },
                     BrandId = 1
-                });
+                }, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.NotEqual(0L, response.Ticket.Id);
             Assert.Equal("My printer is on fire!", response.Ticket.Subject);
@@ -556,7 +556,7 @@ namespace ZendeskApi.Client.Tests.Resources
                         Body = "The smoke is gone."
                     },
                     Tags = new List<string> { "error" }
-                }));
+                }, cancellationToken: TestContext.Current.CancellationToken));
 
             // could use tags to simulate httpstatus codes in fake client?
         }
@@ -575,7 +575,7 @@ namespace ZendeskApi.Client.Tests.Resources
                 BrandId = 2
             };
 
-            ticket = (await _resource.UpdateAsync(updateTicketRequest)).Ticket;
+            ticket = (await _resource.UpdateAsync(updateTicketRequest, cancellationToken: TestContext.Current.CancellationToken)).Ticket;
 
             Assert.Equal("I COMMAND YOU TO UPDATE!!!", ticket.Subject);
             Assert.Equal(2, ticket.BrandId);
@@ -587,7 +587,7 @@ namespace ZendeskApi.Client.Tests.Resources
             var org = await _resource.UpdateAsync(new TicketUpdateRequest(int.MaxValue)
             {
                 Subject = "I COMMAND YOU TO UPDATE!!!"
-            });
+            }, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Null(org);
         }
@@ -598,7 +598,7 @@ namespace ZendeskApi.Client.Tests.Resources
             await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.UpdateAsync(new TicketUpdateRequest(int.MinValue)
             {
                 Subject = string.Empty
-            }));
+            }, cancellationToken: TestContext.Current.CancellationToken));
         }
 
         [Fact]
@@ -620,7 +620,7 @@ namespace ZendeskApi.Client.Tests.Resources
                 updates.Add(updateTicketRequest);
             }
 
-            var jobStatusResponse = await _resource.UpdateAsync(updates);
+            var jobStatusResponse = await _resource.UpdateAsync(updates, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.NotNull(jobStatusResponse);
         }
@@ -630,7 +630,7 @@ namespace ZendeskApi.Client.Tests.Resources
         {
             await Assert.ThrowsAsync<ZendeskRequestException>(async () =>
             {
-                await _resource.UpdateAsync(new [] { new TicketUpdateRequest(int.MinValue) });
+                await _resource.UpdateAsync(new [] { new TicketUpdateRequest(int.MinValue) }, cancellationToken: TestContext.Current.CancellationToken);
             });
         }
 
@@ -645,15 +645,15 @@ namespace ZendeskApi.Client.Tests.Resources
                 RemoveTags = new[] { "tag_to_remove" }
             };
 
-            var jobStatusResponse = await _resource.TagListsUpdateAsync(tickets.Select(x => x.Id).ToArray(), updateTicketRequest);
+            var jobStatusResponse = await _resource.TagListsUpdateAsync(tickets.Select(x => x.Id).ToArray(), updateTicketRequest, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.NotNull(jobStatusResponse);
 
-            var ticket1 = await _resource.GetAsync(tickets.First().Id);
+            var ticket1 = await _resource.GetAsync(tickets.First().Id, cancellationToken: TestContext.Current.CancellationToken);
             Assert.Contains("tag_1", ticket1.Ticket.Tags);
             Assert.DoesNotContain("tag_to_remove", ticket1.Ticket.Tags);
 
-            var ticket2 = await _resource.GetAsync(tickets.First().Id);
+            var ticket2 = await _resource.GetAsync(tickets.First().Id, cancellationToken: TestContext.Current.CancellationToken);
             Assert.Contains("tag_1", ticket2.Ticket.Tags);
             Assert.DoesNotContain("tag_to_remove", ticket2.Ticket.Tags);
         }
@@ -663,13 +663,13 @@ namespace ZendeskApi.Client.Tests.Resources
         {
             var ticket = (await CreateTickets(1)).First();
 
-            var ticket1 = await _resource.GetAsync(ticket.Id);
+            var ticket1 = await _resource.GetAsync(ticket.Id, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Equal(JsonConvert.SerializeObject(ticket), JsonConvert.SerializeObject(ticket1.Ticket));
 
-            await _resource.DeleteAsync(ticket.Id);
+            await _resource.DeleteAsync(ticket.Id, cancellationToken: TestContext.Current.CancellationToken);
 
-            var ticket2 = await _resource.GetAsync(ticket.Id);
+            var ticket2 = await _resource.GetAsync(ticket.Id, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Null(ticket2);
         }
@@ -680,9 +680,9 @@ namespace ZendeskApi.Client.Tests.Resources
             var tickets = await CreateTickets(3);
             var ticketIds = tickets.Select(t => t.Id).ToArray();
 
-            await _resource.DeleteAsync(ticketIds);
+            await _resource.DeleteAsync(ticketIds, cancellationToken: TestContext.Current.CancellationToken);
 
-            var doTicketsStillExistResult = await _resource.GetAsync(ticketIds);
+            var doTicketsStillExistResult = await _resource.GetAsync(ticketIds, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Empty(doTicketsStillExistResult);
         }

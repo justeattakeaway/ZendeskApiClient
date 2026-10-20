@@ -26,7 +26,7 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task ListAsync_WhenCalled_ShouldGetAll()
         {
-            var results = await _resource.ListAsync();
+            var results = await _resource.ListAsync(cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Equal(100, results.Count);
 
@@ -50,7 +50,7 @@ namespace ZendeskApi.Client.Tests.Resources
             {
                 Page = 2,
                 PageSize = 1
-            });
+            }, cancellationToken: TestContext.Current.CancellationToken);
 
             var ticket = results.First();
 
@@ -69,13 +69,13 @@ namespace ZendeskApi.Client.Tests.Resources
             {
                 Page = int.MaxValue,
                 PageSize = int.MaxValue
-            }));
+            }, cancellationToken: TestContext.Current.CancellationToken));
         }
 
         [Fact]
         public async Task GetAllAsync_WhenCalled_ShouldGetAll()
         {
-            var results = await _resource.GetAllAsync();
+            var results = await _resource.GetAllAsync(cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Equal(100, results.Count);
 
@@ -98,7 +98,7 @@ namespace ZendeskApi.Client.Tests.Resources
             var results = await _resource.GetAllAsync(new CursorPager()
             {
                 Size = 3
-            });
+            }, cancellationToken: TestContext.Current.CancellationToken);
 
             var ticket = results.ElementAt(1);
 
@@ -117,7 +117,7 @@ namespace ZendeskApi.Client.Tests.Resources
             {
                 Page = 2,
                 PageSize = 1
-            });
+            }, cancellationToken: TestContext.Current.CancellationToken);
 
             var ticket = results.First();
 
@@ -136,13 +136,13 @@ namespace ZendeskApi.Client.Tests.Resources
             {
                 Page = int.MaxValue,
                 PageSize = int.MaxValue
-            }));
+            }, cancellationToken: TestContext.Current.CancellationToken));
         }
 
         [Fact]
         public async Task ListAsync_WhenCalledWithQuery_ShouldGetAll()
         {
-            var results = await _resource.ListAsync(query => query.WithOrdering(SortBy.CreatedAt, SortOrder.Asc));
+            var results = await _resource.ListAsync(query => query.WithOrdering(SortBy.CreatedAt, SortOrder.Asc), cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Equal(100, results.Count);
 
@@ -168,7 +168,7 @@ namespace ZendeskApi.Client.Tests.Resources
                 {
                     Page = 2,
                     PageSize = 1
-                });
+                }, cancellationToken: TestContext.Current.CancellationToken);
 
             var ticket = results.First();
 
@@ -189,13 +189,13 @@ namespace ZendeskApi.Client.Tests.Resources
                 {
                     Page = int.MaxValue,
                     PageSize = int.MaxValue
-                }));
+                }, cancellationToken: TestContext.Current.CancellationToken));
         }
 
         [Fact]
         public async Task GetAllAsync_WhenCalledWithQuery_ShouldGetAll()
         {
-            var results = await _resource.GetAllAsync(query => query.WithOrdering(SortBy.CreatedAt, SortOrder.Asc));
+            var results = await _resource.GetAllAsync(query => query.WithOrdering(SortBy.CreatedAt, SortOrder.Asc), cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Equal(100, results.Count);
 
@@ -221,7 +221,7 @@ namespace ZendeskApi.Client.Tests.Resources
                 {
                     Page = 2,
                     PageSize = 1
-                });
+                }, cancellationToken: TestContext.Current.CancellationToken);
 
             var ticket = results.First();
 
@@ -242,29 +242,29 @@ namespace ZendeskApi.Client.Tests.Resources
                 {
                     Page = int.MaxValue,
                     PageSize = int.MaxValue
-                }));
+                }, cancellationToken: TestContext.Current.CancellationToken));
         }
 
         [Fact]
         public async Task RestoreAsync_WhenCalled_ShouldRestoreTicket()
         {
-            await _resource.RestoreAsync(1);
+            await _resource.RestoreAsync(1, cancellationToken: TestContext.Current.CancellationToken);
 
-            Assert.Null((await _resource.GetAllAsync()).SingleOrDefault(item => item.Id == 1));
+            Assert.Null((await _resource.GetAllAsync(cancellationToken: TestContext.Current.CancellationToken)).SingleOrDefault(item => item.Id == 1));
         }
 
         [Fact]
         public async Task RestoreAsync_WhenServiceUnavailable_ShouldThrow()
         {
-            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.RestoreAsync(int.MinValue));
+            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.RestoreAsync(int.MinValue, cancellationToken: TestContext.Current.CancellationToken));
         }
 
         [Fact]
         public async Task RestoreAsync_WhenCalledWithMany_ShouldRestoreTicket()
         {
-            await _resource.RestoreAsync(new long[] { 2, 3 });
+            await _resource.RestoreAsync(new long[] { 2, 3 }, cancellationToken: TestContext.Current.CancellationToken);
 
-            var results = await _resource.GetAllAsync();
+            var results = await _resource.GetAllAsync(cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Null(results.SingleOrDefault(item => item.Id == 2));
             Assert.Null(results.SingleOrDefault(item => item.Id == 3));
@@ -273,47 +273,47 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task RestoreAsync_WithManyWhenServiceUnavailable_ShouldThrow()
         {
-            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.RestoreAsync(new long[] { 1 }));
+            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.RestoreAsync(new long[] { 1 }, cancellationToken: TestContext.Current.CancellationToken));
         }
 
         [Fact]
         public async Task RestoreAsync_WithNullIds_ShouldThrow()
         {
-            await Assert.ThrowsAsync<ArgumentNullException>(async () => await _resource.RestoreAsync(null));
+            await Assert.ThrowsAsync<ArgumentNullException>(async () => await _resource.RestoreAsync(null, cancellationToken: TestContext.Current.CancellationToken));
         }
 
         [Fact]
         public async Task RestoreAsync_WithEmptyList_ShouldThrow()
         {
-            await Assert.ThrowsAsync<ArgumentException>(async () => await _resource.RestoreAsync(new List<long> { }));
+            await Assert.ThrowsAsync<ArgumentException>(async () => await _resource.RestoreAsync(new List<long> { }, cancellationToken: TestContext.Current.CancellationToken));
         }
 
         [Fact]
         public async Task RestoreAsync_WithTooManyItemsInList_ShouldThrow()
         {
-            await Assert.ThrowsAsync<ArgumentException>(async () => await _resource.RestoreAsync(new List<long>(101)));
+            await Assert.ThrowsAsync<ArgumentException>(async () => await _resource.RestoreAsync(new List<long>(101), cancellationToken: TestContext.Current.CancellationToken));
         }
 
         [Fact]
         public async Task PurgeAsync_WhenCalled_ShouldRemoveTicket()
         {
-            await _resource.PurgeAsync(10);
+            await _resource.PurgeAsync(10, cancellationToken: TestContext.Current.CancellationToken);
 
-            Assert.Null((await _resource.GetAllAsync()).SingleOrDefault(item => item.Id == 10));
+            Assert.Null((await _resource.GetAllAsync(cancellationToken: TestContext.Current.CancellationToken)).SingleOrDefault(item => item.Id == 10));
         }
 
         [Fact]
         public async Task PurgeAsync_WhenServiceUnavailable_ShouldThrow()
         {
-            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.PurgeAsync(int.MinValue));
+            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.PurgeAsync(int.MinValue, cancellationToken: TestContext.Current.CancellationToken));
         }
 
         [Fact]
         public async Task PurgeAsync_WhenCalledWithMany_ShouldRemoveTicket()
         {
-            await _resource.PurgeAsync(new long[] { 12, 13 });
+            await _resource.PurgeAsync(new long[] { 12, 13 }, cancellationToken: TestContext.Current.CancellationToken);
 
-            var results = await _resource.GetAllAsync();
+            var results = await _resource.GetAllAsync(cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Null(results.SingleOrDefault(item => item.Id == 12));
             Assert.Null(results.SingleOrDefault(item => item.Id == 13));
@@ -322,25 +322,25 @@ namespace ZendeskApi.Client.Tests.Resources
         [Fact]
         public async Task PurgeAsync_WithManyWhenServiceUnavailable_ShouldThrow()
         {
-            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.PurgeAsync(new long[] { 1 }));
+            await Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.PurgeAsync(new long[] { 1 }, cancellationToken: TestContext.Current.CancellationToken));
         }
 
         [Fact]
         public async Task PurgeAsync_WithNullIds_ShouldThrow()
         {
-            await Assert.ThrowsAsync<ArgumentNullException>(async () => await _resource.PurgeAsync(null));
+            await Assert.ThrowsAsync<ArgumentNullException>(async () => await _resource.PurgeAsync(null, cancellationToken: TestContext.Current.CancellationToken));
         }
 
         [Fact]
         public async Task PurgeAsync_WithEmptyList_ShouldThrow()
         {
-            await Assert.ThrowsAsync<ArgumentException>(async () => await _resource.PurgeAsync(new List<long> { }));
+            await Assert.ThrowsAsync<ArgumentException>(async () => await _resource.PurgeAsync(new List<long> { }, cancellationToken: TestContext.Current.CancellationToken));
         }
 
         [Fact]
         public async Task PurgeAsync_WithTooManyItemsInList_ShouldThrow()
         {
-            await Assert.ThrowsAsync<ArgumentException>(async () => await _resource.PurgeAsync(new List<long>(101)));
+            await Assert.ThrowsAsync<ArgumentException>(async () => await _resource.PurgeAsync(new List<long>(101), cancellationToken: TestContext.Current.CancellationToken));
         }
 
         public void Dispose()

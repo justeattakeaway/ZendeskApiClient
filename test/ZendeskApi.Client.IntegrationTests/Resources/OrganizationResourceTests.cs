@@ -2,7 +2,6 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
-using Xunit.Abstractions;
 using ZendeskApi.Client.Exceptions;
 using ZendeskApi.Client.IntegrationTests.Factories;
 using ZendeskApi.Client.Models;
@@ -35,16 +34,16 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
                 {
                     ExternalId = id,
                     Name = $"ZendeskApi.Client.IntegrationTests {id}"
-                });
+                }, cancellationToken: TestContext.Current.CancellationToken);
 
             var organisations = await client
                 .Organizations
-                .GetAllAsync();
+                .GetAllAsync(cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.NotEmpty(organisations);
 
             await client.Organizations
-                .DeleteAsync(created.Id);
+                .DeleteAsync(created.Id, cancellationToken: TestContext.Current.CancellationToken);
         }
 
         [Fact]
@@ -59,16 +58,16 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
                 {
                     ExternalId = id,
                     Name = $"ZendeskApi.Client.IntegrationTests {id}"
-                });
+                }, cancellationToken: TestContext.Current.CancellationToken);
 
             var organisations = await client
                 .Organizations
-                .GetAllAsync(new CursorPager());
+                .GetAllAsync(new CursorPager(), cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.NotEmpty(organisations);
 
             await client.Organizations
-                .DeleteAsync(created.Id);
+                .DeleteAsync(created.Id, cancellationToken: TestContext.Current.CancellationToken);
         }
 
         [Fact]
@@ -83,19 +82,19 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
                 {
                     ExternalId = id,
                     Name = $"ZendeskApi.Client.IntegrationTests {id}"
-                });
+                }, cancellationToken: TestContext.Current.CancellationToken);
 
             var organisations = await client
                 .Organizations
                 .GetAllAsync(new []
                 {
                     created.Id
-                });
+                }, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.NotEmpty(organisations);
 
             await client.Organizations
-                .DeleteAsync(created.Id);
+                .DeleteAsync(created.Id, cancellationToken: TestContext.Current.CancellationToken);
         }
 
         [Fact]
@@ -106,16 +105,16 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
             var id = Guid.NewGuid().ToString();
 
             var created = await client.Organizations
-                .CreateAsync(new Organization {ExternalId = id, Name = $"ZendeskApi.Client.IntegrationTests {id}"});
+                .CreateAsync(new Organization {ExternalId = id, Name = $"ZendeskApi.Client.IntegrationTests {id}"}, cancellationToken: TestContext.Current.CancellationToken);
 
             var organisations = await client
                 .Organizations
-                .GetAllByExternalIdsAsync(new[] {created.ExternalId});
+                .GetAllByExternalIdsAsync(new[] {created.ExternalId}, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.NotEmpty(organisations);
 
             await client.Organizations
-                .DeleteAsync(created.Id);
+                .DeleteAsync(created.Id, cancellationToken: TestContext.Current.CancellationToken);
         }
 
         [Fact]
@@ -130,16 +129,16 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
                 {
                     ExternalId = id,
                     Name = $"ZendeskApi.Client.IntegrationTests {id}"
-                });
+                }, cancellationToken: TestContext.Current.CancellationToken);
 
             var userId = Guid.NewGuid().ToString();
 
             var user = await client.Users
-                .CreateAsync(new UserCreateRequest(userId));
+                .CreateAsync(new UserCreateRequest(userId), cancellationToken: TestContext.Current.CancellationToken);
 
             var organisationResultsBeforeMembership = await client
                 .Organizations
-                .GetAllByUserIdAsync(user.Id);
+                .GetAllByUserIdAsync(user.Id, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Empty(organisationResultsBeforeMembership);
 
@@ -149,25 +148,25 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
                 {
                     OrganizationId = createdOrganisation.Id,
                     UserId = user.Id
-                });
+                }, cancellationToken: TestContext.Current.CancellationToken);
 
             var organisationResultsAfterMembership = await client
                 .Organizations
-                .GetAllByUserIdAsync(user.Id);
+                .GetAllByUserIdAsync(user.Id, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.NotEmpty(organisationResultsAfterMembership);
 
             await client
                 .OrganizationMemberships
-                .DeleteAsync(organisationMembership.Id.Value);
+                .DeleteAsync(organisationMembership.Id.Value, cancellationToken: TestContext.Current.CancellationToken);
 
             await client
                 .Users
-                .DeleteAsync(user.Id);
+                .DeleteAsync(user.Id, cancellationToken: TestContext.Current.CancellationToken);
 
             await client
                 .Organizations
-                .DeleteAsync(createdOrganisation.Id);
+                .DeleteAsync(createdOrganisation.Id, cancellationToken: TestContext.Current.CancellationToken);
         }
 
 
@@ -183,16 +182,16 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
                 {
                     ExternalId = id,
                     Name = $"ZendeskApi.Client.IntegrationTests {id}"
-                });
+                }, cancellationToken: TestContext.Current.CancellationToken);
 
             var userId = Guid.NewGuid().ToString();
 
             var user = await client.Users
-                .CreateAsync(new UserCreateRequest(userId));
+                .CreateAsync(new UserCreateRequest(userId), cancellationToken: TestContext.Current.CancellationToken);
 
             var organisationResultsBeforeMembership = await client
                 .Organizations
-                .GetAllByUserIdAsync(user.Id, new CursorPager());
+                .GetAllByUserIdAsync(user.Id, new CursorPager(), cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Empty(organisationResultsBeforeMembership);
 
@@ -202,25 +201,25 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
                 {
                     OrganizationId = createdOrganisation.Id,
                     UserId = user.Id
-                });
+                }, cancellationToken: TestContext.Current.CancellationToken);
 
             var organisationResultsAfterMembership = await client
                 .Organizations
-                .GetAllByUserIdAsync(user.Id, new CursorPager());
+                .GetAllByUserIdAsync(user.Id, new CursorPager(), cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.NotEmpty(organisationResultsAfterMembership);
 
             await client
                 .OrganizationMemberships
-                .DeleteAsync(organisationMembership.Id.Value);
+                .DeleteAsync(organisationMembership.Id.Value, cancellationToken: TestContext.Current.CancellationToken);
 
             await client
                 .Users
-                .DeleteAsync(user.Id);
+                .DeleteAsync(user.Id, cancellationToken: TestContext.Current.CancellationToken);
 
             await client
                 .Organizations
-                .DeleteAsync(createdOrganisation.Id);
+                .DeleteAsync(createdOrganisation.Id, cancellationToken: TestContext.Current.CancellationToken);
         }
 
         [Fact]
@@ -235,16 +234,16 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
                 {
                     ExternalId = id,
                     Name = $"ZendeskApi.Client.IntegrationTests {id}"
-                });
+                }, cancellationToken: TestContext.Current.CancellationToken);
 
             var organisation = await client
                 .Organizations
-                .GetAsync(created.Id);
+                .GetAsync(created.Id, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.NotNull(organisation);
 
             await client.Organizations
-                .DeleteAsync(created.Id);
+                .DeleteAsync(created.Id, cancellationToken: TestContext.Current.CancellationToken);
         }
 
         [Fact]
@@ -254,7 +253,7 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
 
             var organisation = await client
                 .Organizations
-                .GetAsync(long.MaxValue);
+                .GetAsync(long.MaxValue, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Null(organisation);
         }
@@ -271,14 +270,14 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
                 {
                     ExternalId = id,
                     Name = $"ZendeskApi.Client.IntegrationTests {id}"
-                });
+                }, cancellationToken: TestContext.Current.CancellationToken);
 
             var found = await client
                 .Organizations
                 .GetAllByExternalIdsAsync(new[]
                 {
                     id
-                });
+                }, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Single(found);
 
@@ -288,7 +287,7 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
             Assert.Equal($"ZendeskApi.Client.IntegrationTests {id}", org.Name);
 
             await client.Organizations
-                .DeleteAsync(created.Id);
+                .DeleteAsync(created.Id, cancellationToken: TestContext.Current.CancellationToken);
         }
 
         [Fact]
@@ -304,7 +303,7 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
                 {
                     ExternalId = id,
                     Name = $"ZendeskApi.Client.IntegrationTests {id}"
-                });
+                }, cancellationToken: TestContext.Current.CancellationToken);
 
             var updated = await client.Organizations
                 .UpdateAsync(new Organization
@@ -312,7 +311,7 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
                     Id = created.Id,
                     Name = $"ZendeskApi.Client.IntegrationTests {updatedId}",
                     ExternalId = updatedId
-                });
+                }, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.NotNull(updated);
 
@@ -321,7 +320,7 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
                 .GetAllByExternalIdsAsync(new[]
                 {
                     updatedId
-                });
+                }, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Single(found);
 
@@ -331,7 +330,7 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
             Assert.Equal($"ZendeskApi.Client.IntegrationTests {updatedId}", org.Name);
 
             await client.Organizations
-                .DeleteAsync(created.Id);
+                .DeleteAsync(created.Id, cancellationToken: TestContext.Current.CancellationToken);
         }
 
         [Fact]
@@ -347,7 +346,7 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
                     Id = long.MaxValue,
                     Name = $"ZendeskApi.Client.IntegrationTests {id}",
                     ExternalId = id
-                });
+                }, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Null(updated);
         }
@@ -364,26 +363,26 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
                 {
                     ExternalId = id,
                     Name = $"ZendeskApi.Client.IntegrationTests {id}"
-                });
+                }, cancellationToken: TestContext.Current.CancellationToken);
 
             var beforeDeleteSearch = await client
                 .Organizations
                 .GetAllByExternalIdsAsync(new[]
                 {
                     id
-                });
+                }, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Single(beforeDeleteSearch);
 
             await client.Organizations
-                .DeleteAsync(created.Id);
+                .DeleteAsync(created.Id, cancellationToken: TestContext.Current.CancellationToken);
 
             var afterDeleteSearch = await client
                 .Organizations
                 .GetAllByExternalIdsAsync(new[]
                 {
                     id
-                });
+                }, cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.Empty(afterDeleteSearch);
         }
@@ -394,7 +393,7 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
             var client = _clientFactory.GetClient();
 
             await Assert.ThrowsAsync<ZendeskRequestException>(() => client.Organizations
-                .DeleteAsync(long.MaxValue));
+                .DeleteAsync(long.MaxValue, cancellationToken: TestContext.Current.CancellationToken));
         }
     }
 }

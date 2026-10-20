@@ -27,7 +27,7 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
                 .JobStatuses.GetAllAsync(new CursorPager()
                 {
                     Size = 2
-                });
+                }, cancellationToken: TestContext.Current.CancellationToken);
             var iterator = cursorPaginatedIteratorFactory.Create<JobStatusResponse>(results);
 
             Assert.NotNull(results);

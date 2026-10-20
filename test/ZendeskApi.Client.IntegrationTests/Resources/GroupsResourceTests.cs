@@ -23,7 +23,7 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
             var client = _clientFactory.GetClient();
 
             var results = await client
-                .Groups.GetAllAsync(new CursorPager());
+                .Groups.GetAllAsync(new CursorPager(), cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.NotNull(results);
         }
@@ -39,19 +39,19 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
 
             try
             {
-                var user = await client.Users.CreateAsync(new UserCreateRequest(TestName("user")));
+                var user = await client.Users.CreateAsync(new UserCreateRequest(TestName("user")), cancellationToken: TestContext.Current.CancellationToken);
                 userId = user.Id;
 
-                var group = await client.Groups.CreateAsync(new GroupCreateRequest(TestName("group")));
+                var group = await client.Groups.CreateAsync(new GroupCreateRequest(TestName("group")), cancellationToken: TestContext.Current.CancellationToken);
                 groupId = group.Id;
 
                 await client.Users.UpdateAsync(new UserUpdateRequest(userId.Value)
                 {
                     DefaultGroupId = group.Id
-                });
+                }, cancellationToken: TestContext.Current.CancellationToken);
 
                 var results = await client
-                    .Groups.GetAllByUserIdAsync(userId.Value, new CursorPager());
+                    .Groups.GetAllByUserIdAsync(userId.Value, new CursorPager(), cancellationToken: TestContext.Current.CancellationToken);
 
                 Assert.NotNull(results);
             }
@@ -59,11 +59,11 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
             {
                 if (userId.HasValue)
                 {
-                    await client.Users.DeleteAsync(userId.Value);
+                    await client.Users.DeleteAsync(userId.Value, cancellationToken: TestContext.Current.CancellationToken);
                 }
                 if (groupId.HasValue)
                 {
-                    await client.Groups.DeleteAsync(groupId.Value);
+                    await client.Groups.DeleteAsync(groupId.Value, cancellationToken: TestContext.Current.CancellationToken);
                 }
             }
         }
@@ -74,7 +74,7 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
             var client = _clientFactory.GetClient();
 
             var results = await client
-                .Groups.GetAllByAssignableAsync(new CursorPager());
+                .Groups.GetAllByAssignableAsync(new CursorPager(), cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.NotNull(results);
         }

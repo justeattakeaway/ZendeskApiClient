@@ -1,6 +1,5 @@
 using System.Threading.Tasks;
 using Xunit;
-using Xunit.Abstractions;
 using ZendeskApi.Client.IntegrationTests.Factories;
 using ZendeskApi.Client.Models;
 
@@ -28,7 +27,7 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
             var categories = await client
                 .HelpCenter
                 .Categories
-                .GetAllAsync("en-gb");
+                .GetAllAsync("en-gb", cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.NotEmpty(categories);
         }
@@ -41,7 +40,7 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
             var categories = await client
                 .HelpCenter
                 .Categories
-                .GetAllAsync(new CursorPager(), "en-gb");
+                .GetAllAsync(new CursorPager(), "en-gb", cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.NotEmpty(categories);
         }
@@ -54,7 +53,7 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
             var category = await client
                 .HelpCenter
                 .Categories
-                .GetAsync(360000599157, "en-gb");
+                .GetAsync(360000599157, "en-gb", cancellationToken: TestContext.Current.CancellationToken);
 
             Assert.NotNull(category);
         }
