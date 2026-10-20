@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace ZendeskApi.Client.Responses
 {
@@ -31,19 +31,19 @@ namespace ZendeskApi.Client.Responses
 
     public class Meta
     {
-        [JsonProperty("has_more")]
+        [JsonPropertyName("has_more")]
         public bool HasMore { get; set; }
-        [JsonProperty("after_cursor")]
+        [JsonPropertyName("after_cursor")]
         public string AfterCursor { get; set; }
-        [JsonProperty("before_cursor")]
+        [JsonPropertyName("before_cursor")]
         public string BeforeCursor { get; set; }
     }
 
     public class Links
     {
-        [JsonProperty("prev")]
+        [JsonPropertyName("prev")]
         public string Prev { get; set; }
-        [JsonProperty("next")]
+        [JsonPropertyName("next")]
         public string Next { get; set; }
     }
 }

@@ -1,14 +1,13 @@
 using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using ZendeskApi.Client.Models;
 using ZendeskApi.Client.Models.AuditEvents;
 
 namespace ZendeskApi.Client.Converters
 {
-    public class AuditEventJsonConverter : JsonConverter
+    public class AuditEventJsonConverter : JsonConverter<IEnumerable<IAuditEvent>>
     {
         private readonly Dictionary<AuditTypes, Type> _typeMappings = new Dictionary<AuditTypes, Type>
         {
@@ -37,34 +36,34 @@ namespace ZendeskApi.Client.Converters
             {AuditTypes.Push, typeof(PushEvent)}
         };
         
-        public override bool CanConvert(Type objectType)
+        public override IEnumerable<IAuditEvent> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            return objectType == typeof(JObject);
-        }
-
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
-        {
-            switch (reader.TokenType)
+            if (reader.TokenType != JsonTokenType.StartArray)
             {
-                case JsonToken.StartArray:
-                    var array = JArray.Load(reader);
-                    var result = new List<IAuditEvent>();
-
-                    foreach (var child in array.Children())
-                    {
-                        if (child["type"] != null && Enum.TryParse(child["type"].ToString(), out AuditTypes type))
-                        {
-                            result.Add((IAuditEvent)child.ToObject(_typeMappings[type]));
-                        }
-                    }
-
-                    return result;
+                reader.Skip();
+                return null;
             }
 
-            return null;
+            using (var document = JsonDocument.ParseValue(ref reader))
+            {
+                var result = new List<IAuditEvent>();
+
+                foreach (var child in document.RootElement.EnumerateArray())
+                {
+                    if (child.ValueKind == JsonValueKind.Object &&
+                        child.TryGetProperty("type", out var typeElement) &&
+                        typeElement.ValueKind != JsonValueKind.Null &&
+                        Enum.TryParse(typeElement.ValueKind == JsonValueKind.String ? typeElement.GetString() : typeElement.GetRawText(), out AuditTypes type))
+                    {
+                        result.Add((IAuditEvent)child.Deserialize(_typeMappings[type], options));
+                    }
+                }
+
+                return result;
+            }
         }
-        
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+
+        public override void Write(Utf8JsonWriter writer, IEnumerable<IAuditEvent> value, JsonSerializerOptions options)
         {
             throw new NotImplementedException();
         }

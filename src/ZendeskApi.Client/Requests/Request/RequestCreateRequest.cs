@@ -1,4 +1,4 @@
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using ZendeskApi.Client.Models;
 
 namespace ZendeskApi.Client.Requests
@@ -10,7 +10,7 @@ namespace ZendeskApi.Client.Requests
             Request = request;
         }
 
-        [JsonProperty("request")]
+        [JsonPropertyName("request")]
         public Request Request { get; set; }
     }
 }

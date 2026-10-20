@@ -1,14 +1,14 @@
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace ZendeskApi.Client.Models.AuditEvents
 {
     public class SatisfactionRatingEvent : AuditEvent
     {
-        [JsonProperty("score")]
+        [JsonPropertyName("score")]
         public string Score { get; set; }
-        [JsonProperty("assignee_id")]
+        [JsonPropertyName("assignee_id")]
         public long AssigneeId { get; set; }
-        [JsonProperty("body")]
+        [JsonPropertyName("body")]
         public string Body { get; set; }
     }
 }

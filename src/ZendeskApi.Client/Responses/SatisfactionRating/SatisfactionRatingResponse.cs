@@ -1,11 +1,11 @@
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using ZendeskApi.Client.Models;
 
 namespace ZendeskApi.Client.Responses
 {
     public class SatisfactionRatingResponse
     {
-        [JsonProperty("satisfaction_rating")]
+        [JsonPropertyName("satisfaction_rating")]
         public SatisfactionRating SatisfactionRating { get; set; }
     }
 }

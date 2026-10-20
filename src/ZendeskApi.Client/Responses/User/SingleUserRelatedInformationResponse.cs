@@ -1,11 +1,10 @@
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace ZendeskApi.Client.Responses
 {
-    [JsonObject]
     class SingleUserRelatedInformationResponse
     {
-        [JsonProperty("user_related")]
+        [JsonPropertyName("user_related")]
         public UserRelatedInformationResponse UserRelatedInformationResponse { get; set; }
     }
 }

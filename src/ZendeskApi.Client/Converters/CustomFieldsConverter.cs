@@ -1,31 +1,37 @@
 using System;
-using System.Linq;
-using Newtonsoft.Json;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using ZendeskApi.Client.Models;
 
 namespace ZendeskApi.Client.Converters
 {
-    public class CustomFieldsConverter : JsonConverter
+    public class CustomFieldsConverter : JsonConverterFactory
     {
-        private static readonly Type[] DeserializableSearchTypes =
+        public override bool CanConvert(Type typeToConvert)
         {
-            typeof(IReadOnlyCustomFields),
-            typeof(ICustomFields)
-        };
-
-        public override bool CanConvert(Type objectType)
-        {
-            return DeserializableSearchTypes.Any(t => t == objectType);
+            return typeToConvert == typeof(IReadOnlyCustomFields) ||
+                   typeToConvert == typeof(ICustomFields);
         }
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        public override JsonConverter CreateConverter(Type typeToConvert, JsonSerializerOptions options)
         {
-            return serializer.Deserialize<CustomFields>(reader);
+            return typeToConvert == typeof(IReadOnlyCustomFields)
+                ? (JsonConverter)new Converter<IReadOnlyCustomFields>()
+                : new Converter<ICustomFields>();
         }
 
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        private class Converter<T> : JsonConverter<T>
+            where T : class
         {
-            serializer.Serialize(writer, value);
+            public override T Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+            {
+                return JsonSerializer.Deserialize<CustomFields>(ref reader, options) as T;
+            }
+
+            public override void Write(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
+            {
+                JsonSerializer.Serialize(writer, value, value.GetType(), options);
+            }
         }
     }
 }

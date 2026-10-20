@@ -1,43 +1,40 @@
 ﻿using System;
 using System.Collections.Generic;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+using System.Text.Json.Serialization;
 
 namespace ZendeskApi.Client.Models
 {
-    [JsonObject("comment")]
     public class TicketComment
     {
-        [JsonProperty]
         public long? Id { get; set; }
 
-        [JsonConverter(typeof(StringEnumConverter))]
-        [JsonProperty()]
+        [JsonConverter(typeof(JsonStringEnumConverter))]
         public TicketEventType Type { get; set; }
 
-        [JsonProperty("html_body")]
+        [JsonPropertyName("html_body")]
         public string HtmlBody { get; set; }
 
-        [JsonProperty("body")]
+        [JsonPropertyName("body")]
         public string Body { get; set; }
 
-        [JsonProperty("author_id")]
+        [JsonPropertyName("author_id")]
         public long? Author { get; set; }
 
-        [JsonProperty("public")]
+        [JsonPropertyName("public")]
         public bool IsPublic { get; set; }
 
-        [JsonProperty("created_at")]
+        [JsonPropertyName("created_at")]
         public DateTime? CreatedAt { get; set; }
 
-        [JsonProperty("attachments")]
+        [JsonPropertyName("attachments")]
+        [JsonInclude]
         public List<Attachment> Attachments { get; private set; }
 
-        [JsonProperty("uploads")]
+        [JsonPropertyName("uploads")]
         public List<string> Uploads { get; set; }
 
 
-        [JsonProperty("via")]
+        [JsonPropertyName("via")]
         public Via Via { get; set; }
         public void AddAttachmentToComment(string attachmentToken)
         {

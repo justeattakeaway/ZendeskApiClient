@@ -1,41 +1,38 @@
 using System;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+using System.Text.Json.Serialization;
 
 namespace ZendeskApi.Client.Models
 {
-    [JsonObject("satisfaction_rating")]
     public class SatisfactionRating
     {
-        [JsonProperty]
         public long? Id { get; set; }
 
-        [JsonProperty("group_id")]
+        [JsonPropertyName("group_id")]
         public long GroupId { get; set; }
 
-        [JsonProperty("assignee_id")]
+        [JsonPropertyName("assignee_id")]
         public long AssigneeId { get; set; }
 
-        [JsonProperty("requester_id")]
+        [JsonPropertyName("requester_id")]
         public long RequesterId { get; set; }
 
-        [JsonProperty("ticket_id")]
+        [JsonPropertyName("ticket_id")]
         public long TicketId { get; set; }
 
-        [JsonConverter(typeof(StringEnumConverter))]
-        [JsonProperty("score")]
+        [JsonConverter(typeof(JsonStringEnumConverter))]
+        [JsonPropertyName("score")]
         public SatisfactionRatingScore Score { get; set; }
 
-        [JsonProperty("created_at")]
+        [JsonPropertyName("created_at")]
         public DateTime? CreatedAt { get; set; }
 
-        [JsonProperty("updated_at")]
+        [JsonPropertyName("updated_at")]
         public DateTime? UpdatedAt { get; set; }
 
-        [JsonProperty("comment")]
+        [JsonPropertyName("comment")]
         public string Comment { get; set; }
 
-        [JsonProperty("url")]
+        [JsonPropertyName("url")]
         public string Url { get; set; }
     }
 }

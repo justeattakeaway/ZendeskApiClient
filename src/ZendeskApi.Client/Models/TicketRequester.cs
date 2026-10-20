@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace ZendeskApi.Client.Models
 {
@@ -8,13 +8,13 @@ namespace ZendeskApi.Client.Models
     [Description("Requester")]
     public class TicketRequester
     {
-        [JsonProperty("name")]
+        [JsonPropertyName("name")]
         public string Name { get; set; }
 
-        [JsonProperty("email")]
+        [JsonPropertyName("email")]
         public string Email { get; set; }
 
-        [JsonProperty("locale_id")]
+        [JsonPropertyName("locale_id")]
         public long? Locale { get; set; }
     }
 }

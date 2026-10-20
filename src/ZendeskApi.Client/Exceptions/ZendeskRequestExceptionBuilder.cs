@@ -5,7 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
+using System.Text.Json;
 using ZendeskApi.Client.Extensions;
 
 namespace ZendeskApi.Client.Exceptions
@@ -63,7 +63,7 @@ namespace ZendeskApi.Client.Exceptions
 
                 if (error?.Error != null && error.Description != null)
                 {
-                    var detail = Environment.NewLine + JsonConvert.SerializeObject(error.Details, Formatting.Indented);
+                    var detail = Environment.NewLine + (error.Details?.ToJsonString(new JsonSerializerOptions { WriteIndented = true }) ?? "null");
                     message.AppendLine($"{error.Error}: {error.Description}. {detail}");
                 }
             }

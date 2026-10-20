@@ -1,54 +1,53 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using ZendeskApi.Client.Converters;
 
 namespace ZendeskApi.Client.Models
 {
-    [JsonObject("job_status")]
     public class JobStatusResponse
     {
         /// <summary>
         /// Automatically assigned when the job is queued
         /// </summary>
-        [JsonProperty("id")]
+        [JsonPropertyName("id")]
         public string Id { get; set; }
 
         /// <summary>
         /// The URL to poll for status updates
         /// </summary>
-        [JsonProperty("url")]
+        [JsonPropertyName("url")]
         public Uri Url { get; set; }
 
         /// <summary>
         /// The total number of tasks this job is batching through
         /// </summary>
-        [JsonProperty("total")]
+        [JsonPropertyName("total")]
         public int Total { get; set; }
 
         /// <summary>
         /// Number of tasks that have already been completed
         /// </summary>
-        [JsonProperty("progress")]
+        [JsonPropertyName("progress")]
         public int Progress { get; set; }
 
         /// <summary>
         /// The current status. One of the following: "queued", "working", "failed", "completed", "killed"
         /// </summary>
-        [JsonProperty("status")]
+        [JsonPropertyName("status")]
         public string Status { get; set; }
 
         /// <summary>
         /// Message from the job worker, if any
         /// </summary>
-        [JsonProperty("message")]
+        [JsonPropertyName("message")]
         public string Message { get; set; }
 
         /// <summary>
         /// Result data from processed tasks
         /// </summary>
-        [JsonProperty("results")]
+        [JsonPropertyName("results")]
         [JsonConverter(typeof(JobStatusResultConverter))]
         public IEnumerable<JobStatusResult> Results { get; set; }
     }
@@ -56,22 +55,22 @@ namespace ZendeskApi.Client.Models
     [Description("JobStatus")]
     public class JobStatusResult
     {
-        [JsonProperty("id")]
+        [JsonPropertyName("id")]
         public long Id { get; set; }
 
-        [JsonProperty("title")]
+        [JsonPropertyName("title")]
         public string Title { get; set; }
 
-        [JsonProperty("action")]
+        [JsonPropertyName("action")]
         public string Action { get; set; }
 
-        [JsonProperty("errors")]
+        [JsonPropertyName("errors")]
         public string Errors { get; set; }
 
-        [JsonProperty("success")]
+        [JsonPropertyName("success")]
         public bool Success { get; set; }
 
-        [JsonProperty("status")]
+        [JsonPropertyName("status")]
         public string Status { get; set; }
     }
 }

@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace ZendeskApi.Client.Requests
 {
@@ -11,13 +11,13 @@ namespace ZendeskApi.Client.Requests
         /// <summary>
         /// An array of tags to be added to a list of tickets
         /// </summary>
-        [JsonProperty("additional_tags")]
+        [JsonPropertyName("additional_tags")]
         public IList<string> AdditionalTags { get; set; }
 
         /// <summary>
         /// An array of tags to be removed from a list of tickets
         /// </summary>
-        [JsonProperty("remove_tags")]
+        [JsonPropertyName("remove_tags")]
         public IList<string> RemoveTags { get; set; }
     }
 }

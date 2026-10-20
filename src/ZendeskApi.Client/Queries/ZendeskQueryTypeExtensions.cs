@@ -1,5 +1,5 @@
 using System.Reflection;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using ZendeskApi.Client.Converters;
 using ZendeskApi.Client.Responses;
 

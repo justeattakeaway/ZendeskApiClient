@@ -1,14 +1,13 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
+using System.Text.Json.Serialization;
 using ZendeskApi.Client.Converters;
 
 namespace ZendeskApi.Client.Models.AuditEvents
 {
     public interface IAuditEvent
     {
-        [JsonProperty("id")]
+        [JsonPropertyName("id")]
         long Id { get; set; }
-        [JsonProperty("type")]
+        [JsonPropertyName("type")]
         AuditTypes Type { get; set; }
     }
 }

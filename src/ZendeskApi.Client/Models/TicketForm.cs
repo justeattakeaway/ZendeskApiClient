@@ -1,43 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace ZendeskApi.Client.Models
 {
-    [JsonObject("ticket_form")]
     public class TicketForm
     {
-        [JsonProperty("id")]
+        [JsonPropertyName("id")]
         public long? Id { get; set; }
 
-        [JsonProperty("url")]
+        [JsonPropertyName("url")]
         public Uri Url { get; set; }
 
-        [JsonProperty("name")]
+        [JsonPropertyName("name")]
         public string Name { get; set; }
 
-        [JsonProperty("raw_name")]
+        [JsonPropertyName("raw_name")]
         public string RawName { get; set; }
 
-        [JsonProperty("display_name")]
+        [JsonPropertyName("display_name")]
         public string DisplayName { get; set; }
 
-        [JsonProperty("raw_display_name")]
+        [JsonPropertyName("raw_display_name")]
         public string RawDisplayName { get; set; }
 
-        [JsonProperty("position")]
+        [JsonPropertyName("position")]
         public long? Position { get; set; }
 
-        [JsonProperty("end_user_visible")]
+        [JsonPropertyName("end_user_visible")]
         public bool? EndUserVisible { get; set; }
 
-        [JsonProperty("ticket_field_ids")]
+        [JsonPropertyName("ticket_field_ids")]
         public List<long> TicketFieldIds { get; set; }
 
-        [JsonProperty("active")]
+        [JsonPropertyName("active")]
         public bool? Active { get; set; }
 
-        [JsonProperty("default")]
+        [JsonPropertyName("default")]
         public bool? Default { get; set; }
 
     }

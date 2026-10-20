@@ -1,30 +1,29 @@
 using System.Collections.Generic;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace ZendeskApi.Client.Models
 {
-    [JsonObject("attachment")]
     public class Attachment : Thumbnail
     {
-        [JsonProperty("thumbnails")]
+        [JsonPropertyName("thumbnails")]
         public List<Thumbnail> Thumbnails { get; set; }
     }
     
     public class Thumbnail
     {
-        [JsonProperty("id")]
+        [JsonPropertyName("id")]
         public long? Id { get; set; }
 
-        [JsonProperty("file_name")]
+        [JsonPropertyName("file_name")]
         public string FileName { get; set; }
 
-        [JsonProperty("content_url")]
+        [JsonPropertyName("content_url")]
         public string ContentUrl { get; set; }
 
-        [JsonProperty("content_type")]
+        [JsonPropertyName("content_type")]
         public string ContentType { get; set; }
 
-        [JsonProperty("size")]
+        [JsonPropertyName("size")]
         public long Size { get; set; }
     }
 }

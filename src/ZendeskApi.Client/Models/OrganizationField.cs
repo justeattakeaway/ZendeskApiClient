@@ -1,58 +1,57 @@
 using System;
 using System.Collections.Generic;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace ZendeskApi.Client.Models
 {
-    [JsonObject("organization_field")]
     public class OrganizationField
     {
-        [JsonProperty("id")]
+        [JsonPropertyName("id")]
         public long? Id { get; set; }
         
-        [JsonProperty("url")]
+        [JsonPropertyName("url")]
         public Uri Url { get; set; }
         
-        [JsonProperty("key")]
+        [JsonPropertyName("key")]
         public string Key { get; set; }
         
-        [JsonProperty("type")]
+        [JsonPropertyName("type")]
         public string Type { get; set; }
         
-        [JsonProperty("title")]
+        [JsonPropertyName("title")]
         public string Title { get; set; }
         
-        [JsonProperty("raw_title")]
+        [JsonPropertyName("raw_title")]
         public string RawTitle { get; set; }
         
-        [JsonProperty("description")]
+        [JsonPropertyName("description")]
         public string Description { get; set; }
         
-        [JsonProperty("raw_description")]
+        [JsonPropertyName("raw_description")]
         public string RawDescription { get; set; }
         
-        [JsonProperty("position")]
+        [JsonPropertyName("position")]
         public int? Position { get; set; }
         
-        [JsonProperty("active")]
+        [JsonPropertyName("active")]
         public bool? Active { get; set; }
         
-        [JsonProperty("system")]
+        [JsonPropertyName("system")]
         public bool? System { get; set; }
         
-        [JsonProperty("regexp_for_validation")]
+        [JsonPropertyName("regexp_for_validation")]
         public string RegexpForValidation { get; set; }
         
-        [JsonProperty("created_at")]
+        [JsonPropertyName("created_at")]
         public DateTime? CreatedAt { get; set; }
 
-        [JsonProperty("updated_at")]
+        [JsonPropertyName("updated_at")]
         public DateTime? UpdatedAt { get; set; }
 
-        [JsonProperty("tag")]
+        [JsonPropertyName("tag")]
         public string Tag { get; set; }
 
-        [JsonProperty("custom_field_options")]
+        [JsonPropertyName("custom_field_options")]
         public List<CustomFieldOption> CustomFieldOptions { get; set; }
     }
 }

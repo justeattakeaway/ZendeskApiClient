@@ -1,12 +1,12 @@
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace ZendeskApi.Client.Models.AuditEvents
 {
     public class EmailCCChangeEvent : AuditEvent
     {
-        [JsonProperty("previous_email_ccs")]
+        [JsonPropertyName("previous_email_ccs")]
         public string[] PreviousEmailCCs { get; set; }
-        [JsonProperty("current_email_ccs")]
+        [JsonPropertyName("current_email_ccs")]
         public string[] CurrentEmailCCs { get; set; }
     }
 }

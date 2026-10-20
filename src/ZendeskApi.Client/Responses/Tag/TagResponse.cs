@@ -1,13 +1,12 @@
 using System.Collections.Generic;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using ZendeskApi.Client.Models;
 
 namespace ZendeskApi.Client.Responses
 {
-    [JsonObject]
     public class TagResponse : CursorPaginationResponse<Tag>
     { 
-        [JsonProperty("tags")]
+        [JsonPropertyName("tags")]
         public IEnumerable<Tag> Tags { get; set; }
 
         protected override IEnumerable<Tag> Enumerable => Tags;

@@ -1,9 +1,9 @@
 using System.IO;
 using System.Net.Http;
-using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+using ZendeskApi.Client.Json;
 
 namespace ZendeskApi.Client.Extensions
 {
@@ -11,13 +11,12 @@ namespace ZendeskApi.Client.Extensions
     {
         public static async Task<T> ReadAsAsync<T>(this HttpContent content, JsonConverter jsonConverter)
         {
-            using (var stream = await content.ReadAsStreamAsync())
-            using (var reader = new StreamReader(stream))
-            using (var jsonReader = new JsonTextReader(reader))
+            var options = new JsonSerializerOptions(ZendeskJson.Options);
+            options.Converters.Insert(0, jsonConverter);
+
+            using (var data = await content.ReadAsStreamAsync())
             {
-                var ser = new JsonSerializer();
-                ser.Converters.Insert(0, jsonConverter);
-                return ser.Deserialize<T>(jsonReader);
+                return data.ReadAs<T>(options);
             }
         }
 
@@ -31,16 +30,21 @@ namespace ZendeskApi.Client.Extensions
 
         public static T ReadAs<T>(this Stream stream)
         {
-            using (var reader = new StreamReader(stream))
-            using (var jsonReader = new JsonTextReader(reader))
-            {
-                var jsonSerializer = new JsonSerializer
-                {
-                    NullValueHandling = NullValueHandling.Ignore,
-                    Converters = { new StringEnumConverter() }
-                };
+            return stream.ReadAs<T>(ZendeskJson.Options);
+        }
 
-                return jsonSerializer.Deserialize<T>(jsonReader);
+        private static T ReadAs<T>(this Stream stream, JsonSerializerOptions options)
+        {
+            using (var buffer = new MemoryStream())
+            {
+                stream.CopyTo(buffer);
+
+                if (buffer.Length == 0)
+                {
+                    return default;
+                }
+
+                return JsonSerializer.Deserialize<T>(buffer.ToArray(), options);
             }
         }
     }

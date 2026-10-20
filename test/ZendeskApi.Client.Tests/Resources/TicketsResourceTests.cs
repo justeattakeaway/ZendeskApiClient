@@ -2,7 +2,8 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging.Abstractions;
-using Newtonsoft.Json;
+using System.Text.Json;
+using ZendeskApi.Client.Json;
 using Xunit;
 using ZendeskApi.Client.Resources;
 using ZendeskApi.Client.Models;
@@ -665,7 +666,7 @@ namespace ZendeskApi.Client.Tests.Resources
 
             var ticket1 = await _resource.GetAsync(ticket.Id);
 
-            Assert.Equal(JsonConvert.SerializeObject(ticket), JsonConvert.SerializeObject(ticket1.Ticket));
+            Assert.Equal(JsonSerializer.Serialize(ticket, ZendeskJson.Options), JsonSerializer.Serialize(ticket1.Ticket, ZendeskJson.Options));
 
             await _resource.DeleteAsync(ticket.Id);
 

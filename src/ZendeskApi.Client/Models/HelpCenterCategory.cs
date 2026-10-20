@@ -1,47 +1,47 @@
 using System;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace ZendeskApi.Client.Models
 {
     public class HelpCenterCategory
     {
-        [JsonProperty("id")]
+        [JsonPropertyName("id")]
         public long Id { get; set; }
 
-        [JsonProperty("name")]
+        [JsonPropertyName("name")]
         public string Name { get; set; }
 
-        [JsonProperty("description")]
+        [JsonPropertyName("description")]
         public string Description { get; set; }
 
-        [JsonProperty("created_at")]
+        [JsonPropertyName("created_at")]
         public DateTime? Created { get; set; }
 
-        [JsonProperty("updated_at")]
+        [JsonPropertyName("updated_at")]
         public DateTime? Updated { get; set; }
 
-        [JsonProperty("url")]
+        [JsonPropertyName("url")]
         public string Url { get; set; }
 
-        [JsonProperty("html_url")]
+        [JsonPropertyName("html_url")]
         public string HtmlUrl { get; set; }
 
-        [JsonProperty("outdated")]
+        [JsonPropertyName("outdated")]
         public bool? Outdated { get; set; }
 
-        [JsonProperty("promoted")]
+        [JsonPropertyName("promoted")]
         public bool? Promoted { get; set; }
 
-        [JsonProperty("position")]
+        [JsonPropertyName("position")]
         public int? Position { get; set; }
 
-        [JsonProperty("category_id")]
+        [JsonPropertyName("category_id")]
         public long? CategoryId { get; set; }
 
-        [JsonProperty("locale")]
+        [JsonPropertyName("locale")]
         public string Locale { get; set; }
 
-        [JsonProperty("source_locale")]
+        [JsonPropertyName("source_locale")]
         public string SourceLocale { get; set; }
     }
 }

@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace ZendeskApi.Client.Requests
 {
@@ -16,19 +16,19 @@ namespace ZendeskApi.Client.Requests
         /// <summary>
         /// The ID of the ticket
         /// </summary>
-        [JsonProperty("ticket_id")]
+        [JsonPropertyName("ticket_id")]
         public long TicketId { get; set; }
 
         /// <summary>
         /// The comment's html_body containing `&lt;redact&gt;` tags or `redact` attributes
         /// </summary>
-        [JsonProperty("html_body")]
+        [JsonPropertyName("html_body")]
         public string HtmlBody { get; set; }
 
         /// <summary>
         /// Attachment URLs belonging to the comment to be redacted. See the content_url property of Attachment
         /// </summary>
-        [JsonProperty("external_attachment_urls")]
+        [JsonPropertyName("external_attachment_urls")]
         public IEnumerable<string> ExternalAttachmentUrls { get; set; }
     }
 }

@@ -1,41 +1,32 @@
 using System;
 using System.Collections.Generic;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using ZendeskApi.Client.Models;
 
 namespace ZendeskApi.Client.Converters
 {
-    public class JobStatusResultConverter : JsonConverter
+    public class JobStatusResultConverter : JsonConverter<IEnumerable<JobStatusResult>>
     {
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        public override void Write(Utf8JsonWriter writer, IEnumerable<JobStatusResult> value, JsonSerializerOptions options)
         {
             throw new NotSupportedException();
         }
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        public override IEnumerable<JobStatusResult> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             switch (reader.TokenType)
             {
-                case JsonToken.StartObject:
-                    JObject item = JObject.Load(reader);
-                    var itemAsResult = item.ToObject<JobStatusResult>();
-                    return new [] {itemAsResult};
-                case JsonToken.StartArray:
-                {
-                    JArray array = JArray.Load(reader);
-                    return array.ToObject<IEnumerable<JobStatusResult>>();
-                }
+                case JsonTokenType.StartObject:
+                    var itemAsResult = JsonSerializer.Deserialize<JobStatusResult>(ref reader, options);
+                    return new[] { itemAsResult };
+                case JsonTokenType.StartArray:
+                    return JsonSerializer.Deserialize<List<JobStatusResult>>(ref reader, options);
             }
 
-            return null; //We shouldn't ever be getting something other than an Object/Array.
-        }
-
-        public override bool CanConvert(Type objectType)
-        {
-            return objectType == typeof(IEnumerable<JobStatusResult>) ||
-                   objectType == typeof(JArray) ||
-                   objectType == typeof(JObject);
+            //We shouldn't ever be getting something other than an Object/Array.
+            reader.Skip();
+            return null;
         }
     }
 }

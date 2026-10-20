@@ -1,13 +1,13 @@
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace ZendeskApi.Client.Models
 {
     public class HelpCenterLocales
     {
-        [JsonProperty("default_locale")]
+        [JsonPropertyName("default_locale")]
         public string DefaultLocale { get; set; }
 
-        [JsonProperty("locales")]
+        [JsonPropertyName("locales")]
         public string[] Locales { get; set; }
     }
 }

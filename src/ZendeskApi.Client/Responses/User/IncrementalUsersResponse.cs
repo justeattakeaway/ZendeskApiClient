@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using ZendeskApi.Client.Models;
 
 namespace ZendeskApi.Client.Responses
@@ -15,7 +15,6 @@ namespace ZendeskApi.Client.Responses
     /// contains a full list of a 1000 users. If less, then there is no
     /// newer results.
     /// </summary>
-    [JsonObject]
     public class IncrementalUsersResponse<T> : PaginationResponse<T> where T : UserResponse
     {
 
@@ -32,12 +31,12 @@ namespace ZendeskApi.Client.Responses
             _endTime = endTime;
         }
 
-        [JsonProperty("users")]
+        [JsonPropertyName("users")]
         public IEnumerable<T> Users { get; set; }
 
         protected override IEnumerable<T> Enumerable => Users;
 
-        [JsonProperty("end_time")]
+        [JsonPropertyName("end_time")]
         private long _endTime { get; set; }
 
         [JsonIgnore]

@@ -1,12 +1,11 @@
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using ZendeskApi.Client.Models;
 
 namespace ZendeskApi.Client.Responses
 {
-    [JsonObject]
     public class AttachmentResponse
     {
-        [JsonProperty("attachment")]
+        [JsonPropertyName("attachment")]
         public Attachment Attachment { get; set; }
     }
 }

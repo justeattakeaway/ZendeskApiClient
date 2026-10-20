@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using ZendeskApi.Client.Converters;
 using ZendeskApi.Client.Responses;
 
@@ -9,56 +9,56 @@ namespace ZendeskApi.Client.Models
     [SearchResultType("organization")]
     public class Organization : ISearchResult
     {
-        [JsonProperty("id")]
+        [JsonPropertyName("id")]
         public long Id { get; set; }
 
-        [JsonProperty("name")]
+        [JsonPropertyName("name")]
         public string Name { get; set; }
 
-        [JsonProperty("details")]
+        [JsonPropertyName("details")]
         public string Details { get; set; }
 
-        [JsonProperty("notes")]
+        [JsonPropertyName("notes")]
         public string Notes { get; set; }
 
-        [JsonProperty("created_at")]
+        [JsonPropertyName("created_at")]
         public DateTime CreatedAt { get; set; }
 
-        [JsonProperty("updated_at")]
+        [JsonPropertyName("updated_at")]
         public DateTime UpdatedAt { get; set; }
 
-        [JsonProperty("due_at")]
+        [JsonPropertyName("due_at")]
         public DateTime? Due { get; set; }
 
-        [JsonProperty("organization_fields")]
+        [JsonPropertyName("organization_fields")]
         public Dictionary<object, object> CustomFields { get; set; }
         
-        [JsonProperty("tags")]
+        [JsonPropertyName("tags")]
         public List<string> Tags { get; set; }
         
-        [JsonProperty("external_id")]
+        [JsonPropertyName("external_id")]
         public string ExternalId { get; set; }
 
-        [JsonProperty("domain_names")]
+        [JsonPropertyName("domain_names")]
         public List<string> DomainNames { get; set; }
 
         [JsonIgnore]
-        [JsonProperty("shared_tickets")]
+        [JsonPropertyName("shared_tickets")]
         public bool SharedTickets { get; set; }
 
         [JsonIgnore]
-        [JsonProperty("shared_comments")]
+        [JsonPropertyName("shared_comments")]
         public bool SharedComments { get; set; }
 
         [JsonIgnore]
         public Uri Url { get; set; }
 
         [JsonIgnore]
-        [JsonProperty("group_id")]
+        [JsonPropertyName("group_id")]
         public long GroupId { get; set; }
 
 
-        [JsonProperty("result_type")]
-        string ResultType => "organization";
+        [JsonPropertyName("result_type")]
+        public string ResultType => "organization";
     }
 }

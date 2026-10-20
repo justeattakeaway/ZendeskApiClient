@@ -1,10 +1,10 @@
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace ZendeskApi.Client.Requests
 {
     public class OrganizationFieldsReorderRequest
     {
-        [JsonProperty("organization_field_ids")]
+        [JsonPropertyName("organization_field_ids")]
         public long[] OrganizationFieldIds { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using ZendeskApi.Client.Models;
 
 namespace ZendeskApi.Client.Requests
@@ -16,7 +16,7 @@ namespace ZendeskApi.Client.Requests
         /// <summary>
         /// The Organization to update
         /// </summary>
-        [JsonProperty("organization")]
+        [JsonPropertyName("organization")]
         public Organization Organization { get; set; }
     }
 }

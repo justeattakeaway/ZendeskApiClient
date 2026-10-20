@@ -1,4 +1,4 @@
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using ZendeskApi.Client.Models;
 
 namespace ZendeskApi.Client.Requests
@@ -10,7 +10,7 @@ namespace ZendeskApi.Client.Requests
             TicketForm = ticketForm;
         }
 
-        [JsonProperty("ticket_form")]
+        [JsonPropertyName("ticket_form")]
         public TicketForm TicketForm { get; set; }
     }
 }

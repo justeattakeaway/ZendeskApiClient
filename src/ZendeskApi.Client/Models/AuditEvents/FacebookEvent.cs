@@ -1,14 +1,14 @@
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace ZendeskApi.Client.Models.AuditEvents
 {
     public class FacebookEvent : AuditEvent
     {
-        [JsonProperty("communication")]
+        [JsonPropertyName("communication")]
         public int Communication { get; set; }
-        [JsonProperty("ticket_via")]
+        [JsonPropertyName("ticket_via")]
         public string TicketVia { get; set; }
-        [JsonProperty("body")]
+        [JsonPropertyName("body")]
         public string Body { get; set; }
         
     }

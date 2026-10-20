@@ -1,4 +1,4 @@
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using ZendeskApi.Client.Models;
 
 namespace ZendeskApi.Client.Requests.User
@@ -10,7 +10,7 @@ namespace ZendeskApi.Client.Requests.User
             UserField = userField;
         }
 
-        [JsonProperty("user_field")]
+        [JsonPropertyName("user_field")]
         public UserField UserField { get; set; }
     }
 }

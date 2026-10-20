@@ -1,5 +1,5 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using System.Text.Json.Nodes;
+using System.Text.Json.Serialization;
 
 namespace ZendeskApi.Client.Exceptions
 {
@@ -9,13 +9,16 @@ namespace ZendeskApi.Client.Exceptions
         {
         }
 
-        [JsonProperty("error")]
+        [JsonPropertyName("error")]
+        [JsonInclude]
         public string Error { get; internal set; }
 
-        [JsonProperty("description")]
+        [JsonPropertyName("description")]
+        [JsonInclude]
         public string Description { get; internal set; }
 
-        [JsonProperty("details")]
-        public JObject Details { get; internal set; }
+        [JsonPropertyName("details")]
+        [JsonInclude]
+        public JsonObject Details { get; internal set; }
     }
 }

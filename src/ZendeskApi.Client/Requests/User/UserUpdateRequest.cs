@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using ZendeskApi.Client.Models;
 
 namespace ZendeskApi.Client.Requests
@@ -11,127 +11,127 @@ namespace ZendeskApi.Client.Requests
             Id = id;
         }
 
-        [JsonProperty("id")]
+        [JsonPropertyName("id")]
         public long Id { get; set; }
 
         /// <summary>
         /// The user's primary email address
         /// </summary>
-        [JsonProperty("email")]
+        [JsonPropertyName("email")]
         public string Email { get; set; }
 
         /// <summary>
         /// The user's name
         /// </summary>
-        [JsonProperty("name")]
+        [JsonPropertyName("name")]
         public string Name { get; set; }
 
         /// <summary>
         /// An alias displayed to end users
         /// </summary>
-        [JsonProperty("alias")]
+        [JsonPropertyName("alias")]
         public string Alias { get; set; }
 
         /// <summary>
         /// A custom role if the user is an agent on the Enterprise plan
         /// </summary>
-        [JsonProperty("custom_role_id")]
+        [JsonPropertyName("custom_role_id")]
         public long? CustomRoleId { get; set; }
 
         /// <summary>
         /// Any details you want to store about the user, such as an address
         /// </summary>
-        [JsonProperty("details")]
+        [JsonPropertyName("details")]
         public string Details { get; set; }
 
         /// <summary>
         /// A unique id you can specify for the user
         /// </summary>
-        [JsonProperty("external_id")]
+        [JsonPropertyName("external_id")]
         public string ExternalId { get; set; }
 
         /// <summary>
         /// The user's language identifier
         /// </summary>
-        [JsonProperty("locale_id")]
+        [JsonPropertyName("locale_id")]
         public long? LocaleId { get; set; }
 
         /// <summary>
         /// Designates whether the user has forum moderation capabilities
         /// </summary>
-        [JsonProperty("moderator")]
+        [JsonPropertyName("moderator")]
         public bool? Moderator { get; set; }
 
         /// <summary>
         /// Any notes you want to store about the user
         /// </summary>
-        [JsonProperty("notes")]
+        [JsonPropertyName("notes")]
         public string Notes { get; set; }
 
         /// <summary>
         /// true if the user can only create private comments
         /// </summary>
-        [JsonProperty("only_private_comments")]
+        [JsonPropertyName("only_private_comments")]
         public bool? OnlyPrivateComments { get; set; }
 
         /// <summary>
         /// The id of the organization the user is associated with
         /// </summary>
-        [JsonProperty("organization_id")]
+        [JsonPropertyName("organization_id")]
         public long? OrganizationId { get; set; }
 
         /// <summary>
         /// The id of the user's default group. *Can only be set on create, not on update
         /// </summary>
-        [JsonProperty("default_group_id")]
+        [JsonPropertyName("default_group_id")]
         public long? DefaultGroupId { get; set; }
 
         /// <summary>
         /// The user's primary phone number. See <see href="https://developer.zendesk.com/rest_api/docs/core/users#phone-number">Phone Number</see> below
         /// </summary>
-        [JsonProperty("phone")]
+        [JsonPropertyName("phone")]
         public string Phone { get; set; }
 
         /// <summary>
         /// If the agent has any restrictions; false for admins and unrestricted agents, true for other agents
         /// </summary>
-        [JsonProperty("restricted_agent")]
+        [JsonPropertyName("restricted_agent")]
         public bool? RestrictedAgent { get; set; }
 
         /// <summary>
         /// The user's role. Possible values are "end-user", "agent", or "admin"
         /// </summary>
-        [JsonProperty("role")]
+        [JsonPropertyName("role")]
         public UserRole? Role { get; set; }
 
         /// <summary>
         /// The user's signature. Only agents and admins can have signatures
         /// </summary>
-        [JsonProperty("signature")]
+        [JsonPropertyName("signature")]
         public string Signature { get; set; }
 
         /// <summary>
         /// If the agent is suspended. Tickets from suspended users are also suspended, and these users cannot sign in to the end user portal
         /// </summary>
-        [JsonProperty("suspended")]
+        [JsonPropertyName("suspended")]
         public bool? Suspended { get; set; }
 
         /// <summary>
         /// The user's tags. Only present if your account has user tagging enabled
         /// </summary>
-        [JsonProperty("tags")]
+        [JsonPropertyName("tags")]
         public IList<string> Tags { get; set; }
 
         /// <summary>
         /// Specifies which tickets the user has access to. Possible values are: "organization", "groups", "assigned", "requested", null
         /// </summary>
-        [JsonProperty("ticket_restriction")]
+        [JsonPropertyName("ticket_restriction")]
         public TicketRestriction? TicketRestriction { get; set; }
 
         /// <summary>
         /// The user's time zone
         /// </summary>
-        [JsonProperty("time_zone")]
+        [JsonPropertyName("time_zone")]
         public string TimeZone { get; set; }
 
 
@@ -139,13 +139,13 @@ namespace ZendeskApi.Client.Requests
         /// <summary>
         /// Values of custom fields in the user's profile
         /// </summary>
-        [JsonProperty("user_fields")]
+        [JsonPropertyName("user_fields")]
         public IDictionary<string, object> UserFields { get; set; }
 
         /// <summary>
         /// If the user's identity has been verified or not
         /// </summary>
-        [JsonProperty("verified")]
+        [JsonPropertyName("verified")]
         public bool? Verified { get; set; }
     }
 }

@@ -1,13 +1,12 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using System.Text.Json.Serialization;
 
 namespace ZendeskApi.Client.Models.Status.Included;
 
 public class IncludedReference
 {
-    [JsonProperty("id")]
+    [JsonPropertyName("id")]
     public string Id { get; set; }
 
-    [JsonProperty("type")]
+    [JsonPropertyName("type")]
     public Type Type { get; set; }
 }

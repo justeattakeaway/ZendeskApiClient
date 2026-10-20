@@ -1,19 +1,19 @@
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using ZendeskApi.Client.Models;
 
 namespace ZendeskApi.Client.Requests
 {
     public class OrganizationMembershipCreateRequest
     {
-        public OrganizationMembershipCreateRequest(OrganizationMembership membership)
+        public OrganizationMembershipCreateRequest(OrganizationMembership organizationMembership)
         {
-            OrganizationMembership = membership;
+            OrganizationMembership = organizationMembership;
         }
 
         /// <summary>
         /// The OrganizationMembership to create
         /// </summary>
-        [JsonProperty("organization_membership")]
+        [JsonPropertyName("organization_membership")]
         public OrganizationMembership OrganizationMembership { get; set; }
     }
 }

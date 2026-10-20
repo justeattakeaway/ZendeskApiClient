@@ -1,15 +1,15 @@
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace ZendeskApi.Client.Models.Status;
 
 public class Relationships
 {
-    [JsonProperty("incident_services")]
+    [JsonPropertyName("incident_services")]
     public IncidentServices IncidentServices { get; set; }
 
-    [JsonProperty("incident_updates")]
+    [JsonPropertyName("incident_updates")]
     public IncidentUpdates IncidentUpdates { get; set; }
 
-    [JsonProperty("service")]
+    [JsonPropertyName("service")]
     public Service Service { get; set; }
 }

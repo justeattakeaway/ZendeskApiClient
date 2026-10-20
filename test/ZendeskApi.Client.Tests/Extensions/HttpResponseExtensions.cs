@@ -1,16 +1,20 @@
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
+using ZendeskApi.Client.Json;
 
 namespace ZendeskApi.Client.Tests.Extensions
 {
     public static class HttpResponseExtensions
     {
+        private static readonly JsonSerializerOptions Settings = new JsonSerializerOptions(ZendeskJson.Options)
+        {
+            DefaultIgnoreCondition = JsonIgnoreCondition.Never
+        };
+
         public static Task WriteAsJson<T>(this HttpResponse response, T value) {
-
-            var settings = new JsonSerializerSettings();
-
-            return response.WriteAsync(JsonConvert.SerializeObject(value, settings));
+            return response.WriteAsync(JsonSerializer.Serialize(value, Settings));
         }
     }
 }

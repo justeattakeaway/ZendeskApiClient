@@ -1,27 +1,25 @@
 ﻿using System;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace ZendeskApi.Client.Models
 {
-    [JsonObject("organization_membership")]
     public class OrganizationMembership
     {
-        [JsonProperty]
         public long? Id { get; set; }
 
-        [JsonProperty("user_id")]
+        [JsonPropertyName("user_id")]
         public long? UserId { get; set; }
 
-        [JsonProperty("organization_id")]
+        [JsonPropertyName("organization_id")]
         public long? OrganizationId { get; set; }
 
-        [JsonProperty("default")]
+        [JsonPropertyName("default")]
         public bool? Default { get; set; }
 
-        [JsonProperty("created_at")]
+        [JsonPropertyName("created_at")]
         public DateTime? CreatedAt { get; set; }
 
-        [JsonProperty("updated_at")]
+        [JsonPropertyName("updated_at")]
         public DateTime? UpdatedAt { get; set; }
 
     }

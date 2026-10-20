@@ -1,10 +1,10 @@
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace ZendeskApi.Client.Requests
 {
     internal class GroupRequest<T>
     {
-        [JsonProperty("group")]
+        [JsonPropertyName("group")]
         public T Group { get; set; }
 
         public GroupRequest(T group)

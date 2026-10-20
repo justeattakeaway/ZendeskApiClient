@@ -1,12 +1,12 @@
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace ZendeskApi.Client.Models.AuditEvents
 {
     public class CommentPrivacyChangeEvent : AuditEvent
     {
-        [JsonProperty("comment_id")]
+        [JsonPropertyName("comment_id")]
         public long CommentId { get; set; }
-        [JsonProperty("public")]
+        [JsonPropertyName("public")]
         public bool Public { get; set; }
     }
 }
