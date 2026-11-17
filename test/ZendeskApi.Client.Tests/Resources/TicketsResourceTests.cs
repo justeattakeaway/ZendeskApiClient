@@ -9,7 +9,6 @@ using ZendeskApi.Client.Models;
 using System.Collections.Generic;
 using ZendeskApi.Client.Exceptions;
 using ZendeskApi.Client.Requests;
-using ZendeskApi.Client.Responses;
 using ZendeskApi.Client.Tests.ResourcesSampleSites;
 #pragma warning disable 618
 
@@ -545,6 +544,25 @@ namespace ZendeskApi.Client.Tests.Resources
         }
 
         [Fact]
+        public async Task CreateAsync_WhenIdempotencyKeyProvided_ShouldSendIdempotencyKeyHeader()
+        {
+            var response = await _resource.CreateAsync(
+                new TicketCreateRequest("description") { Subject = "Idempotent" },
+                "key-123");
+
+            Assert.Contains("idempotency_key_key-123", response.Ticket.Tags);
+        }
+
+        [Fact]
+        public async Task CreateAsync_WhenNoIdempotencyKey_ShouldNotSendIdempotencyKeyHeader()
+        {
+            var response = await _resource.CreateAsync(
+                new TicketCreateRequest("description") { Subject = "Not idempotent" });
+
+            Assert.DoesNotContain(response.Ticket.Tags ?? new List<string>(), t => t.StartsWith("idempotency_key_"));
+        }
+
+        [Fact]
         public Task CreateAsync_WhenUnexpectedHttpCode_ShouldThrow()
         {
             return Assert.ThrowsAsync<ZendeskRequestException>(async () => await _resource.CreateAsync(
@@ -560,13 +578,13 @@ namespace ZendeskApi.Client.Tests.Resources
 
             // could use tags to simulate httpstatus codes in fake client?
         }
-        
+
         [Fact]
         public async Task UpdateAsync_WhenCalled_ShouldUpdateTicket()
         {
             var ticket = (await CreateTickets(1)).First();
-            
-            Assert.Equal("My printer is on fire! 0", ticket.Subject); 
+
+            Assert.Equal("My printer is on fire! 0", ticket.Subject);
             Assert.Equal(1, ticket.BrandId);
 
             var updateTicketRequest = new TicketUpdateRequest(ticket.Id)
@@ -630,7 +648,7 @@ namespace ZendeskApi.Client.Tests.Resources
         {
             await Assert.ThrowsAsync<ZendeskRequestException>(async () =>
             {
-                await _resource.UpdateAsync(new [] { new TicketUpdateRequest(int.MinValue) });
+                await _resource.UpdateAsync(new[] { new TicketUpdateRequest(int.MinValue) });
             });
         }
 

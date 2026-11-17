@@ -103,6 +103,15 @@ namespace ZendeskApi.Client.Resources
             TicketCreateRequest ticket,
             CancellationToken cancellationToken = default);
 
+        /// <summary>
+        /// Creates a ticket, sending <paramref name="idempotencyKey"/> as the Zendesk Idempotency-Key header
+        /// so that repeating the same request does not create another ticket.
+        /// </summary>
+        Task<TicketResponse> CreateAsync(
+            TicketCreateRequest ticket,
+            string idempotencyKey,
+            CancellationToken cancellationToken = default);
+
         Task<JobStatusResponse> CreateAsync(
             IEnumerable<TicketCreateRequest> tickets,
             CancellationToken cancellationToken = default);

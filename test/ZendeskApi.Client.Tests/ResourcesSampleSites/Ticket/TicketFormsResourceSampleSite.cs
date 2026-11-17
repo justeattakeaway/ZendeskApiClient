@@ -3,7 +3,6 @@ using System.Linq;
 using System.Net;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
-using ZendeskApi.Client.Extensions;
 using ZendeskApi.Client.Models;
 using ZendeskApi.Client.Requests;
 using ZendeskApi.Client.Responses;
@@ -15,7 +14,7 @@ namespace ZendeskApi.Client.Tests.ResourcesSampleSites
     {
         public TicketFormsResourceSampleSite(string resource)
             : base(
-                resource, 
+                resource,
                 MatchesRequest,
                 null,
                 PopulateState)

@@ -244,11 +244,20 @@ namespace ZendeskApi.Client.Resources
             TicketCreateRequest ticket,
             CancellationToken cancellationToken = default(CancellationToken))
         {
+            return await CreateAsync(ticket, null, cancellationToken);
+        }
+
+        public async Task<TicketResponse> CreateAsync(
+            TicketCreateRequest ticket,
+            string idempotencyKey,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
             return await CreateAsync<TicketResponse, TicketRequest<TicketCreateRequest>>(
                 ResourceUri,
                 new TicketRequest<TicketCreateRequest>(ticket),
                 "create-ticket",
-                cancellationToken: cancellationToken);
+                cancellationToken: cancellationToken,
+                idempotencyKey: idempotencyKey);
         }
 
         public async Task<JobStatusResponse> CreateAsync(

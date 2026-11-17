@@ -1,4 +1,3 @@
-using System;
 using ZendeskApi.Client.Pagination;
 using ZendeskApi.Client.Responses;
 

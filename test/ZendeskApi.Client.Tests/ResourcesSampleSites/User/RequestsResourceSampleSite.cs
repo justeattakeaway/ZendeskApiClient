@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 using Microsoft.AspNetCore.Routing;
-using ZendeskApi.Client.Extensions;
 using ZendeskApi.Client.Models;
 using ZendeskApi.Client.Requests;
 using ZendeskApi.Client.Responses;
