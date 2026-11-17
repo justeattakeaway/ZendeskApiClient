@@ -9,10 +9,6 @@ using ZendeskApi.Client.Requests;
 
 namespace ZendeskApi.Client.IntegrationTests.Resources
 {
-    /// <summary>
-    /// Verifies Zendesk's Idempotency-Key behaviour on ticket creation, through the client:
-    /// https://developer.zendesk.com/documentation/ticketing/managing-tickets/creating-and-updating-tickets/
-    /// </summary>
     public class TicketIdempotencyTests : IClassFixture<ZendeskClientFactory>
     {
         private readonly ZendeskClientFactory _clientFactory;
@@ -68,7 +64,6 @@ namespace ZendeskApi.Client.IntegrationTests.Resources
                     await client.Tickets.CreateAsync(NewRequest("a different body"), key));
 
                 Assert.Equal(HttpStatusCode.BadRequest, exception.Response.StatusCode);
-                // OSAPI matches on this phrase to drop the message, so keep this in sync with CreateTicketCommandHandler
                 Assert.Contains("match the given idempotency key", exception.Error.Description, StringComparison.OrdinalIgnoreCase);
             }
             finally
