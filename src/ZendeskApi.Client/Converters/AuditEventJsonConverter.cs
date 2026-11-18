@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using ZendeskApi.Client.Models;
@@ -36,7 +35,7 @@ namespace ZendeskApi.Client.Converters
             {AuditTypes.LogMeInTranscript, typeof(LogMeInTranscriptEvent)},
             {AuditTypes.Push, typeof(PushEvent)}
         };
-        
+
         public override bool CanConvert(Type objectType)
         {
             return objectType == typeof(JObject);
@@ -63,7 +62,7 @@ namespace ZendeskApi.Client.Converters
 
             return null;
         }
-        
+
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
             throw new NotImplementedException();

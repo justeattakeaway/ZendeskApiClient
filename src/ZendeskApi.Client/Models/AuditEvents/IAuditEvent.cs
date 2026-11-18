@@ -1,6 +1,5 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using ZendeskApi.Client.Converters;
 
 namespace ZendeskApi.Client.Models.AuditEvents
 {

@@ -1,6 +1,5 @@
 using System.IO;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -23,7 +22,7 @@ namespace ZendeskApi.Client.Extensions
 
         public static async Task<T> ReadAsAsync<T>(this HttpContent content)
         {
-            using (var data = await content.ReadAsStreamAsync()) 
+            using (var data = await content.ReadAsStreamAsync())
             {
                 return data.ReadAs<T>();
             }

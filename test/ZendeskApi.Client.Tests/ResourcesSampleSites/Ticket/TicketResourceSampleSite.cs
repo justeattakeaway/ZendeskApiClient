@@ -194,6 +194,14 @@ namespace ZendeskApi.Client.Tests.ResourcesSampleSites
 
                         var ticketResponse = RequestMapper.MapToTicketResponse(ticket);
 
+                        // Echo the Idempotency-Key header back as a tag so tests can assert it was sent
+                        if (req.Headers.TryGetValue("Idempotency-Key", out var idempotencyKey))
+                        {
+                            ticketResponse.Ticket.Tags = (ticketResponse.Ticket.Tags ?? new List<string>())
+                                .Concat(new[] { $"idempotency_key_{idempotencyKey}" })
+                                .ToList();
+                        }
+
                         var state = req.HttpContext.RequestServices.GetRequiredService<TicketResourceState>();
                         ticketResponse.Ticket.Id = long.Parse(Rand.Next().ToString());
                         ticketResponse.Ticket.Url = new Uri($"https://company.zendesk.com/api/v2/tickets/{ticketResponse.Ticket.Id}.json");

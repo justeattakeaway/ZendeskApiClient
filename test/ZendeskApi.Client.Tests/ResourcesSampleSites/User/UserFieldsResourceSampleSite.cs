@@ -1,6 +1,5 @@
 using System;
 using Microsoft.AspNetCore.Routing;
-using ZendeskApi.Client.Extensions;
 using ZendeskApi.Client.Models;
 using ZendeskApi.Client.Requests.User;
 using ZendeskApi.Client.Responses;
@@ -12,7 +11,7 @@ namespace ZendeskApi.Client.Tests.ResourcesSampleSites
     {
         public UserFieldsResourceSampleSite(string resource)
             : base(
-                resource, 
+                resource,
                 MatchesRequest,
                 null,
                 PopulateState)

@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
 using Newtonsoft.Json;
 
 namespace ZendeskApi.Client.Models.AuditEvents

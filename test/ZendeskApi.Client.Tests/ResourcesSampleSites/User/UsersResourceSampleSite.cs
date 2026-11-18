@@ -4,7 +4,6 @@ using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
-using ZendeskApi.Client.Extensions;
 using ZendeskApi.Client.Models;
 using ZendeskApi.Client.Requests;
 using ZendeskApi.Client.Requests.User;
@@ -149,7 +148,7 @@ namespace ZendeskApi.Client.Tests.ResourcesSampleSites
 
                         if (user.Tags != null && user.Tags.Contains("error"))
                         {
-                            resp.StatusCode = (int) HttpStatusCode.PaymentRequired; // It doesnt matter as long as not 201
+                            resp.StatusCode = (int)HttpStatusCode.PaymentRequired; // It doesnt matter as long as not 201
 
                             return;
                         }
@@ -164,7 +163,7 @@ namespace ZendeskApi.Client.Tests.ResourcesSampleSites
                         userNew.UpdatedAt = DateTime.UtcNow;
                         state.Items.Add(userNew.Id, userNew);
 
-                        resp.StatusCode = (int) HttpStatusCode.Created;
+                        resp.StatusCode = (int)HttpStatusCode.Created;
                         await resp.WriteAsJson(new SingleUserResponse
                         {
                             UserResponse = userNew
@@ -199,8 +198,8 @@ namespace ZendeskApi.Client.Tests.ResourcesSampleSites
                             state.Items.Add(userNew.Id, userNew);
                             resp.StatusCode = (int)HttpStatusCode.Created;
                         }
-                        
-                        
+
+
                         await resp.WriteAsJson(new SingleUserResponse
                         {
                             UserResponse = userNew
@@ -219,13 +218,16 @@ namespace ZendeskApi.Client.Tests.ResourcesSampleSites
                             resp.StatusCode = (int)HttpStatusCode.ServiceUnavailable;
                             return;
                         }
-                        
-                        var status = new SingleJobStatusResponse{JobStatus = new JobStatusResponse
-                        {
-                            Id = Rand.Next().ToString()
-                        }};
 
-                        resp.StatusCode = (int) HttpStatusCode.OK;
+                        var status = new SingleJobStatusResponse
+                        {
+                            JobStatus = new JobStatusResponse
+                            {
+                                Id = Rand.Next().ToString()
+                            }
+                        };
+
+                        resp.StatusCode = (int)HttpStatusCode.OK;
                         await resp.WriteAsJson(status);
                     })
                     .MapPut("api/v2/users/{id}", async (req, resp, routeData) =>
@@ -250,14 +252,14 @@ namespace ZendeskApi.Client.Tests.ResourcesSampleSites
 
                         if (user.Tags != null && user.Tags.Contains("error"))
                         {
-                            resp.StatusCode = (int) HttpStatusCode.BadRequest;
+                            resp.StatusCode = (int)HttpStatusCode.BadRequest;
 
                             return;
                         }
 
                         RequestMapper.ApplyTo(user, state.Items[id]);
 
-                        resp.StatusCode = (int) HttpStatusCode.Created;
+                        resp.StatusCode = (int)HttpStatusCode.Created;
                         await resp.WriteAsJson(new
                         {
                             user

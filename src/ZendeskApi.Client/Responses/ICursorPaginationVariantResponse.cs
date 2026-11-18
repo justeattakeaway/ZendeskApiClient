@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using Newtonsoft.Json;
@@ -19,9 +18,9 @@ namespace ZendeskApi.Client.Responses
         public string AfterCursor { get; set; }
         [JsonProperty("before_cursor")]
         public string BeforeCursor { get; set; }
-        
+
         protected abstract IEnumerable<T> Enumerable { get; }
-        
+
         public IEnumerator<T> GetEnumerator()
         {
             return Enumerable.GetEnumerator();
