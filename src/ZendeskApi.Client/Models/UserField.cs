@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using Newtonsoft.Json;
 
 namespace ZendeskApi.Client.Models
@@ -39,7 +38,7 @@ namespace ZendeskApi.Client.Models
         public bool? Active { get; set; }
 
         [JsonProperty("system")]
-        public bool? System { get; set; }      
+        public bool? System { get; set; }
 
         [JsonProperty("regexp_for_validation")]
         public string RegexpForValidation { get; set; }

@@ -1,7 +1,6 @@
 using System;
 using System.Net.Http;
 using Microsoft.Extensions.DependencyInjection;
-using ZendeskApi.Client.Models;
 using ZendeskApi.Client.Options;
 using ZendeskApi.Client.Pagination;
 #pragma warning disable 618
@@ -18,7 +17,8 @@ namespace ZendeskApi.Client.Extensions
             services.AddScoped<IZendeskClient, ZendeskClient>();
             services.AddScoped<IZendeskApiClient, ZendeskApiClient>();
 
-            services.Configure<ZendeskOptions>(options => {
+            services.Configure<ZendeskOptions>(options =>
+            {
                 options.EndpointUri = endpointUri;
                 options.Username = username;
                 options.Token = token;
@@ -42,7 +42,8 @@ namespace ZendeskApi.Client.Extensions
                 configureClient?.Invoke(c);
             });
 
-            services.Configure<ZendeskOptions>(options => {
+            services.Configure<ZendeskOptions>(options =>
+            {
                 options.EndpointUri = endpointUri;
                 options.Username = username;
                 options.Token = token;
@@ -58,7 +59,8 @@ namespace ZendeskApi.Client.Extensions
             services.AddScoped<IZendeskClient, ZendeskClient>();
             services.AddScoped<IZendeskApiClient, ZendeskApiClient>();
 
-            services.Configure<ZendeskOptions>(options => {
+            services.Configure<ZendeskOptions>(options =>
+            {
                 options.EndpointUri = endpointUri;
                 options.OAuthToken = oAuthToken;
             });
@@ -79,7 +81,8 @@ namespace ZendeskApi.Client.Extensions
                 configureClient?.Invoke(c);
             });
 
-            services.Configure<ZendeskOptions>(options => {
+            services.Configure<ZendeskOptions>(options =>
+            {
                 options.EndpointUri = endpointUri;
                 options.OAuthToken = oAuthToken;
             });

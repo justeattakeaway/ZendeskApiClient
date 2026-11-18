@@ -18,6 +18,8 @@ namespace ZendeskApi.Client.Resources
         protected readonly ILogger Logger;
         protected readonly string DocsResource;
 
+        protected const string IdempotencyKeyHeader = "Idempotency-Key";
+
         protected readonly Func<ILogger, string, IDisposable> LoggerScope = LoggerMessage.DefineScope<string>(typeof(TResource).Name + ": {0}");
 
         protected AbstractBaseResource(
@@ -136,10 +138,18 @@ namespace ZendeskApi.Client.Resources
             string docs,
             HttpStatusCode expectedStatusCode = HttpStatusCode.Created,
             string scope = "CreateAsync",
-            CancellationToken cancellationToken = default)
+            CancellationToken cancellationToken = default,
+            string idempotencyKey = null)
         {
             return await ExecuteRequest(async (client, token) => 
-                    await client.PostAsJsonAsync(resource, item, cancellationToken: token).ConfigureAwait(false), 
+                    {
+                        if (!string.IsNullOrWhiteSpace(idempotencyKey))
+                        {
+                            client.DefaultRequestHeaders.Add(IdempotencyKeyHeader, idempotencyKey);
+                        }
+
+                        return await client.PostAsJsonAsync(resource, item, cancellationToken: token).ConfigureAwait(false);
+                    }, 
                     scope,
                     cancellationToken)
                 .ThrowIfUnsuccessful($"{DocsResource}#{docs}", expectedStatusCode);
@@ -151,7 +161,8 @@ namespace ZendeskApi.Client.Resources
             string docs,
             HttpStatusCode expectedStatusCode = HttpStatusCode.Created,
             string scope = "CreateAsync",
-            CancellationToken cancellationToken = default)
+            CancellationToken cancellationToken = default,
+            string idempotencyKey = null)
             where TResponse : class
         {
             return await CreateAsync<TRequest>(
@@ -160,7 +171,8 @@ namespace ZendeskApi.Client.Resources
                     docs,
                     expectedStatusCode,
                     scope,
-                    cancellationToken)
+                    cancellationToken,
+                    idempotencyKey)
                 .ReadContentAsAsync<TResponse>();
         }
 
